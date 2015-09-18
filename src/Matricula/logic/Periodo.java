@@ -55,7 +55,25 @@ public class Periodo {
     
     //============================
 
+    //==============================
+    //Metodos Buscar
     
+    public ArrayList<Curso> buscar(String codigoAsig, byte semestreNumero){
+        ArrayList<Curso> cursosProgramados = new ArrayList<>();
+        for(Curso curso: this.cursos){
+            try{
+                curso.buscar(codigoAsig, semestreNumero);
+                cursosProgramados.add(curso);
+            }catch(Exception ex){
+                
+            }
+        }
+        
+        return cursosProgramados;
+        
+    }
+    
+    //==============================
 
     @Override
     public boolean equals(Object obj) {
