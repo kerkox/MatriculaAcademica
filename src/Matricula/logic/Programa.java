@@ -5,10 +5,61 @@
  */
 package Matricula.logic;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 /**
  *
  * @author atenea
  */
 public class Programa {
+    private String codigo;
+    private String nombre;
+    private String jornada;
+    private ArrayList<Semestre> semestres = new ArrayList<>();
+
+    public Programa(String codigo, String nombre, String jornada) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.jornada = jornada;
+    }
+    //==============================
+    //Metodos GET
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getJornada() {
+        return jornada;
+    }
+
+    public ArrayList<Semestre> getSemestres() {
+        return semestres;
+    }
+    
+    //==============================
+
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Programa other = (Programa) obj;
+        if (!Objects.equals(this.codigo, other.codigo)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

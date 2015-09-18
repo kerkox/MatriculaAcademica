@@ -20,6 +20,8 @@ public class Persona {
         this.apellido = apellido;
     }
 
+    //==============================
+    //Metodos Get
     public long getIdentificacion() {
         return identificacion;
     }
@@ -32,6 +34,8 @@ public class Persona {
         return apellido;
     }
 
+    
+    //==============================
     
     @Override
     public boolean equals(Object obj) {

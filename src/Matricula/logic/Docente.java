@@ -9,6 +9,24 @@ package Matricula.logic;
  *
  * @author atenea
  */
-public class Docente {
+public class Docente extends Persona{
+    
+    private String profesion;
+
+    public Docente(String profesion, long identificacion, String nombre, String apellido) {
+        super(identificacion, nombre, apellido);
+        this.profesion = profesion;
+    }
+
+    //==============================
+    //Metodos Get
+    public String getProfesion() {
+        return profesion;
+    }
+    //==============================
+    
+    
+    
+    
     
 }
