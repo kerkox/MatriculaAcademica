@@ -60,6 +60,28 @@ public class Curso {
     
     //============================
     
+    //==============================
+    //Metodos Buscar
     
+    public Asignatura buscar(String codigo, byte semestreNumero) throws Exception{
+        Asignatura asig= null;
+        for(Cupo cupo: this.cupos){
+            try{
+                asig = cupo.getPrograma().buscar(codigo, semestreNumero);
+                
+            }catch(Exception ex){
+                
+            }
+        }
+        if(asig==null){
+            throw new Exception("Asignatura no encontrada");
+        }
+        
+        return asig;
+        
+    }
+    
+    
+    //==============================
     
 }

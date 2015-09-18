@@ -43,7 +43,21 @@ public class Programa {
     
     //==============================
 
+    //==============================
+    //Metodo Buscar
     
+    public Asignatura buscar(String codigo, byte semestreNumero) throws Exception{
+        
+        for(Semestre sem: this.semestres){
+            if(sem.getNumero()==semestreNumero){
+                return sem.buscar(codigo);
+            }
+        }
+        
+        throw new Exception("Semestre Invalido");
+    }
+    
+    //==============================
 
     @Override
     public boolean equals(Object obj) {

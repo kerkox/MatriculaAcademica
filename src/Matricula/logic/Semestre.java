@@ -31,4 +31,18 @@ public class Semestre {
     
     //==============================
     
+    //==============================
+    //Metodos buscar
+    
+    public Asignatura buscar(String codigo) throws Exception{
+        
+        for(Asignatura asignature: this.asignaturas){
+            if(asignature.getCodigo().equals(codigo)){
+                return asignature;
+            }
+        }
+        throw new Exception("No se encuentra la Asignatura con codigo: "+ codigo);
+    }
+    
+    
 }
