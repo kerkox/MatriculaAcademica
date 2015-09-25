@@ -6,6 +6,7 @@
 package Matricula.logic;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -14,9 +15,9 @@ import java.util.Date;
 public class Horario {
     private Date horaIncio;
     private Date horaFinalizacion;
-    private byte dia;
+    private Dia dia;
 
-    public Horario(Date horaIncio, Date horaFinalizacion, byte dia) {
+    public Horario(Date horaIncio, Date horaFinalizacion, Dia dia) {
         this.horaIncio = horaIncio;
         this.horaFinalizacion = horaFinalizacion;
         this.dia = dia;
@@ -33,11 +34,35 @@ public class Horario {
         return horaFinalizacion;
     }
 
-    public byte getDia() {
+    public Dia getDia() {
         return dia;
     }
     
     //==============================
+
+   
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Horario other = (Horario) obj;
+        if (!Objects.equals(this.horaIncio, other.horaIncio)) {
+            return false;
+        }
+        if (!Objects.equals(this.horaFinalizacion, other.horaFinalizacion)) {
+            return false;
+        }
+        if (this.dia != other.dia) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

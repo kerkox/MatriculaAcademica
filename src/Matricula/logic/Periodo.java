@@ -64,7 +64,7 @@ public class Periodo {
      * encuentra la asignatura con el codigo, devuelve error
      *
      */
-    public ArrayList<Curso> buscar(String codigoAsig) throws Exception {
+    public ArrayList<Curso> buscar(String codigoAsig) throws ObjectNotFoundException{
         ArrayList<Curso> cursosProgramados = new ArrayList<>();
         for (Curso curso : this.cursos) {
 
@@ -74,13 +74,16 @@ public class Periodo {
 
         }
         if (cursosProgramados.isEmpty()) {
-            throw new Exception("Asignatura con codigo: " + codigoAsig + " No encontrada");
+            throw new ObjectNotFoundException("Asignatura con codigo: " + codigoAsig + " No encontrada");
         }
 
         return cursosProgramados;
 
     }
 
+   
+    
+    
     public Curso buscar(Curso curso) throws Exception {
         for (Curso curse : this.cursos) {
             if (curse.equals(curso)) {

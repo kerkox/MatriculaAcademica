@@ -16,6 +16,7 @@ public class Curso {
     private ArrayList<Cupo> cupos = new ArrayList<>();
     private Docente docente;
     private Asignatura asignatura;
+    private EstadoCurso estado;
 
     public Curso(byte grupo,Cupo cupo, Docente docente, Asignatura asignatura) {
         this.grupo = grupo;
@@ -23,6 +24,7 @@ public class Curso {
         this.docente = docente;
         this.asignatura = asignatura;
         this.cupos.add(cupo);
+        this.estado = EstadoCurso.ACTIVO;
     }
     
     
@@ -53,15 +55,34 @@ public class Curso {
     }
     
     //============================
-    
-    //============================
-    //Metodos Set
-    public void setTotalCupos(short totalCupos) {
+      //Metodos Set
+    public void setGrupo(byte grupo) {
+        this.grupo = grupo;
+    }
+
+    public void setTotalCupos(int totalCupos) {
         this.totalCupos = totalCupos;
     }
-    
-    //============================
 
+    public void setHorarios(ArrayList<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public void setCupos(ArrayList<Cupo> cupos) {
+        this.cupos = cupos;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public void setAsignatura(Asignatura asignatura) {
+        this.asignatura = asignatura;
+    }
+    
+    
+    //==============================
+  
     //============================
     //Metodos Add
     public void add(Cupo cupo){
@@ -70,15 +91,61 @@ public class Curso {
     }
     
     //============================
+    //==============================
+    //Metodos Modificar
+    public void Modificar(int IndexCupo,Cupo cupo){
+        
+        this.cupos.add(IndexCupo, cupo);
+        
+    }
+    
+    public void Modificar (int IndexHorario, Horario horario){
+        this.horarios.add(IndexHorario, horario);
+    }
+    //==============================
     
     //==============================
     //Metodos Buscar
+
+     public Cupo buscar(Cupo cupo) throws ObjectNotFoundException{
+         int index=0;
+         if((index = this.cupos.indexOf(cupo))!=-1){
+             return this.cupos.get(index);
+         }
+         
+         throw new ObjectNotFoundException("No se encuentra el Cupo");
+     }
     
+     public Cupo buscar(String codigoPrograma) throws ObjectNotFoundException{
+         for(Cupo cup: this.cupos){
+             if(cup.getPrograma().getCodigo().equals(codigoPrograma)){
+                 return cup;
+             }
+         }
+         throw new ObjectNotFoundException("No se encuentra el Cupo");
+     }
+     
+     
+     public Horario buscar(Horario horario) throws ObjectNotFoundException{
+         int index=0;
+         if((index = this.horarios.indexOf(horario))!=-1){
+             return this.horarios.get(index);
+         }
+         throw new ObjectNotFoundException("Horario no encontrado");                     
+     }
+     
     
+            
+     
+    //==============================
+    
+  
+  
+
     
     
     //==============================
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -96,10 +163,4 @@ public class Curso {
         }
         return true;
     }
-
-    
-
-    
-    
-    
 }

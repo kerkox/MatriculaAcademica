@@ -6,6 +6,7 @@
 package Matricula.logic;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -101,10 +102,35 @@ public class Universidad {
     
     //==============================
     public void modificarCurso(Curso curso){
+        int index =0;
+        if((index = this.peridoActual.getCursos().indexOf(curso))!=-1){
+//            this.peridoActual.getCursos().get(index).
+                    
+        }
+
         
-//        peridoActual.
-        
-        
+    }
+    
+    
+    
+    
+     /**
+     * 
+     * @param incia Fecha de incio del periodo
+     * @param finaliza Fecha de finalizacion del periodo
+     * @param year año del periodo 
+     * @throws DateBeforeException 
+     * Se lanza el error cuando se desea crear un periodo y el año es anterior
+     * al ultimo periodo registrado
+     */
+    public void CrearPeriodo(Date incia, Date finaliza, int year) throws DateBeforeException{
+        if(year < peridoActual.getYear()){
+            throw new DateBeforeException("No se puede crear un periodo de un año anterior: "+ year);
+        }
+            
+        Periodo periodo = new Periodo(incia, finaliza, year);
+        this.periodos.add(peridoActual);
+        this.peridoActual = periodo;
     }
     
     
