@@ -7,6 +7,8 @@ package Matricula.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -100,12 +102,16 @@ public class PeriodoTest {
      */
     @Test
     public void testAdd() {
-        System.out.println("add");
-        Curso curso = null;
-        Periodo instance = null;
-        instance.add(curso);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("add");
+            Curso curso = null;
+            Periodo instance = null;
+            instance.add(curso);
+            // TODO review the generated test code and remove the default call to fail.
+            fail("The test case is a prototype.");
+        } catch (Exception ex) {
+            Logger.getLogger(PeriodoTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

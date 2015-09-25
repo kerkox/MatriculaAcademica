@@ -47,8 +47,8 @@ public class Periodo {
     //============================
     //============================
     //Metodo Agregar
-    public void add(Curso curso)throws Exception {
-        if(cursos.contains(curso)){
+    public void add(Curso curso) throws Exception {
+        if (cursos.contains(curso)) {
             throw new Exception("Curso ya registrado");
         }
         this.cursos.add(curso);
@@ -79,6 +79,17 @@ public class Periodo {
 
         return cursosProgramados;
 
+    }
+
+    public Curso buscar(Curso curso) throws Exception {
+        for (Curso curse : this.cursos) {
+            if (curse.equals(curso)) {
+                return curse;
+            }
+        }
+        throw new Exception("Curso no encontrado: asinatura codigo"
+                + curso.getAsignatura().getCodigo() + " Grupo: "
+                + curso.getGrupo()); // agregar datos
     }
 
     //==============================

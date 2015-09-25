@@ -79,8 +79,6 @@ public class Curso {
     
     //==============================
 
-    
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -98,6 +96,9 @@ public class Curso {
         }
         return true;
     }
+
+    
+
     
     
     

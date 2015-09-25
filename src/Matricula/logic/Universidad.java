@@ -99,5 +99,14 @@ public class Universidad {
         peridoActual.add(curso);
     }
     
+    //==============================
+    public void modificarCurso(Curso curso){
+        
+//        peridoActual.
+        
+        
+    }
+    
+    
     
 }
