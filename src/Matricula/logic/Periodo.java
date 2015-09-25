@@ -45,36 +45,43 @@ public class Periodo {
     }
 
     //============================
-    
     //============================
     //Metodo Agregar
-    
-    public void add(Curso curso) {
+    public void add(Curso curso)throws Exception {
+        if(cursos.contains(curso)){
+            throw new Exception("Curso ya registrado");
+        }
         this.cursos.add(curso);
     }
-    
-    //============================
 
+    //============================
     //==============================
     //Metodos Buscar
-    
-    public ArrayList<Curso> buscar(String codigoAsig, byte semestreNumero){
+    /**
+     *
+     * @param codigoAsig
+     * @return la lista con los cursos programados de una asignatura si no se
+     * encuentra la asignatura con el codigo, devuelve error
+     *
+     */
+    public ArrayList<Curso> buscar(String codigoAsig) throws Exception {
         ArrayList<Curso> cursosProgramados = new ArrayList<>();
-        for(Curso curso: this.cursos){
-            try{
-                curso.buscar(codigoAsig, semestreNumero);
-                cursosProgramados.add(curso);
-            }catch(Exception ex){
-                
-            }
-        }
-        
-        return cursosProgramados;
-        
-    }
-    
-    //==============================
+        for (Curso curso : this.cursos) {
 
+            if (curso.getAsignatura().equals(codigoAsig)) {
+                cursosProgramados.add(curso);
+            }
+
+        }
+        if (cursosProgramados.isEmpty()) {
+            throw new Exception("Asignatura con codigo: " + codigoAsig + " No encontrada");
+        }
+
+        return cursosProgramados;
+
+    }
+
+    //==============================
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -95,7 +102,5 @@ public class Periodo {
         }
         return true;
     }
-
-    
 
 }

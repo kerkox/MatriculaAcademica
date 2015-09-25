@@ -2,6 +2,7 @@
 package Matricula.logic;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -23,12 +24,22 @@ public class Curso {
         this.asignatura = asignatura;
         this.cupos.add(cupo);
     }
-
     
+    
+    public ArrayList<Cupo> getCupos() {
+        return cupos;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
 
     //============================
     //Metodos Get
-    
+    public Asignatura getAsignatura() {
+        return asignatura;
+    }
+
     public byte getGrupo() {
         return grupo;
     }
@@ -63,25 +74,31 @@ public class Curso {
     //==============================
     //Metodos Buscar
     
-    public Asignatura buscar(String codigo, byte semestreNumero) throws Exception{
-        Asignatura asig= null;
-        for(Cupo cupo: this.cupos){
-            try{
-                asig = cupo.getPrograma().buscar(codigo, semestreNumero);
-                
-            }catch(Exception ex){
-                
-            }
-        }
-        if(asig==null){
-            throw new Exception("Asignatura no encontrada");
-        }
-        
-        return asig;
-        
-    }
+    
     
     
     //==============================
+
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Curso other = (Curso) obj;
+        if (this.grupo != other.grupo) {
+            return false;
+        }
+        if (!Objects.equals(this.asignatura, other.asignatura)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

@@ -70,7 +70,34 @@ public class Universidad {
     }
     
     //==============================
+    
+    //Mostrar los cursos para una asignatura especifica 
+    //En el periodo actual
+    /**
+     * 
+     * @param code
+     * @return Lista de Cursos
+     * @throws Exception Asignatura no Encontrada
+     * Recibe un codigo de asignatura y busca los cursos 
+     * con la asignatura en el periodo Actual
+     */
+    public ArrayList<Curso> programacionAsignatura(String code) throws Exception{
+        return peridoActual.buscar(code);
+    }
+    
+    //==============================
+    
+    /**
+     * 
+     * @return Lista de todos cursos 
+     */
+    public ArrayList<Curso> TodaLaProgramacion(){
+        return peridoActual.getCursos();
+    }
             
+    public void regitrarCurso(Curso curso)throws Exception{
+        peridoActual.add(curso);
+    }
     
     
 }
