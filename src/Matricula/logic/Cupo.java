@@ -5,15 +5,34 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /**
  *
  * @author atenea
  */
-public class Cupo {
+@Entity
+public class Cupo implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column
     private int cantidad;
+    @Column
     private int disponibles;
+    @OneToOne
     private Programa programa;
+
+    public Cupo() {
+    }
 
     public Cupo(int cantidad, int disponibles, Programa programa) {
         this.cantidad = cantidad;
@@ -34,6 +53,12 @@ public class Cupo {
     public Programa getPrograma() {
         return programa;
     }
+
+    public long getId() {
+        return id;
+    }
+    
+    
     
     //============================
     
@@ -43,7 +68,20 @@ public class Cupo {
         this.cantidad = cantidad;
     }
     
+    
     //============================
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDisponibles(int disponibles) {
+        this.disponibles = disponibles;
+    }
+
+    public void setPrograma(Programa programa) {
+        this.programa = programa;
+    }
 
     
 

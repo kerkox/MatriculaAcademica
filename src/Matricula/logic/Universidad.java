@@ -5,8 +5,12 @@
  */
 package Matricula.logic;
 
+import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -18,11 +22,29 @@ public class Universidad {
     private String nombre;
     private String direccion;
     private Periodo peridoActual;
-    private ArrayList<Periodo> periodos = new ArrayList<>();
-    private ArrayList<Programa> programas = new ArrayList<>();
-    private ArrayList<Asignatura> asignaturas = new ArrayList<>();
-    private ArrayList<Docente> docentes = new ArrayList<>();
-    private ArrayList<Estudiante> estudiantes = new ArrayList<>();
+    private List<Periodo> periodos = new ArrayList<>();
+    private List<Programa> programas = new ArrayList<>();
+    private List<Asignatura> asignaturas = new ArrayList<>();
+    private List<Docente> docentes = new ArrayList<>();
+    private List<Estudiante> estudiantes = new ArrayList<>();
+    
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
+    
+    private AsignaturaJpaController asignaturaJpa = new AsignaturaJpaController(emf);
+    private CupoJpaController cupoJpa = new CupoJpaController(emf);
+    private CursoJpaController cursoJpa = new CursoJpaController(emf);
+    private DeudaJpaController deudaJpa = new DeudaJpaController(emf);
+    private DocenteJpaController docenteJpa = new DocenteJpaController(emf);
+    private EstudianteJpaController estudianteJpa = new EstudianteJpaController(emf);
+    private HorarioJpaController horarioJpa = new HorarioJpaController(emf);
+    private MatriculaJpaController matricualJpa = new MatriculaJpaController(emf);
+    private PeriodoJpaController periodoJpa = new PeriodoJpaController(emf);
+    private PersonaJpaController personaJpa = new PersonaJpaController(emf);
+    private ProgramaJpaController programaJpa = new ProgramaJpaController(emf);
+    private SemestreJpaController semestreJpa = new SemestreJpaController(emf);
+    private TabuladoJpaController tabuladoJpa = new TabuladoJpaController(emf);
+    
+    
 
     public Universidad(String nit, String nombre, String direccion, Periodo peridoActual) {
         this.nit = nit;
@@ -50,24 +72,24 @@ public class Universidad {
         return peridoActual;
     }
 
-    public ArrayList<Periodo> getPeriodos() {
-        return periodos;
+    public List<Periodo> getPeriodos() {
+        return periodoJpa.findPeriodoEntities();
     }
 
-    public ArrayList<Programa> getProgramas() {
-        return programas;
+    public List<Programa> getProgramas() {
+        return programaJpa.findProgramaEntities();
     }
 
-    public ArrayList<Asignatura> getAsignaturas() {
-        return asignaturas;
+    public List<Asignatura> getAsignaturas() {
+        return asignaturaJpa.findAsignaturaEntities();
     }
 
-    public ArrayList<Docente> getDocentes() {
-        return docentes;
+    public List<Docente> getDocentes() {
+        return docenteJpa.findDocenteEntities();
     }
 
-    public ArrayList<Estudiante> getEstudiantes() {
-        return estudiantes;
+    public List<Estudiante> getEstudiantes() {
+        return estudianteJpa.findEstudianteEntities();
     }
     
     //==============================
@@ -82,7 +104,7 @@ public class Universidad {
      * Recibe un codigo de asignatura y busca los cursos 
      * con la asignatura en el periodo Actual
      */
-    public ArrayList<Curso> programacionAsignatura(String code) throws Exception{
+    public List<Curso> programacionAsignatura(String code) throws Exception{
         return peridoActual.buscar(code);
     }
     
@@ -92,7 +114,7 @@ public class Universidad {
      * 
      * @return Lista de todos cursos 
      */
-    public ArrayList<Curso> TodaLaProgramacion(){
+    public List<Curso> TodaLaProgramacion(){
         return peridoActual.getCursos();
     }
             
@@ -101,17 +123,17 @@ public class Universidad {
     }
     
     //==============================
-    public void modificarCurso(Curso curso){
-        int index =0;
-        if((index = this.peridoActual.getCursos().indexOf(curso))!=-1){
-//            this.peridoActual.getCursos().get(index).
-                    
-        }
+    public void modificarCurso(Curso curso) throws Exception{
+        cursoJpa.edit(curso);
+        
+//        int index =0;
+//        if((index = this.peridoActual.getCursos().indexOf(curso))!=-1){
+////            this.peridoActual.getCursos().get(index).
+//                    
+//        }
 
         
     }
-    
-    
     
     
      /**

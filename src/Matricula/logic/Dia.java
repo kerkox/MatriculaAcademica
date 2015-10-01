@@ -9,6 +9,7 @@ package Matricula.logic;
  *
  * @author atenea
  */
+
 public enum Dia {
 
     LUNES,

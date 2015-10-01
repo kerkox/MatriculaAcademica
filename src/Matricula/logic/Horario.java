@@ -5,17 +5,40 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author atenea
  */
-public class Horario {
+@Entity 
+public class Horario implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date horaIncio;
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date horaFinalizacion;
+    @OneToOne
     private Dia dia;
+
+    public Horario() {
+    }
+    
 
     public Horario(Date horaIncio, Date horaFinalizacion, Dia dia) {
         this.horaIncio = horaIncio;
@@ -38,9 +61,30 @@ public class Horario {
         return dia;
     }
     
+    public Long getId() {
+        return id;
+    }
+    
     //==============================
+    //Metodos Set
+    
+    public void setHoraIncio(Date horaIncio) {
+        this.horaIncio = horaIncio;
+    }
 
+    public void setHoraFinalizacion(Date horaFinalizacion) {
+        this.horaFinalizacion = horaFinalizacion;
+    }
+
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    //==============================
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -62,6 +106,10 @@ public class Horario {
         }
         return true;
     }
+
+    
+
+    
     
     
     

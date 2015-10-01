@@ -5,18 +5,30 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author atenea
  */
-public class Estudiante extends Persona {
+@Entity
+public class Estudiante extends Persona implements Serializable {
 
+    @Column(nullable = false, length = 15)
     private String codigo;
-    private ArrayList<Tabulado> tabulados = new ArrayList<>();
-    private ArrayList<Deuda> deudas = new ArrayList<>();
+    @OneToMany
+    private List<Tabulado> tabulados = new ArrayList<>();
+    @OneToMany
+    private List<Deuda> deudas = new ArrayList<>();
+
+    public Estudiante() {
+    }
 
     public Estudiante(String codigo, long identificacion, String nombre, String apellido) {
         super(identificacion, nombre, apellido);
@@ -29,11 +41,11 @@ public class Estudiante extends Persona {
         return codigo;
     }
 
-    public ArrayList<Tabulado> getTabulados() {
+    public List<Tabulado> getTabulados() {
         return tabulados;
     }
 
-    public ArrayList<Deuda> getDeudas() {
+    public List<Deuda> getDeudas() {
         return deudas;
     }
     
@@ -52,6 +64,24 @@ public class Estudiante extends Persona {
     
     //==================================
     
+    //==================================
+    //Metodos Set
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setTabulados(List<Tabulado> tabulados) {
+        this.tabulados = tabulados;
+    }
+
+    public void setDeudas(List<Deuda> deudas) {
+        this.deudas = deudas;
+    }
+    
+    
+    
+    //==================================
   
   
 

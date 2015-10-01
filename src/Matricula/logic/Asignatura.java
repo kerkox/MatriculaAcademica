@@ -5,17 +5,31 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 
 /**
  *
  * @author atenea
  */
-public class Asignatura {
+@Entity
+public class Asignatura implements Serializable {
+    
+    @Id
     private String codigo;
+    @Column(nullable = false, length = 80)
     private String nombre;
+    @Column
     private byte creditos;
+    @Column
     private byte intensidad;
+
+    public Asignatura() {
+    }
 
     public Asignatura(String codigo, String nombre, byte creditos, byte intensidad) {
         this.codigo = codigo;
@@ -45,6 +59,23 @@ public class Asignatura {
     
     //==============================
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setCreditos(byte creditos) {
+        this.creditos = creditos;
+    }
+
+    public void setIntensidad(byte intensidad) {
+        this.intensidad = intensidad;
+    }
+
+    
     
     @Override
     public boolean equals(Object obj) {

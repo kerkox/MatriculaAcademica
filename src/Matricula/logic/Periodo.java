@@ -5,20 +5,44 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.annotation.Generated;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author atenea
  */
-public class Periodo {
+@Entity
+public class Periodo implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date inicia;
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fin;
+    @Column
     private int year;
-    private ArrayList<Curso> cursos = new ArrayList<>();
+    @OneToMany
+    private List<Curso> cursos = new ArrayList<>();
+
+    public Periodo() {
+    }
 
     public Periodo(Date inicia, Date fin, int year) {
         this.inicia = inicia;
@@ -40,8 +64,12 @@ public class Periodo {
         return year;
     }
 
-    public ArrayList<Curso> getCursos() {
+    public List<Curso> getCursos() {
         return cursos;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     //============================
@@ -55,6 +83,31 @@ public class Periodo {
     }
 
     //============================
+    //Metodos Set
+
+    public void setInicia(Date inicia) {
+        this.inicia = inicia;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
+    }
+    
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    //==============================
+    
+    
     //==============================
     //Metodos Buscar
     /**
@@ -64,7 +117,7 @@ public class Periodo {
      * encuentra la asignatura con el codigo, devuelve error
      *
      */
-    public ArrayList<Curso> buscar(String codigoAsig) throws ObjectNotFoundException{
+    public List<Curso> buscar(String codigoAsig) throws ObjectNotFoundException {
         ArrayList<Curso> cursosProgramados = new ArrayList<>();
         for (Curso curso : this.cursos) {
 
@@ -81,9 +134,6 @@ public class Periodo {
 
     }
 
-   
-    
-    
     public Curso buscar(Curso curso) throws Exception {
         for (Curso curse : this.cursos) {
             if (curse.equals(curso)) {
@@ -116,5 +166,7 @@ public class Periodo {
         }
         return true;
     }
+
+    
 
 }

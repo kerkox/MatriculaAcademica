@@ -5,26 +5,43 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author atenea
  */
-public class Programa {
+@Entity
+public class Programa implements Serializable {
+
+    @Id
     private String codigo;
+    @Column(nullable = false, length = 80)
     private String nombre;
+    @Column(nullable = false, length = 30)
     private String jornada;
-    private ArrayList<Semestre> semestres = new ArrayList<>();
+    @OneToMany
+    private List<Semestre> semestres = new ArrayList<>();
+
+    public Programa() {
+    }
 
     public Programa(String codigo, String nombre, String jornada) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.jornada = jornada;
     }
+
     //==============================
     //Metodos GET
+
     public String getCodigo() {
         return codigo;
     }
@@ -37,28 +54,44 @@ public class Programa {
         return jornada;
     }
 
-    public ArrayList<Semestre> getSemestres() {
+    public List<Semestre> getSemestres() {
         return semestres;
     }
-    
-    //==============================
 
     //==============================
+    //Metodos Set
+    public void setSemestres(List<Semestre> semestres) {
+        this.semestres = semestres;
+    }
+
+    public void setCodigo(String codigo) {
+
+        this.codigo = codigo;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setJornada(String jornada) {
+        this.jornada = jornada;
+    }
+
+    //==============================
+    //==============================
     //Metodo Buscar
-    
-    public Asignatura buscar(String codigo, byte semestreNumero) throws Exception{
-        
-        for(Semestre sem: this.semestres){
-            if(sem.getNumero()==semestreNumero){
+
+    public Asignatura buscar(String codigo, byte semestreNumero) throws Exception {
+        for (Semestre sem : this.semestres) {
+            if (sem.getNumero() == semestreNumero) {
                 return sem.buscar(codigo);
             }
         }
-        
+
         throw new Exception("Semestre Invalido");
     }
-    
-    //==============================
 
+    //==============================
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -73,7 +106,5 @@ public class Programa {
         }
         return true;
     }
-    
-    
-    
+
 }

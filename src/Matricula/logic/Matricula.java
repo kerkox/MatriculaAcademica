@@ -5,18 +5,40 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author atenea
  */
-public class Matricula {
+@Entity
+public class Matricula implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date matriculada;
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date cancelada;
+    @OneToOne
     private Curso curso;
 
+    public Matricula() {
+    }
+    
     public Matricula(Date matriculada, Curso curso) {
         this.matriculada = matriculada;
         this.curso = curso;
@@ -37,6 +59,10 @@ public class Matricula {
     public Curso getCurso() {
         return curso;
     }
+    public Long getId() {
+        return id;
+    }
+    
     
     //============================
 
@@ -46,7 +72,19 @@ public class Matricula {
         this.cancelada = cancelada;
     }
     
+    public void setId(Long id) {
+        this.id = id;
+    }
     
-    
+    public void setMatriculada(Date matriculada) {
+        this.matriculada = matriculada;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
     //============================
+
+    
 }

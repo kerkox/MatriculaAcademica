@@ -1,22 +1,47 @@
 
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author atenea
  */
-public class Curso {
+@Entity
+public class Curso implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column
     private byte grupo;
+    @Column
     private int totalCupos;
-    private ArrayList<Horario> horarios = new ArrayList<>();
-    private ArrayList<Cupo> cupos = new ArrayList<>();
+    @OneToMany
+    private List<Horario> horarios = new ArrayList<>();
+    @OneToMany
+    private List<Cupo> cupos = new ArrayList<>();
+    @OneToOne
     private Docente docente;
+    @OneToOne
     private Asignatura asignatura;
+    @OneToOne
     private EstadoCurso estado;
+
+    public Curso() {
+    }
+    
 
     public Curso(byte grupo,Cupo cupo, Docente docente, Asignatura asignatura) {
         this.grupo = grupo;
@@ -28,7 +53,7 @@ public class Curso {
     }
     
     
-    public ArrayList<Cupo> getCupos() {
+    public List<Cupo> getCupos() {
         return cupos;
     }
 
@@ -50,9 +75,14 @@ public class Curso {
         return totalCupos;
     }
 
-    public ArrayList<Horario> getHorarios() {
+    public List<Horario> getHorarios() {
         return horarios;
     }
+
+    public EstadoCurso getEstado() {
+        return estado;
+    }
+    
     
     //============================
       //Metodos Set
@@ -78,6 +108,18 @@ public class Curso {
 
     public void setAsignatura(Asignatura asignatura) {
         this.asignatura = asignatura;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public void setCupos(List<Cupo> cupos) {
+        this.cupos = cupos;
+    }
+
+    public void setEstado(EstadoCurso estado) {
+        this.estado = estado;
     }
     
     
@@ -162,5 +204,13 @@ public class Curso {
             return false;
         }
         return true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -5,13 +5,21 @@
  */
 package Matricula.logic;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 /**
  *
  * @author atenea
  */
+@Entity
 public class Docente extends Persona{
     
+    @Column(nullable = false, length = 80)
     private String profesion;
+
+    public Docente() {
+    }
 
     public Docente(String profesion, long identificacion, String nombre, String apellido) {
         super(identificacion, nombre, apellido);
@@ -23,9 +31,15 @@ public class Docente extends Persona{
     public String getProfesion() {
         return profesion;
     }
+    
+    
     //==============================
+    //Metodos Set
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
     
-    
+    //==============================
     
     
     

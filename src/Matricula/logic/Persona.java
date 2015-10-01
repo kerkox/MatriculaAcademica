@@ -5,14 +5,26 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author atenea
  */
-public class Persona {
+@Entity
+public class Persona implements Serializable {
+    @Id
     long identificacion;
+    @Column(nullable = false, length = 50)
     String nombre;
+    @Column(nullable = false, length = 50)
     String apellido;
+
+    public Persona() {
+    }
 
     public Persona(long identificacion, String nombre, String apellido) {
         this.identificacion = identificacion;
@@ -36,6 +48,21 @@ public class Persona {
 
     
     //==============================
+
+    public void setIdentificacion(long identificacion) {
+        this.identificacion = identificacion;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    
+    
     
     @Override
     public boolean equals(Object obj) {

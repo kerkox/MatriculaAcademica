@@ -5,23 +5,43 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author atenea
  */
-public class Tabulado {
- 
-    private ArrayList<Matricula> matriculas= new ArrayList<>();
+@Entity
+public class Tabulado implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany
+    private List<Matricula> matriculas = new ArrayList<>();
+    @OneToOne
     private Periodo periodo;
+
+    public Tabulado() {
+    }
 
     public Tabulado(Periodo perido) {
         this.periodo = perido;
     }
 
-    public ArrayList<Matricula> getMatriculas() {
+    //==============================
+    //Metodos Get
+    public List<Matricula> getMatriculas() {
         return matriculas;
     }
 
@@ -29,6 +49,31 @@ public class Tabulado {
         return periodo;
     }
 
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    //==============================
+    //==============================
+    //Metodos Set
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMatriculas(List<Matricula> matriculas) {
+        this.matriculas = matriculas;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+
+    //==============================
     @Override
     public int hashCode() {
         int hash = 7;
@@ -52,10 +97,5 @@ public class Tabulado {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
+
 }

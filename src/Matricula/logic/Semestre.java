@@ -5,15 +5,34 @@
  */
 package Matricula.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author atenea
  */
-public class Semestre {
+@Entity
+public class Semestre implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private byte numero;
-    private ArrayList<Asignatura> asignaturas = new ArrayList<>();
+    @OneToMany
+    private List<Asignatura> asignaturas = new ArrayList<>();
+    
+
+    public Semestre() {
+    }
 
     public Semestre(byte numero) {
         this.numero = numero;
@@ -25,8 +44,26 @@ public class Semestre {
         return numero;
     }
 
-    public ArrayList<Asignatura> getAsignaturas() {
+    public List<Asignatura> getAsignaturas() {
         return asignaturas;
+    }
+    
+    public Long getId() {
+        return id;
+    }
+    
+    //==============================
+    //Metodos Set
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public void setNumero(byte numero) {
+        this.numero = numero;
+    }
+
+    public void setAsignaturas(List<Asignatura> asignaturas) {
+        this.asignaturas = asignaturas;
     }
     
     //==============================
@@ -43,6 +80,10 @@ public class Semestre {
         }
         throw new Exception("No se encuentra la Asignatura con codigo: "+ codigo);
     }
+
+    
+
+    
     
     
 }
