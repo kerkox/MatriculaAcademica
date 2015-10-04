@@ -40,6 +40,8 @@ public class Periodo implements Serializable {
     private int year;
     @OneToMany
     private List<Curso> cursos = new ArrayList<>();
+    @Column (nullable = false)
+    private boolean actual;
 
     public Periodo() {
     }
@@ -48,10 +50,19 @@ public class Periodo implements Serializable {
         this.inicia = inicia;
         this.fin = fin;
         this.year = year;
+        this.actual = true;
     }
 
+    
+    
+    
     //============================
     //Metodos Get
+    
+    public boolean isActual() {
+        return actual;
+    }
+
     public Date getInicia() {
         return inicia;
     }
@@ -85,6 +96,11 @@ public class Periodo implements Serializable {
     //============================
     //Metodos Set
 
+    public void setActual(boolean actual) {
+        this.actual = actual;
+    }
+
+    
     public void setInicia(Date inicia) {
         this.inicia = inicia;
     }
