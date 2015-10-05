@@ -1,6 +1,7 @@
 
 package Matricula.logic;
 
+import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class Curso implements Serializable {
     private Docente docente;
     @OneToOne
     private Asignatura asignatura;
-    @OneToOne
+    @Column
     private EstadoCurso estado;
 
     public Curso() {

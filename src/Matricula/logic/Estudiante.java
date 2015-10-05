@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -26,6 +27,8 @@ public class Estudiante extends Persona implements Serializable {
     private List<Tabulado> tabulados = new ArrayList<>();
     @OneToMany
     private List<Deuda> deudas = new ArrayList<>();
+    @OneToOne
+    private Tabulado tabuladoActual;
 
     public Estudiante() {
     }
@@ -55,7 +58,13 @@ public class Estudiante extends Persona implements Serializable {
     //Metodos Add
     
     public void add(Tabulado tabulado){
-        this.tabulados.add(tabulado);
+        if(this.tabuladoActual==null){
+            this.tabuladoActual = tabulado;
+        }else{
+            this.tabulados.add(this.tabuladoActual);
+            this.tabuladoActual = tabulado;
+        }
+        
     }
     
     public void add(Deuda deuda){

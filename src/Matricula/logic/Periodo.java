@@ -35,8 +35,8 @@ public class Periodo implements Serializable {
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fin;
-    @Column
-    private int year;
+    @Column (nullable = false)
+    private int year1;
     @OneToMany
     private List<Curso> cursos = new ArrayList<>();
     @Column (nullable = false)
@@ -45,10 +45,10 @@ public class Periodo implements Serializable {
     public Periodo() {
     }
 
-    public Periodo(Date inicia, Date fin, int year) {
+    public Periodo(Date inicia, Date fin, int year1) {
         this.inicia = inicia;
         this.fin = fin;
-        this.year = year;
+        this.year1 = year1;
         this.actual = true;
     }
 
@@ -71,7 +71,7 @@ public class Periodo implements Serializable {
     }
 
     public int getYear() {
-        return year;
+        return year1;
     }
 
     public List<Curso> getCursos() {
@@ -109,7 +109,7 @@ public class Periodo implements Serializable {
     }
 
     public void setYear(int year) {
-        this.year = year;
+        this.year1 = year;
     }
 
     public void setCursos(List<Curso> cursos) {
@@ -176,7 +176,7 @@ public class Periodo implements Serializable {
         if (!Objects.equals(this.fin, other.fin)) {
             return false;
         }
-        if (this.year != other.year) {
+        if (this.year1 != other.year1) {
             return false;
         }
         return true;

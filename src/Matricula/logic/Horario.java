@@ -5,6 +5,7 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.enumclass.Dia;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class Horario implements Serializable {
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date horaFinalizacion;
-    @OneToOne
+    @Column
     private Dia dia;
 
     public Horario() {

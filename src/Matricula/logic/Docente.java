@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 
 /**
  *
- * @author atenea
+ * @author Polker
  */
 @Entity
 public class Docente extends Persona{

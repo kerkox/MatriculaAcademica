@@ -33,10 +33,11 @@ public class Cupo implements Serializable {
 
     public Cupo() {
     }
+    
 
-    public Cupo(int cantidad, int disponibles, Programa programa) {
+    public Cupo(int cantidad, Programa programa) {
         this.cantidad = cantidad;
-        this.disponibles = disponibles;
+        this.disponibles = cantidad;
         this.programa = programa;
     }
 
@@ -83,6 +84,22 @@ public class Cupo implements Serializable {
         this.programa = programa;
     }
 
+    //Metodos usados para cuando se agrega o cancela un cupo
+    
+    /**
+     * Decrementa en uno la cantidad disponible 
+     * de cupos cuando se matricula un curso
+     */
+    public void DecrementarDisponibles(){
+        this.disponibles -= 1;
+    }
+    /**
+     * Incrementa en uno la disponiblidad 
+     * de cupos cuando un estudiante cancela un curso
+     */
+    public void IncrementarDisponibles(){
+        this.disponibles += 1;
+    }
     
 
 }

@@ -5,6 +5,7 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.enumclass.Jornada;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +26,15 @@ public class Programa implements Serializable {
     private String codigo;
     @Column(nullable = false, length = 80)
     private String nombre;
-    @Column(nullable = false, length = 30)
-    private String jornada;
+    @Column
+    private Jornada jornada;
     @OneToMany
     private List<Semestre> semestres = new ArrayList<>();
 
     public Programa() {
     }
 
-    public Programa(String codigo, String nombre, String jornada) {
+    public Programa(String codigo, String nombre, Jornada jornada) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.jornada = jornada;
@@ -50,7 +51,7 @@ public class Programa implements Serializable {
         return nombre;
     }
 
-    public String getJornada() {
+    public Jornada getJornada() {
         return jornada;
     }
 
@@ -73,7 +74,7 @@ public class Programa implements Serializable {
         this.nombre = nombre;
     }
 
-    public void setJornada(String jornada) {
+    public void setJornada(Jornada jornada) {
         this.jornada = jornada;
     }
 

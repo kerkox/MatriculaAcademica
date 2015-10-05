@@ -164,4 +164,21 @@ public class Universidad {
         this.periodoJpa.create(periodo);
     }
 
+    public void registrar(Estudiante estudiante) throws Exception{
+        estudianteJpa.create(estudiante);
+    }
+   
+    public void registrar(Docente docente) throws Exception{
+        docenteJpa.create(docente);
+    }
+    
+    public void registrar(Asignatura asignatura) throws Exception{
+        asignaturaJpa.create(asignatura);
+    }
+    
+   public void registrar(Programa programa) throws Exception {
+       programaJpa.create(programa);
+   }
+    
+   
 }
