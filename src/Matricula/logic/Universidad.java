@@ -211,5 +211,11 @@ public class Universidad {
     public void registrar(Programa programa) throws Exception {
         programaJpa.create(programa);
     }
+    
+
+//Buscar un Curso por codigo de asignatura
+//    public Curso buscar(String codeAsignatura){
+//        
+//    }
 
 }

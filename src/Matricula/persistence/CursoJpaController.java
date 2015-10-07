@@ -121,7 +121,7 @@ public class CursoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public int getCursoCount() {
         EntityManager em = getEntityManager();
         try {
