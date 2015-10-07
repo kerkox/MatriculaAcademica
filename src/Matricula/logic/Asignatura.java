@@ -18,15 +18,17 @@ import javax.persistence.Id;
  */
 @Entity
 public class Asignatura implements Serializable {
+  
+   
     
     @Id
-    private String codigo;
+    private String codigo; 
     @Column(nullable = false, length = 80)
-    private String nombre;
+    private String nombre; 
     @Column
-    private byte creditos;
+    private byte creditos; 
     @Column
-    private byte intensidad;
+    private byte intensidad; 
 
     public Asignatura() {
     }
@@ -34,8 +36,8 @@ public class Asignatura implements Serializable {
     public Asignatura(String codigo, String nombre, byte creditos, byte intensidad) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.creditos = creditos;
-        this.intensidad = intensidad;
+        this.creditos = creditos; 
+        this.intensidad = intensidad; 
     }
 
     
@@ -91,8 +93,20 @@ public class Asignatura implements Serializable {
         }
         return true;
     }
-    
-    
-            
-    
+
+    public Asignatura(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Asignatura(String codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Matricula.logic.Asignatura[ codigo=" + codigo + " ]";
+    }
+
+      
 }

@@ -9,13 +9,17 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  *
  * @author atenea
  */
 @Entity
-public class Persona implements Serializable {
+@Inheritance (strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Persona implements Serializable {
+    
     @Id
     long identificacion;
     @Column(nullable = false, length = 50)

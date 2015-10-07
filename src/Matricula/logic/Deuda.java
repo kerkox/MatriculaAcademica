@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Deuda implements Serializable {
+   
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +71,19 @@ public class Deuda implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public Deuda(Long id) {
+        this.id = id;
+    }
+
+   
+
+
+
+    @Override
+    public String toString() {
+        return "Matricula.logic.Deuda[ id=" + id + " ]";
     }
 
 }

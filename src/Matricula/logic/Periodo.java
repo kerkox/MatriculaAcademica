@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class Periodo implements Serializable {
+   
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -181,6 +182,28 @@ public class Periodo implements Serializable {
         }
         return true;
     }
+
+    public Periodo(Long id) {
+        this.id = id;
+    }
+
+    public Periodo(Long id, boolean actual, int year1) {
+        this.id = id;
+        this.actual = actual;
+        this.year1 = year1;
+    }
+
+    
+
+    public int getYear1() {
+        return year1;
+    }
+
+    public void setYear1(int year1) {
+        this.year1 = year1;
+    }
+
+    
 
     
 

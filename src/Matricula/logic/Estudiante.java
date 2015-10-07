@@ -5,7 +5,6 @@
  */
 package Matricula.logic;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,8 @@ import javax.persistence.OneToOne;
  * @author atenea
  */
 @Entity
-public class Estudiante extends Persona implements Serializable {
+public class Estudiante extends Persona {
+
 
     @Column(nullable = false, length = 15)
     private String codigo;
@@ -108,6 +108,8 @@ public class Estudiante extends Persona implements Serializable {
         }
         return true;
     }
+
+   
     
     
     

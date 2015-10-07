@@ -80,10 +80,7 @@ public class Semestre implements Serializable {
         }
         throw new Exception("No se encuentra la Asignatura con codigo: "+ codigo);
     }
-
-    
-
-    
+  
     
     
 }

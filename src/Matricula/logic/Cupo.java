@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Cupo implements Serializable {
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -99,6 +100,32 @@ public class Cupo implements Serializable {
      */
     public void IncrementarDisponibles(){
         this.disponibles += 1;
+    }
+
+    public Cupo(Long id) {
+        this.id = id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+  
+
+    public void setDisponibles(Integer disponibles) {
+        this.disponibles = disponibles;
+    }
+
+  
+
+    @Override
+    public String toString() {
+        return "Matricula.logic.Cupo[ id=" + id + " ]";
     }
     
 

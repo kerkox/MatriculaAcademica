@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -23,6 +22,7 @@ import javax.persistence.Temporal;
  */
 @Entity 
 public class Horario implements Serializable {
+  
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,10 +108,8 @@ public class Horario implements Serializable {
         return true;
     }
 
-    
-
-    
-    
-    
+    public Horario(Long id) {
+        this.id = id;
+    }
     
 }

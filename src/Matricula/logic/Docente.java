@@ -14,6 +14,7 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Docente extends Persona{
+
     
     @Column(nullable = false, length = 80)
     private String profesion;
@@ -40,7 +41,10 @@ public class Docente extends Persona{
     }
     
     //==============================
+
+  
     
+
     
     
 }

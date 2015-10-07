@@ -22,15 +22,15 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-            Date inicio = new Date(), fin = sdf.parse("19/12/2015");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date inicio = sdf.parse("08:00"), fin = sdf.parse("10:00");
             Periodo periodo = new Periodo(inicio, fin, 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera", periodo);
 
             //Estudiantes            
             Estudiante[] students = {
                 new Estudiante("123", 12345, "Pol", "Cortes"),
-                new Estudiante("1234", 123456789, "Ker", "Kox")};
+                new Estudiante("1234", 123456789, "Jeniffer", "Rosales")};
 
             //Docentes
             Docente[] teachers = {

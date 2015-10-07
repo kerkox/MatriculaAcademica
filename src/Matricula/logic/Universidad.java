@@ -28,23 +28,55 @@ public class Universidad {
     private List<Docente> docentes = new ArrayList<>();
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
+//    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
+//
+//    private AsignaturaJpaController asignaturaJpa = new AsignaturaJpaController(emf);
+//    private CupoJpaController cupoJpa = new CupoJpaController(emf);
+//    private CursoJpaController cursoJpa = new CursoJpaController(emf);
+//    private DeudaJpaController deudaJpa = new DeudaJpaController(emf);
+//    private DocenteJpaController docenteJpa = new DocenteJpaController(emf);
+//    private EstudianteJpaController estudianteJpa = new EstudianteJpaController(emf);
+//    private HorarioJpaController horarioJpa = new HorarioJpaController(emf);
+//    private MatriculaJpaController matricualJpa = new MatriculaJpaController(emf);
+//    private PeriodoJpaController periodoJpa = new PeriodoJpaController(emf);
+//    private PersonaJpaController personaJpa = new PersonaJpaController(emf);
+//    private ProgramaJpaController programaJpa = new ProgramaJpaController(emf);
+//    private SemestreJpaController semestreJpa = new SemestreJpaController(emf);
+//    private TabuladoJpaController tabuladoJpa = new TabuladoJpaController(emf);
+    private EntityManagerFactory emf;
 
-    private AsignaturaJpaController asignaturaJpa = new AsignaturaJpaController(emf);
-    private CupoJpaController cupoJpa = new CupoJpaController(emf);
-    private CursoJpaController cursoJpa = new CursoJpaController(emf);
-    private DeudaJpaController deudaJpa = new DeudaJpaController(emf);
-    private DocenteJpaController docenteJpa = new DocenteJpaController(emf);
-    private EstudianteJpaController estudianteJpa = new EstudianteJpaController(emf);
-    private HorarioJpaController horarioJpa = new HorarioJpaController(emf);
-    private MatriculaJpaController matricualJpa = new MatriculaJpaController(emf);
-    private PeriodoJpaController periodoJpa = new PeriodoJpaController(emf);
-    private PersonaJpaController personaJpa = new PersonaJpaController(emf);
-    private ProgramaJpaController programaJpa = new ProgramaJpaController(emf);
-    private SemestreJpaController semestreJpa = new SemestreJpaController(emf);
-    private TabuladoJpaController tabuladoJpa = new TabuladoJpaController(emf);
+    private AsignaturaJpaController asignaturaJpa;
+    private CupoJpaController cupoJpa;
+    private CursoJpaController cursoJpa;
+    private DeudaJpaController deudaJpa;
+    private DocenteJpaController docenteJpa;
+    private EstudianteJpaController estudianteJpa;
+    private HorarioJpaController horarioJpa;
+    private MatriculaJpaController matricualJpa;
+    private PeriodoJpaController periodoJpa;
+    private PersonaJpaController personaJpa;
+    private ProgramaJpaController programaJpa;
+    private SemestreJpaController semestreJpa;
+    private TabuladoJpaController tabuladoJpa;
 
     public Universidad(String nit, String nombre, String direccion, Periodo periodoActual) {
+
+        emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
+
+        asignaturaJpa = new AsignaturaJpaController(emf);
+        cupoJpa = new CupoJpaController(emf);
+        cursoJpa = new CursoJpaController(emf);
+        deudaJpa = new DeudaJpaController(emf);
+        docenteJpa = new DocenteJpaController(emf);
+        estudianteJpa = new EstudianteJpaController(emf);
+        horarioJpa = new HorarioJpaController(emf);
+        matricualJpa = new MatriculaJpaController(emf);
+        periodoJpa = new PeriodoJpaController(emf);
+        personaJpa = new PersonaJpaController(emf);
+        programaJpa = new ProgramaJpaController(emf);
+        semestreJpa = new SemestreJpaController(emf);
+        tabuladoJpa = new TabuladoJpaController(emf);
+
         this.nit = nit;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -109,7 +141,7 @@ public class Universidad {
      * y busca los cursos con la asignatura en el periodo Actual
      */
     public List<Curso> programacionAsignatura(String code) throws Exception {
-         //################################
+        //################################
         //Pendiente Optimizar con BD   
         return getPeridoActual().buscar(code);
     }
@@ -120,13 +152,13 @@ public class Universidad {
      * @return Lista de todos cursos
      */
     public List<Curso> TodaLaProgramacion() {
-         //################################
+        //################################
         //Pendiente Optimizar con BD   
         return getPeridoActual().getCursos();
     }
 
     public void regitrarCurso(Curso curso) throws Exception {
-          //################################
+        //################################
         //Pendiente Optimizar con BD  
         getPeridoActual().add(curso);
     }
@@ -153,7 +185,7 @@ public class Universidad {
     public void CrearPeriodo(Date incia, Date finaliza, int year) throws DateBeforeException {
           //################################
         //Pendiente Optimizar con BD  
-        
+
         if (year < getPeridoActual().getYear()) {
             throw new DateBeforeException("No se puede crear un periodo de un año anterior: " + year);
         }
@@ -164,21 +196,20 @@ public class Universidad {
         this.periodoJpa.create(periodo);
     }
 
-    public void registrar(Estudiante estudiante) throws Exception{
+    public void registrar(Estudiante estudiante) throws Exception {
         estudianteJpa.create(estudiante);
     }
-   
-    public void registrar(Docente docente) throws Exception{
+
+    public void registrar(Docente docente) throws Exception {
         docenteJpa.create(docente);
     }
-    
-    public void registrar(Asignatura asignatura) throws Exception{
+
+    public void registrar(Asignatura asignatura) throws Exception {
         asignaturaJpa.create(asignatura);
     }
-    
-   public void registrar(Programa programa) throws Exception {
-       programaJpa.create(programa);
-   }
-    
-   
+
+    public void registrar(Programa programa) throws Exception {
+        programaJpa.create(programa);
+    }
+
 }

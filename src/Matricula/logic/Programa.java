@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Programa implements Serializable {
-
+   
     @Id
     private String codigo;
     @Column(nullable = false, length = 80)
