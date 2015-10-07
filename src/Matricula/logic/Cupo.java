@@ -11,13 +11,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "CUPO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Cupo.findAll", query = "SELECT c FROM Cupo c"),
+    @NamedQuery(name = "Cupo.findById", query = "SELECT c FROM Cupo c WHERE c.id = :id"),
+    @NamedQuery(name = "Cupo.findByCantidad", query = "SELECT c FROM Cupo c WHERE c.cantidad = :cantidad"),
+    @NamedQuery(name = "Cupo.findByDisponibles", query = "SELECT c FROM Cupo c WHERE c.disponibles = :disponibles")})
 public class Cupo implements Serializable {
     
     

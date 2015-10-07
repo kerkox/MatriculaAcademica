@@ -11,14 +11,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "CURSO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Curso.findAll", query = "SELECT c FROM Curso c"),
+    @NamedQuery(name = "Curso.findById", query = "SELECT c FROM Curso c WHERE c.id = :id"),
+    @NamedQuery(name = "Curso.findByEstado", query = "SELECT c FROM Curso c WHERE c.estado = :estado"),
+    @NamedQuery(name = "Curso.findByGrupo", query = "SELECT c FROM Curso c WHERE c.grupo = :grupo"),
+    @NamedQuery(name = "Curso.findByTotalcupos", query = "SELECT c FROM Curso c WHERE c.totalcupos = :totalcupos")})
 public class Curso implements Serializable {
     
     @Id

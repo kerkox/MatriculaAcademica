@@ -15,14 +15,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "PERIODO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),
+    @NamedQuery(name = "Periodo.findById", query = "SELECT p FROM Periodo p WHERE p.id = :id"),
+    @NamedQuery(name = "Periodo.findByActual", query = "SELECT p FROM Periodo p WHERE p.actual = :actual"),
+    @NamedQuery(name = "Periodo.findByFin", query = "SELECT p FROM Periodo p WHERE p.fin = :fin"),
+    @NamedQuery(name = "Periodo.findByInicia", query = "SELECT p FROM Periodo p WHERE p.inicia = :inicia"),
+    @NamedQuery(name = "Periodo.findByYear1", query = "SELECT p FROM Periodo p WHERE p.year1 = :year1")})
 public class Periodo implements Serializable {
    
 

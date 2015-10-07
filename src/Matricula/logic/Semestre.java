@@ -13,13 +13,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "SEMESTRE")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Semestre.findAll", query = "SELECT s FROM Semestre s"),
+    @NamedQuery(name = "Semestre.findById", query = "SELECT s FROM Semestre s WHERE s.id = :id"),
+    @NamedQuery(name = "Semestre.findByNumero", query = "SELECT s FROM Semestre s WHERE s.numero = :numero")})
 public class Semestre implements Serializable {
     
     @Id

@@ -12,14 +12,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "MATRICULA")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Matricula.findAll", query = "SELECT m FROM Matricula m"),
+    @NamedQuery(name = "Matricula.findById", query = "SELECT m FROM Matricula m WHERE m.id = :id"),
+    @NamedQuery(name = "Matricula.findByCancelada", query = "SELECT m FROM Matricula m WHERE m.cancelada = :cancelada"),
+    @NamedQuery(name = "Matricula.findByMatriculada", query = "SELECT m FROM Matricula m WHERE m.matriculada = :matriculada")})
 public class Matricula implements Serializable {
    
     

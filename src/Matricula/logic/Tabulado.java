@@ -13,14 +13,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity
+@Table(name = "TABULADO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Tabulado.findAll", query = "SELECT t FROM Tabulado t"),
+    @NamedQuery(name = "Tabulado.findById", query = "SELECT t FROM Tabulado t WHERE t.id = :id")})
 public class Tabulado implements Serializable {
  
     @Id

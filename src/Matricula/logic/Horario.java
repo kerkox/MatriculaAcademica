@@ -14,13 +14,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author atenea
  */
 @Entity 
+@Table(name = "HORARIO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Horario.findAll", query = "SELECT h FROM Horario h"),
+    @NamedQuery(name = "Horario.findById", query = "SELECT h FROM Horario h WHERE h.id = :id"),
+    @NamedQuery(name = "Horario.findByDia", query = "SELECT h FROM Horario h WHERE h.dia = :dia"),
+    @NamedQuery(name = "Horario.findByHorafinalizacion", query = "SELECT h FROM Horario h WHERE h.horafinalizacion = :horafinalizacion"),
+    @NamedQuery(name = "Horario.findByHoraincio", query = "SELECT h FROM Horario h WHERE h.horaincio = :horaincio")})
 public class Horario implements Serializable {
   
     
