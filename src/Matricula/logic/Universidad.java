@@ -141,9 +141,7 @@ public class Universidad {
      * y busca los cursos con la asignatura en el periodo Actual
      */
     public List<Curso> programacionAsignatura(String code) throws Exception {
-        //################################
-        //Pendiente Optimizar con BD   
-        return getPeridoActual().buscar(code);
+        return periodoJpa.findPeriodoActual().buscar(code);
     }
 
     //==============================
@@ -183,7 +181,7 @@ public class Universidad {
      * periodo y el año es anterior al ultimo periodo registrado
      */
     public void CrearPeriodo(Date incia, Date finaliza, int year) throws DateBeforeException {
-          //################################
+        //################################
         //Pendiente Optimizar con BD  
 
         if (year < getPeridoActual().getYear()) {
@@ -211,11 +209,9 @@ public class Universidad {
     public void registrar(Programa programa) throws Exception {
         programaJpa.create(programa);
     }
-    
 
 //Buscar un Curso por codigo de asignatura
 //    public Curso buscar(String codeAsignatura){
 //        
 //    }
-
 }

@@ -121,6 +121,16 @@ public class PeriodoJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public Periodo findPeriodoActual(){
+         EntityManager em = getEntityManager();
+        return (Periodo) 
+                em.createNamedQuery("Periodo.findByActual")
+                .setParameter("Actual", true)
+                .getSingleResult();
+    }
+    
+    
 
     public int getPeriodoCount() {
         EntityManager em = getEntityManager();
