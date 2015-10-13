@@ -177,7 +177,7 @@ public class Curso implements Serializable {
                  return cup;
              }
          }
-         throw new ObjectNotFoundException("No se encuentra el Cupo");
+         throw new ObjectNotFoundException("No se encuentra el Cupo con codigo de programa: "+ codigoPrograma);
      }
      
      
