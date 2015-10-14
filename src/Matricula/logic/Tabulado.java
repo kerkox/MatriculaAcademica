@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -85,11 +86,15 @@ public class Tabulado implements Serializable {
     }
 
     //==============================
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
+    //Matricular cursos
+    //////*********************************
+    public void MatricularCurso(Curso curso){
+        this.matriculas.add(new Matricula(new Date(), curso));
     }
+    
+    
+    
+    //==============================
 
     @Override
     public boolean equals(Object obj) {

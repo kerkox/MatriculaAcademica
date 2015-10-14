@@ -229,4 +229,10 @@ public class Universidad {
         return teacher;
     }
     
+    //////*********************************
+    public void MatricularCurso(Estudiante estu, Curso curso){
+        estu.Matricular(curso);
+        //////*********************************
+    }
+    
 }

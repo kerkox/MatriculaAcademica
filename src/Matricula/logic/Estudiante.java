@@ -103,9 +103,16 @@ public class Estudiante extends Persona {
     
     
     //==================================
-  
-  
+    //Metodos de matricula
+    public void Matricular(Curso curso){
+        //////*********************************
+        this.tabuladoActual.MatricularCurso(curso);
+    }  
 
+    
+    
+    
+    //==================================
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
