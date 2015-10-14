@@ -5,6 +5,8 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.Exceptions.DateBeforeException;
+import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -214,4 +216,17 @@ public class Universidad {
 //    public Curso buscar(String codeAsignatura){
 //        
 //    }
+    //Metodos de busqueda con BD
+    public Estudiante buscarEstudiante(int codigo) throws ObjectNotFoundException{
+        Estudiante estu = estudianteJpa.findEstudianteCode(codigo);
+        if(estu==null) throw new ObjectNotFoundException("El estudiante con codigo: "+ codigo + " No fue encontrado");
+        return estu;
+    }
+    
+    public Docente buscarDocente(long id) throws ObjectNotFoundException{
+        Docente teacher = docenteJpa.findDocente(id);
+        if(teacher==null) throw new ObjectNotFoundException("Docente con identifiacion: "+ id + " no encontrado");
+        return teacher;
+    }
+    
 }

@@ -1,6 +1,7 @@
 
 package Matricula.logic;
 
+import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;

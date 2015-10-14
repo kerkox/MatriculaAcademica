@@ -128,7 +128,7 @@ public class EstudianteJpaController implements Serializable {
         }
     }
     
-    public Estudiante findEstudiante(int code) {
+    public Estudiante findEstudianteCode(int code) {
         EntityManager em = getEntityManager();
         return (Estudiante) 
                 em.createNamedQuery("Estudiante.findByCodigo")

@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Matricula.logic;
+package Matricula.logic.Exceptions;
 
 /**
  *
  * @author atenea
  */
-public class ObjectNotFoundException extends Exception {
+public class DateBeforeException extends Exception {
 
     /**
-     * Creates a new instance of <code>ObjectNotFoundException</code> without
-     * detail message.
+     * Creates a new instance of <code>DateBeforeException</code> without detail
+     * message.
      */
-    public ObjectNotFoundException() {
+    public DateBeforeException() {
     }
 
     /**
-     * Constructs an instance of <code>ObjectNotFoundException</code> with the
+     * Constructs an instance of <code>DateBeforeException</code> with the
      * specified detail message.
      *
      * @param msg the detail message.
      */
-    public ObjectNotFoundException(String msg) {
+    public DateBeforeException(String msg) {
         super(msg);
     }
 }

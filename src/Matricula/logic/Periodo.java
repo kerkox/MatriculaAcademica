@@ -5,6 +5,7 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.Exceptions.ObjectNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;

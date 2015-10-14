@@ -29,8 +29,8 @@ public class Main {
 
             //Estudiantes            
             Estudiante[] students = {
-                new Estudiante("123", 12345, "Pol", "Cortes"),
-                new Estudiante("1234", 123456789, "Jeniffer", "Rosales")};
+                new Estudiante(123, 12345, "Pol", "Cortes"),
+                new Estudiante(1234, 123456789, "Jeniffer", "Rosales")};
 
             //Docentes
             Docente[] teachers = {
