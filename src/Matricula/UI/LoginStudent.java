@@ -10,8 +10,6 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +25,9 @@ public class LoginStudent extends javax.swing.JFrame {
     public LoginStudent(Universidad uni) {
         this.u=uni;
         initComponents();
+        ListenerLogueo lg = new ListenerLogueo();
+        FieldPasswordStudent.addActionListener(lg);
+        ButtonAccess.addActionListener(lg);
     }
 
     /**
@@ -43,7 +44,7 @@ public class LoginStudent extends javax.swing.JFrame {
         FieldCodeStudent = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         FieldPasswordStudent = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        ButtonAccess = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +56,7 @@ public class LoginStudent extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña:");
 
-        jButton1.setText("Ingresar");
+        ButtonAccess.setText("Ingresar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -67,7 +68,7 @@ public class LoginStudent extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(ButtonAccess)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
@@ -93,7 +94,7 @@ public class LoginStudent extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(FieldPasswordStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(ButtonAccess)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -103,9 +104,9 @@ public class LoginStudent extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAccess;
     private javax.swing.JTextField FieldCodeStudent;
     private javax.swing.JTextField FieldPasswordStudent;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

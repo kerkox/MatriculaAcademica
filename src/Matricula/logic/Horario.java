@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,9 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Horario.findAll", query = "SELECT h FROM Horario h"),
     @NamedQuery(name = "Horario.findById", query = "SELECT h FROM Horario h WHERE h.id = :id"),
-    @NamedQuery(name = "Horario.findByDia", query = "SELECT h FROM Horario h WHERE h.dia = :dia"),
-    @NamedQuery(name = "Horario.findByHorafinalizacion", query = "SELECT h FROM Horario h WHERE h.horafinalizacion = :horafinalizacion"),
-    @NamedQuery(name = "Horario.findByHoraincio", query = "SELECT h FROM Horario h WHERE h.horaincio = :horaincio")})
+    @NamedQuery(name = "Horario.findByDia", query = "SELECT h FROM Horario h WHERE h.dia = :dia")})
+//    @NamedQuery(name = "Horario.findByHorafinalizacion", query = "SELECT h FROM Horario h WHERE h.horafinalizacion = :horafinalizacion"),
+//    @NamedQuery(name = "Horario.findByHoraincio", query = "SELECT h FROM Horario h WHERE h.horaincio = :horaincio")})
 public class Horario implements Serializable {
   
     
@@ -40,11 +41,11 @@ public class Horario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @OneToOne
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date horaIncio;
-    @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @OneToOne
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date horaFinalizacion;
     @Column
     private Dia dia;

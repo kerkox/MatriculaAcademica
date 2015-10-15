@@ -27,11 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p"),
     @NamedQuery(name = "Persona.findByIdentificacion", query = "SELECT p FROM Persona p WHERE p.identificacion = :identificacion"),
-    @NamedQuery(name = "Persona.findByDtype", query = "SELECT p FROM Persona p WHERE p.dtype = :dtype"),
     @NamedQuery(name = "Persona.findByApellido", query = "SELECT p FROM Persona p WHERE p.apellido = :apellido"),
-    @NamedQuery(name = "Persona.findByNombre", query = "SELECT p FROM Persona p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Persona.findByProfesion", query = "SELECT p FROM Persona p WHERE p.profesion = :profesion"),
-    @NamedQuery(name = "Persona.findByCodigo", query = "SELECT p FROM Persona p WHERE p.codigo = :codigo")})
+    @NamedQuery(name = "Persona.findByNombre", query = "SELECT p FROM Persona p WHERE p.nombre = :nombre")})
+
+//    @NamedQuery(name = "Persona.findByDtype", query = "SELECT p FROM Persona p WHERE p.dtype = :dtype"),
 public abstract class Persona implements Serializable {
     
     @Id
@@ -40,18 +39,27 @@ public abstract class Persona implements Serializable {
     String nombre;
     @Column(nullable = false, length = 50)
     String apellido;
+    @Column(nullable = false, length = 50)
+    String password;
 
     public Persona() {
     }
 
-    public Persona(long identificacion, String nombre, String apellido) {
+    public Persona(long identificacion, String nombre, String apellido, String password) {
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.password = password;
     }
 
     //==============================
     //Metodos Get
+
+    public String getPassword() {
+        return password;
+    }
+    
+    
     public long getIdentificacion() {
         return identificacion;
     }
@@ -79,6 +87,10 @@ public abstract class Persona implements Serializable {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     

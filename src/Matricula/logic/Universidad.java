@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Matricula.logic;
 
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -182,7 +179,7 @@ public class Universidad {
      * @throws DateBeforeException Se lanza el error cuando se desea crear un
      * periodo y el año es anterior al ultimo periodo registrado
      */
-    public void CrearPeriodo(Date incia, Date finaliza, int year) throws DateBeforeException {
+    public void CrearPeriodo(String incia, String finaliza, int year) throws DateBeforeException {
         //################################
         //Pendiente Optimizar con BD  
 
@@ -196,20 +193,36 @@ public class Universidad {
         this.periodoJpa.create(periodo);
     }
 
-    public void registrar(Estudiante estudiante) throws Exception {
+    public void registrar(Estudiante estudiante) {
+        try{
         estudianteJpa.create(estudiante);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
-    public void registrar(Docente docente) throws Exception {
-        docenteJpa.create(docente);
+    public void registrar(Docente docente) {
+        try {
+            docenteJpa.create(docente);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
-    public void registrar(Asignatura asignatura) throws Exception {
-        asignaturaJpa.create(asignatura);
+    public void registrar(Asignatura asignatura)  {
+        try {
+            asignaturaJpa.create(asignatura);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
-    public void registrar(Programa programa) throws Exception {
-        programaJpa.create(programa);
+    public void registrar(Programa programa) {
+        try {
+            programaJpa.create(programa);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
 //Buscar un Curso por codigo de asignatura

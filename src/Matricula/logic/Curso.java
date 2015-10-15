@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Curso.findAll", query = "SELECT c FROM Curso c"),
     @NamedQuery(name = "Curso.findById", query = "SELECT c FROM Curso c WHERE c.id = :id"),
     @NamedQuery(name = "Curso.findByEstado", query = "SELECT c FROM Curso c WHERE c.estado = :estado"),
-    @NamedQuery(name = "Curso.findByGrupo", query = "SELECT c FROM Curso c WHERE c.grupo = :grupo"),
-    @NamedQuery(name = "Curso.findByTotalcupos", query = "SELECT c FROM Curso c WHERE c.totalcupos = :totalcupos")})
+    @NamedQuery(name = "Curso.findByGrupo", query = "SELECT c FROM Curso c WHERE c.grupo = :grupo")})
+//    @NamedQuery(name = "Curso.findByTotalcupos", query = "SELECT c FROM Curso c WHERE c.totalcupos = :totalcupos")})
 public class Curso implements Serializable {
     
     @Id

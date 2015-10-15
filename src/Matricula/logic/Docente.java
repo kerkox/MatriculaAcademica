@@ -34,8 +34,8 @@ public class Docente extends Persona{
     public Docente() {
     }
 
-    public Docente(String profesion, long identificacion, String nombre, String apellido) {
-        super(identificacion, nombre, apellido);
+    public Docente(String profesion, long identificacion, String nombre, String apellido, String password) {
+        super(identificacion, nombre, apellido, password);
         this.profesion = profesion;
     }
 

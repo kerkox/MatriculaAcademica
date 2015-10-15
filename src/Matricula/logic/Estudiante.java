@@ -45,8 +45,8 @@ public class Estudiante extends Persona {
     public Estudiante() {
     }
 
-    public Estudiante(String codigo, long identificacion, String nombre, String apellido) {
-        super(identificacion, nombre, apellido);
+    public Estudiante(String codigo, long identificacion, String nombre, String apellido, String password) {
+        super(identificacion, nombre, apellido, password);
         this.codigo = codigo;
     }
     
