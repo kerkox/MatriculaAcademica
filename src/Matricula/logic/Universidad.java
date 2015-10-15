@@ -230,8 +230,10 @@ public class Universidad {
     }
     
     //////*********************************
-    public void MatricularCurso(Estudiante estu, Curso curso){
+    public void MatricularCurso(int codeStudent, Curso curso) throws Exception{
+        Estudiante estu = estudianteJpa.findEstudianteCode(codeStudent);
         estu.Matricular(curso);
+        estudianteJpa.edit(estu);
         //////*********************************
     }
     
