@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,10 +46,10 @@ public class Periodo implements Serializable {
     private Long id;
 
     @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date inicia;
     @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date fin;
     @Column (nullable = false)
     private int year1;
@@ -215,6 +216,13 @@ public class Periodo implements Serializable {
 
     public void setYear1(int year1) {
         this.year1 = year1;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        return   sdf.format(inicia) + " - " + sdf.format(fin) + " " + year1 ;
     }
 
     

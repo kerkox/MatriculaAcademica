@@ -1,5 +1,6 @@
 package main;
 
+import Matricula.UI.LoginStudent;
 import Matricula.logic.Periodo;
 import Matricula.logic.*;
 import Matricula.logic.enumclass.Jornada;
@@ -29,8 +30,8 @@ public class Main {
 
             //Estudiantes            
             Estudiante[] students = {
-                new Estudiante(123, 12345, "Pol", "Cortes"),
-                new Estudiante(1234, 123456789, "Jeniffer", "Rosales")};
+                new Estudiante("123", 12345, "Pol", "Cortes"),
+                new Estudiante("1234", 123456789, "Jeniffer", "Rosales")};
 
             //Docentes
             Docente[] teachers = {
@@ -75,7 +76,8 @@ public class Main {
             }
 
             System.out.println("Debe de hacer la conexion a la bd");
-
+            new LoginStudent(u).setVisible(true);
+            
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

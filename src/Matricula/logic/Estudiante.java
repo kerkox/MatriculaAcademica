@@ -34,7 +34,7 @@ public class Estudiante extends Persona {
 
 
     @Column(nullable = false)
-    private int codigo;
+    private String codigo;
     @OneToMany
     private List<Tabulado> tabulados = new ArrayList<>();
     @OneToMany
@@ -45,14 +45,14 @@ public class Estudiante extends Persona {
     public Estudiante() {
     }
 
-    public Estudiante(int codigo, long identificacion, String nombre, String apellido) {
+    public Estudiante(String codigo, long identificacion, String nombre, String apellido) {
         super(identificacion, nombre, apellido);
         this.codigo = codigo;
     }
     
     //==================================
     //Metodos Get
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
@@ -63,6 +63,8 @@ public class Estudiante extends Persona {
     public List<Deuda> getDeudas() {
         return deudas;
     }
+    
+    
     
     //==================================
     
@@ -88,7 +90,7 @@ public class Estudiante extends Persona {
     //==================================
     //Metodos Set
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

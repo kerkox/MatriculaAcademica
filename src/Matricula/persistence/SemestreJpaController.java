@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Polker
+ * @author atenea
  */
 public class SemestreJpaController implements Serializable {
 

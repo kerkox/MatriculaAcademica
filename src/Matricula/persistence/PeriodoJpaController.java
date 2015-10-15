@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Polker
+ * @author atenea
  */
 public class PeriodoJpaController implements Serializable {
 
@@ -129,8 +129,6 @@ public class PeriodoJpaController implements Serializable {
                 .setParameter("Actual", true)
                 .getSingleResult();
     }
-    
-    
 
     public int getPeriodoCount() {
         EntityManager em = getEntityManager();

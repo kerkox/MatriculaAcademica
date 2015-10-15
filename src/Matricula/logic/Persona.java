@@ -64,7 +64,9 @@ public abstract class Persona implements Serializable {
         return apellido;
     }
 
-    
+    public String getFullName(){
+        return nombre +" "+apellido;
+    }
     //==============================
 
     public void setIdentificacion(long identificacion) {

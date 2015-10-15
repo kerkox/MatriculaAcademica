@@ -5,6 +5,9 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Estudiante;
+import Matricula.logic.Universidad;
+
 /**
  *
  * @author atenea
@@ -14,8 +17,16 @@ public class Matricula extends javax.swing.JFrame {
     /**
      * Creates new form Matricula
      */
-    public Matricula() {
+    private Estudiante estu;
+    private Universidad u;
+    public Matricula(Universidad u, Estudiante estu) {
+        this.u = u;
+        this.estu = estu;
         initComponents();
+        FieldPeriodo.setText(u.getPeridoActual().toString());
+        FieldCodeStudent.setText(estu.getCodigo());
+        FieldNameStudent.setText(estu.getFullName());
+        
     }
 
     /**
@@ -67,7 +78,13 @@ public class Matricula extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         jLabel2.setText("Periodo:");
 
+        FieldPeriodo.setEditable(false);
+
         jLabel3.setText("Estudiante:");
+
+        FieldCodeStudent.setEditable(false);
+
+        FieldNameStudent.setEditable(false);
 
         jLabel4.setText("Asignatura:");
 
@@ -159,40 +176,7 @@ public class Matricula extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Matricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Matricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Matricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Matricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Matricula().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonEnroll;

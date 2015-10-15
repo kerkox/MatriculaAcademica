@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Polker
+ * @author atenea
  */
 public class CursoJpaController implements Serializable {
 
@@ -121,7 +121,7 @@ public class CursoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getCursoCount() {
         EntityManager em = getEntityManager();
         try {

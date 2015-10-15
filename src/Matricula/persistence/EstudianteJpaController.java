@@ -19,7 +19,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Polker
+ * @author atenea
  */
 public class EstudianteJpaController implements Serializable {
 
@@ -128,14 +128,13 @@ public class EstudianteJpaController implements Serializable {
         }
     }
     
-    public Estudiante findEstudianteCode(int code) {
+    public Estudiante findEstudianteCode(String code) {
         EntityManager em = getEntityManager();
         return (Estudiante) 
                 em.createNamedQuery("Estudiante.findByCodigo")
                 .setParameter("Codigo", code)
                 .getSingleResult();
     }
-    
 
     public int getEstudianteCount() {
         EntityManager em = getEntityManager();

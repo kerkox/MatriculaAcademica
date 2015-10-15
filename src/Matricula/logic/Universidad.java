@@ -217,7 +217,7 @@ public class Universidad {
 //        
 //    }
     //Metodos de busqueda con BD
-    public Estudiante buscarEstudiante(int codigo) throws ObjectNotFoundException{
+    public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException{
         Estudiante estu = estudianteJpa.findEstudianteCode(codigo);
         if(estu==null) throw new ObjectNotFoundException("El estudiante con codigo: "+ codigo + " No fue encontrado");
         return estu;
@@ -230,8 +230,7 @@ public class Universidad {
     }
     
     //////*********************************
-    public void MatricularCurso(int codeStudent, Curso curso) throws Exception{
-        Estudiante estu = estudianteJpa.findEstudianteCode(codeStudent);
+    public void MatricularCurso(Estudiante estu, Curso curso) throws Exception{
         estu.Matricular(curso);
         estudianteJpa.edit(estu);
         //////*********************************
