@@ -119,7 +119,7 @@ public class ListenerLogueo implements ActionListener{
             try {
                 Estudiante estu = u.buscarEstudiante(FieldCodeStudent.getText().trim());
                 new Matricula(u, estu).setVisible(true);
-                
+                setVisible(false);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }

@@ -126,7 +126,7 @@ public class PeriodoJpaController implements Serializable {
          EntityManager em = getEntityManager();
         return (Periodo) 
                 em.createNamedQuery("Periodo.findByActual")
-                .setParameter("Actual", true)
+                .setParameter("actual", true)
                 .getSingleResult();
     }
 

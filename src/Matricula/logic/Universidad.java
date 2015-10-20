@@ -56,7 +56,7 @@ public class Universidad {
     private SemestreJpaController semestreJpa;
     private TabuladoJpaController tabuladoJpa;
 
-    public Universidad(String nit, String nombre, String direccion, Periodo periodoActual) {
+    public Universidad(String nit, String nombre, String direccion) {
 
         emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
 
@@ -77,9 +77,20 @@ public class Universidad {
         this.nit = nit;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.periodoJpa.create(periodoActual);
+//        this.periodoJpa.create(periodoActual);
     }
-
+public void setPeriodoActual(Periodo actual){
+        try {
+            Periodo change= periodoJpa.findPeriodoActual();
+            change.setActual(false);
+            periodoJpa.edit(change);
+            periodoJpa.create(actual);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+}
+    
+    
     //==============================
     //Metodos Get
     public String getNit() {
@@ -95,16 +106,7 @@ public class Universidad {
     }
 
     public Periodo getPeridoActual() {
-        //################################
-        //Pendiente Optimizar con BD         
-        Periodo actual = null;
-        for (Periodo per : periodoJpa.findPeriodoEntities()) {
-            if (per.isActual()) {
-                actual = per;
-                break;
-            }
-        }
-        return actual;
+        return periodoJpa.findPeriodoActual();
     }
 
     public List<Periodo> getPeriodos() {
@@ -153,9 +155,10 @@ public class Universidad {
     }
 
     public void regitrarCurso(Curso curso) throws Exception {
-        //################################
-        //Pendiente Optimizar con BD  
-        getPeridoActual().add(curso);
+        Periodo actual = getPeridoActual();
+        actual.add(curso);
+        periodoJpa.edit(actual);
+        cursoJpa.create(curso);
     }
 
     //==============================
@@ -192,11 +195,11 @@ public class Universidad {
     }
 
     public void registrar(Estudiante estudiante) {
-        try{
-            
-        estudianteJpa.create(estudiante);
-            
-        }catch(Exception ex){
+        try {
+
+            estudianteJpa.create(estudiante);
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
@@ -209,7 +212,7 @@ public class Universidad {
         }
     }
 
-    public void registrar(Asignatura asignatura)  {
+    public void registrar(Asignatura asignatura) {
         try {
             asignaturaJpa.create(asignatura);
         } catch (Exception ex) {
@@ -225,28 +228,43 @@ public class Universidad {
         }
     }
 
+    public void registrar(Curso curso){
+        try {
+            cursoJpa.create(curso);
+            Periodo periodo = getPeridoActual();
+            periodo.add(curso);
+            periodoJpa.edit(periodo);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            
+        }
+    }
 //Buscar un Curso por codigo de asignatura
 //    public Curso buscar(String codeAsignatura){
 //        
 //    }
     //Metodos de busqueda con BD
-    public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException{
+    public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException {
         Estudiante estu = estudianteJpa.findEstudianteCode(codigo);
-        if(estu==null) throw new ObjectNotFoundException("El estudiante con codigo: "+ codigo + " No fue encontrado");
+        if (estu == null) {
+            throw new ObjectNotFoundException("El estudiante con codigo: " + codigo + " No fue encontrado");
+        }
         return estu;
     }
-    
-    public Docente buscarDocente(long id) throws ObjectNotFoundException{
+
+    public Docente buscarDocente(long id) throws ObjectNotFoundException {
         Docente teacher = docenteJpa.findDocente(id);
-        if(teacher==null) throw new ObjectNotFoundException("Docente con identifiacion: "+ id + " no encontrado");
+        if (teacher == null) {
+            throw new ObjectNotFoundException("Docente con identifiacion: " + id + " no encontrado");
+        }
         return teacher;
     }
-    
+
     //////*********************************
-    public void MatricularCurso(Estudiante estu, Curso curso) throws Exception{
+    public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Matricular(curso);
         estudianteJpa.edit(estu);
         //////*********************************
     }
-    
+
 }

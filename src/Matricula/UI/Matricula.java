@@ -7,6 +7,8 @@ package Matricula.UI;
 
 import Matricula.logic.Estudiante;
 import Matricula.logic.Universidad;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -19,6 +21,7 @@ public class Matricula extends javax.swing.JFrame {
      */
     private Estudiante estu;
     private Universidad u;
+
     public Matricula(Universidad u, Estudiante estu) {
         this.u = u;
         this.estu = estu;
@@ -26,7 +29,9 @@ public class Matricula extends javax.swing.JFrame {
         FieldPeriodo.setText(u.getPeridoActual().toString());
         FieldCodeStudent.setText(estu.getCodigo());
         FieldNameStudent.setText(estu.getFullName());
-        
+
+        ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
+
     }
 
     /**
@@ -75,22 +80,28 @@ public class Matricula extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Matricula Academica");
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Periodo:");
 
         FieldPeriodo.setEditable(false);
 
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Estudiante:");
 
         FieldCodeStudent.setEditable(false);
 
         FieldNameStudent.setEditable(false);
 
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Asignatura:");
 
         ButtonSearchCourse.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         ButtonSearchCourse.setText("...");
+        ButtonSearchCourse.setMaximumSize(new java.awt.Dimension(45, 20));
+        ButtonSearchCourse.setMinimumSize(new java.awt.Dimension(45, 20));
+        ButtonSearchCourse.setPreferredSize(new java.awt.Dimension(40, 22));
 
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Grupo:");
 
         ButtonEnroll.setText("Matricular");
@@ -126,7 +137,7 @@ public class Matricula extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FieldNameStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(FieldPeriodo)
@@ -138,7 +149,7 @@ public class Matricula extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(FieldCodeSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ButtonSearchCourse)
+                                .addComponent(ButtonSearchCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FieldNameSubject)))))
                 .addContainerGap())
@@ -161,7 +172,7 @@ public class Matricula extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(FieldCodeSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonSearchCourse)
+                    .addComponent(ButtonSearchCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FieldNameSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -169,13 +180,12 @@ public class Matricula extends javax.swing.JFrame {
                     .addComponent(FieldNumberGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButtonEnroll))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,4 +207,20 @@ public class Matricula extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tableEnrolls;
     // End of variables declaration//GEN-END:variables
+//vamos a hacer una ventana con las materias disponibles para asi evitar el error al buscar
+//en la ventana que se muestra los cursos disponibles para el programa del estudiante 
+
+    public class ListenerCursosProgramados implements ActionListener {
+
+        CursosEstudiante courses = null;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (courses == null) {
+                courses = new CursosEstudiante(u.getPeridoActual());
+            }
+            courses.setVisible(true);
+        }
+    }
+
 }
