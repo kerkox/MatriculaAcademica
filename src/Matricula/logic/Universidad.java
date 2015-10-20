@@ -5,8 +5,6 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -195,7 +193,9 @@ public class Universidad {
 
     public void registrar(Estudiante estudiante) {
         try{
+            
         estudianteJpa.create(estudiante);
+            
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

@@ -24,7 +24,10 @@ public class Main {
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera", periodo);
 
-            if(u.getEstudiantes()==null){
+           
+            if(u.getEstudiantes().isEmpty()){
+                System.out.println("la lista de estudiantes en la BD es vacia");
+                        
             //Estudiantes            
             Estudiante[] students = {
                 new Estudiante("123", 12345, "Pol", "Cortes", "1234"),
