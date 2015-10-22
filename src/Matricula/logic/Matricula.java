@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -112,17 +113,21 @@ public class Matricula implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Matricula)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Matricula other = (Matricula) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Matricula other = (Matricula) obj;
+        if (!Objects.equals(this.curso, other.curso)) {
             return false;
         }
         return true;
     }
+
+  
 
     @Override
     public String toString() {

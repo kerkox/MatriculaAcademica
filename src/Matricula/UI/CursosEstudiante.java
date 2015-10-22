@@ -7,6 +7,8 @@ package Matricula.UI;
 
 import Matricula.logic.Curso;
 import Matricula.logic.Periodo;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -19,10 +21,13 @@ public class CursosEstudiante extends javax.swing.JFrame {
      * Creates new form CursosEstudiante
      */
     private Periodo periodo = null;
-    public CursosEstudiante(Periodo periodo) {
-        initComponents();
-        this.periodo = periodo;
+    private MatriculaUI matri;
+    public CursosEstudiante(Periodo periodo, MatriculaUI matri) {
         
+        initComponents();
+        this.matri = matri;
+        this.periodo = periodo;
+        this.ButtonSelected.addActionListener(new ListenerSelected());
         this.TableCursoStudent.setModel(new AbstractTableModel() {
 
             
@@ -125,4 +130,15 @@ public class CursosEstudiante extends javax.swing.JFrame {
     private javax.swing.JTable TableCursoStudent;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+public class ListenerSelected implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Curso curso = periodo.getCursos().get(TableCursoStudent.getSelectedRow());
+            matri.LoadMatricula(curso);
+            setVisible(false);
+        }
+    
+}
+
 }

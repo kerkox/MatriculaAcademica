@@ -109,8 +109,12 @@ public class Estudiante extends Persona {
     
     //==================================
     //Metodos de matricula
-    public void Matricular(Curso curso){
+    public void Matricular(Curso curso, Periodo periodo) throws Exception{
         //////*********************************
+        if(tabuladoActual==null){
+            tabuladoActual = new Tabulado(periodo);
+        }
+        
         this.tabuladoActual.MatricularCurso(curso);
     }  
 

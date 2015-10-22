@@ -5,6 +5,7 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Curso;
 import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Matricula;
@@ -26,6 +27,8 @@ public class MatriculaUI extends javax.swing.JFrame {
     private Estudiante estu;
     private Universidad u;
     private Principal main;
+    private MatriculaUI matri = this;
+    private Curso cursoMatricular;
 
     public MatriculaUI(Universidad u, Estudiante estu, Principal main) {
         this.main = main;
@@ -38,13 +41,15 @@ public class MatriculaUI extends javax.swing.JFrame {
 
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
         ButtonFinished.addActionListener(new ListenerFinished());
+        ButtonEnroll.addActionListener(new ListenerMatricular());
         FieldNumberGroup.addActionListener(new ListenerSearch()); // Busqueda de un Curso por codigo de asignatura
         tableEnrolls.setModel(new AbstractTableModel() {
 
-            String[] names ={"Codigo", "Asignatura", "Grupo", "Estado"};
+            String[] names = {"Codigo", "Asignatura", "Grupo", "Estado"};
+
             @Override
             public int getRowCount() {
-                if(estu.getTabuladoActual()==null){
+                if (estu.getTabuladoActual() == null) {
                     return 0;
                 }
                 return estu.getTabuladoActual().getMatriculas().size();
@@ -54,18 +59,17 @@ public class MatriculaUI extends javax.swing.JFrame {
             public int getColumnCount() {
                 return names.length;
             }
-            
-            
+
             @Override
-            public String getColumnName(int column){
+            public String getColumnName(int column) {
                 return names[column];
             }
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Matricula matricula = estu.getTabuladoActual().getMatriculas().get(rowIndex);
-                
-                switch(columnIndex){
+
+                switch (columnIndex) {
                     case 0:
                         return matricula.getCurso().getAsignatura().getCodigo();
                     case 1:
@@ -75,10 +79,23 @@ public class MatriculaUI extends javax.swing.JFrame {
                     case 3:
                         return matricula.getCurso().getEstado();
                 }
-                
+
                 return "";
             }
         });
+    }
+
+    public void LoadMatricula(Curso curso) {
+        this.cursoMatricular = curso;
+        FieldNameSubject.setText(cursoMatricular.getAsignatura().getNombre());
+        FieldNumberGroup.setText(cursoMatricular.getGrupo() + "");
+
+    }
+
+    public void clear() {
+        cursoMatricular = null;
+        FieldNameSubject.setText("");
+        FieldNumberGroup.setText("");
     }
 
     /**
@@ -287,13 +304,13 @@ public class MatriculaUI extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (courses == null) {
-                courses = new CursosEstudiante(u.getPeridoActual());
+                courses = new CursosEstudiante(u.getPeridoActual(), matri);
             }
             courses.setVisible(true);
         }
     }
-    
-    public class ListenerFinished implements ActionListener{
+
+    public class ListenerFinished implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -301,22 +318,25 @@ public class MatriculaUI extends javax.swing.JFrame {
             main.setVisible(true);
             setVisible(false);
         }
-        
+
     }
-    
-    public class ListenerSearch implements ActionListener{
+
+    public class ListenerSearch implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                
+
                 String codeSubject = FieldCodeSubject.getText().trim();
                 String grupo = FieldNumberGroup.getText().trim();
-                if(codeSubject.equals("")) throw new Exception("El campo del codigo de asignatura no puede ser vacio");
-                if(grupo.equals("")) throw new Exception("El campo de grupo no puede ser vacio");
+                if (codeSubject.equals("")) {
+                    throw new Exception("El campo del codigo de asignatura no puede ser vacio");
+                }
+                if (grupo.equals("")) {
+                    throw new Exception("El campo de grupo no puede ser vacio");
+                }
                 byte group = Byte.parseByte(grupo);
-                    
-                
+
                 u.BuscarCurso(codeSubject, group);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -324,9 +344,23 @@ public class MatriculaUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-        
+
     }
-            
-    
+
+    public class ListenerMatricular implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                estu.Matricular(cursoMatricular, u.getPeridoActual());
+                tableEnrolls.updateUI();
+                clear();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+
+        }
+
+    }
 
 }

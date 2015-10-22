@@ -88,7 +88,10 @@ public class Tabulado implements Serializable {
     //==============================
     //Matricular cursos
     //////*********************************
-    public void MatricularCurso(Curso curso){
+    public void MatricularCurso(Curso curso) throws Exception{
+        if(matriculas.contains(curso)){
+            throw new Exception("Curso ya Matriculado");
+        }
         this.matriculas.add(new Matricula(new Date(), curso));
     }
     
