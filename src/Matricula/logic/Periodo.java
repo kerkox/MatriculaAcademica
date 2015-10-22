@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author atenea
  */
 @Entity
-@Table(name = "PERIODO")
+@Table(name = "PERIODO", uniqueConstraints = @UniqueConstraint(columnNames = {"incia", "year1"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),

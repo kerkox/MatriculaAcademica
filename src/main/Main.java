@@ -33,7 +33,7 @@ public class Main {
         {
             mySplash.close();   // if so we're now done with it
         }
-        // begin with the interactive portion of the program
+//         begin with the interactive portion of the program
         try {
 
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
@@ -119,6 +119,7 @@ public class Main {
 //                }
 //                System.out.println("Termino de hacer los registros");
 //            }
+            
             if (u.getPeridoActual() == null) {
                 System.out.println("Entro aqui porque no tiene perido actual");
 
@@ -139,6 +140,7 @@ public class Main {
     /**
      * Prepare the global variables for the other splash functions
      */
+//    -splash:src/Resources/univalle400x558.jpg
     static Rectangle2D.Double splashTextArea;
     static Rectangle2D.Double splashProgressArea;
     static Graphics2D splashGraphics;

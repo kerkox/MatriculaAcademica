@@ -79,18 +79,21 @@ public class Universidad {
         this.direccion = direccion;
 //        this.periodoJpa.create(periodoActual);
     }
-public void setPeriodoActual(Periodo actual){
+
+    public void setPeriodoActual(Periodo actual) {
         try {
-            Periodo change= periodoJpa.findPeriodoActual();
+            
+            Periodo change = periodoJpa.findPeriodoActual();
             change.setActual(false);
             periodoJpa.edit(change);
-            periodoJpa.create(actual);
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-}
-    
-    
+        periodoJpa.create(actual);
+        
+    }
+
     //==============================
     //Metodos Get
     public String getNit() {
@@ -228,7 +231,7 @@ public void setPeriodoActual(Periodo actual){
         }
     }
 
-    public void registrar(Curso curso){
+    public void registrar(Curso curso) {
         try {
             cursoJpa.create(curso);
             Periodo periodo = getPeridoActual();
@@ -236,7 +239,7 @@ public void setPeriodoActual(Periodo actual){
             periodoJpa.edit(periodo);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-            
+
         }
     }
 //Buscar un Curso por codigo de asignatura
@@ -244,6 +247,7 @@ public void setPeriodoActual(Periodo actual){
 //        
 //    }
     //Metodos de busqueda con BD
+
     public Estudiante buscarEstudiante(String codigo) throws ObjectNotFoundException {
         Estudiante estu = estudianteJpa.findEstudianteCode(codigo);
         if (estu == null) {
@@ -266,11 +270,11 @@ public void setPeriodoActual(Periodo actual){
         estudianteJpa.edit(estu);
         //////*********************************
     }
-    
-    public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException{
-        Curso course =  cursoJpa.findCurso(group, codeSubject);
-        if(course == null){
-            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: "+ group +" asignatura codigo: "+ codeSubject);
+
+    public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {
+        Curso course = cursoJpa.findCurso(group, codeSubject);
+        if (course == null) {
+            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: " + group + " asignatura codigo: " + codeSubject);
         }
         return course;
     }

@@ -7,16 +7,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -24,12 +28,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author atenea
  */
 @Entity
-@Table(name = "CURSO")
+@Table(name = "CURSO", uniqueConstraints = @UniqueConstraint(columnNames = {"asignatura_codigo", "grupo"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Curso.findAll", query = "SELECT c FROM Curso c"),
     @NamedQuery(name = "Curso.findById", query = "SELECT c FROM Curso c WHERE c.id = :id"),
     @NamedQuery(name = "Curso.findByEstado", query = "SELECT c FROM Curso c WHERE c.estado = :estado"),
+    @NamedQuery(name = "Curso.findCurso", query = "SELECT c FROM Curso c WHERE c.asignatura.codigo = :codigo and c.grupo = :grupo"),
     @NamedQuery(name = "Curso.findByGrupo", query = "SELECT c FROM Curso c WHERE c.grupo = :grupo")})
 //    @NamedQuery(name = "Curso.findByTotalcupos", query = "SELECT c FROM Curso c WHERE c.totalcupos = :totalcupos")})
 public class Curso implements Serializable {
@@ -42,13 +47,14 @@ public class Curso implements Serializable {
     private byte grupo;
     @Column
     private int totalCupos;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Horario> horarios = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(columnDefinition = "Cursd_ID")
     private List<Cupo> cupos = new ArrayList<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Docente docente;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Asignatura asignatura;
     @Column
     private EstadoCurso estado;

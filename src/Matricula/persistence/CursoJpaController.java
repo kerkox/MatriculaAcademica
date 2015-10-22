@@ -128,16 +128,18 @@ public class CursoJpaController implements Serializable {
         //Optimizar con BD en busqueda con parametro doble
         EntityManager em = getEntityManager();
         Curso c = null;
-        List<Curso> cursos = (List<Curso>) em.createNamedQuery("Curso.findByGrupo")
-                .setParameter("grupo", group).getResultList();
-        for (Curso course : cursos) {
-            if (course.getAsignatura().equals(codeSubject)) {
-                c = course;
-                break;
-            }
-        }
+        return (Curso) em.createNamedQuery("Curso.findCurso")
+                .setParameter("grupo", group)
+                .setParameter("codigo", codeSubject)
+                .getSingleResult();
+//        for (Curso course : cursos) {
+//            if (course.getAsignatura().equals(codeSubject)) {
+//                c = course;
+//                break;
+//            }
+//        }
 
-        return c;
+//        return c;
 //                throw new ObjectNotFoundException("No se encuentra el Curso: grupo: "+ group +" asignatura codigo: "+ codeSubject);
     }
 
