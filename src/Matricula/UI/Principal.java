@@ -20,15 +20,17 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private Universidad u;
+    private Principal main;
     public Principal(Universidad uni) {
         this.u = uni;
+        this.main = this;
         initComponents();
         
         ButtonAccesStudent.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new LoginStudent(u).setVisible(true);
+                new LoginStudent(u, main).setVisible(true);
                 setVisible(false);
             }
         });
@@ -37,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new LoginTeacher(u).setVisible(true);
+                new LoginTeacher(u, main).setVisible(true);
                 setVisible(false);
             }
         });
@@ -64,12 +66,10 @@ public class Principal extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SIRA - Sitema de Registro Academico");
 
-        ButtonAccesStudent.setBackground(new java.awt.Color(102, 102, 255));
         ButtonAccesStudent.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonAccesStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/Graduate-200x200.png"))); // NOI18N
         ButtonAccesStudent.setText("Estudiante");
 
-        ButtonAccesTeacher.setBackground(new java.awt.Color(102, 102, 255));
         ButtonAccesTeacher.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonAccesTeacher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/iconodocentes.png"))); // NOI18N
         ButtonAccesTeacher.setText("Docente");

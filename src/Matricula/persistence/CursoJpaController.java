@@ -6,6 +6,7 @@
 package Matricula.persistence;
 
 import Matricula.logic.Curso;
+import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -122,6 +123,24 @@ public class CursoJpaController implements Serializable {
         }
     }
 
+    public Curso findCurso(byte group, String codeSubject) {
+        //###############################################
+        //Optimizar con BD en busqueda con parametro doble
+        EntityManager em = getEntityManager();
+        Curso c = null;
+        List<Curso> cursos = (List<Curso>) em.createNamedQuery("Curso.findByGrupo")
+                .setParameter("grupo", group).getResultList();
+        for (Curso course : cursos) {
+            if (course.getAsignatura().equals(codeSubject)) {
+                c = course;
+                break;
+            }
+        }
+
+        return c;
+//                throw new ObjectNotFoundException("No se encuentra el Curso: grupo: "+ group +" asignatura codigo: "+ codeSubject);
+    }
+
     public int getCursoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -134,5 +153,5 @@ public class CursoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

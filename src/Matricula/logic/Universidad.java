@@ -266,5 +266,13 @@ public void setPeriodoActual(Periodo actual){
         estudianteJpa.edit(estu);
         //////*********************************
     }
+    
+    public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException{
+        Curso course =  cursoJpa.findCurso(group, codeSubject);
+        if(course == null){
+            throw new ObjectNotFoundException("No se encuentra el Curso: grupo: "+ group +" asignatura codigo: "+ codeSubject);
+        }
+        return course;
+    }
 
 }

@@ -6,9 +6,11 @@
 package Matricula.UI;
 
 import Matricula.logic.Estudiante;
+import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,8 +23,10 @@ public class Matricula extends javax.swing.JFrame {
      */
     private Estudiante estu;
     private Universidad u;
+    private Principal main;
 
-    public Matricula(Universidad u, Estudiante estu) {
+    public Matricula(Universidad u, Estudiante estu, Principal main) {
+        this.main = main;
         this.u = u;
         this.estu = estu;
         initComponents();
@@ -31,7 +35,8 @@ public class Matricula extends javax.swing.JFrame {
         FieldNameStudent.setText(estu.getFullName());
 
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
-
+        ButtonFinished.addActionListener(new ListenerFinished());
+        FieldNumberGroup.addActionListener(new ListenerSearch()); // Busqueda de un Curso por codigo de asignatura
     }
 
     /**
@@ -60,6 +65,7 @@ public class Matricula extends javax.swing.JFrame {
         ButtonEnroll = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEnrolls = new javax.swing.JTable();
+        ButtonFinished = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -73,6 +79,8 @@ public class Matricula extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -117,6 +125,10 @@ public class Matricula extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableEnrolls);
 
+        ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
+        ButtonFinished.setText("Finalizar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,7 +137,10 @@ public class Matricula extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButtonFinished))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -135,7 +150,7 @@ public class Matricula extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FieldNameStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(FieldPeriodo)
@@ -156,8 +171,12 @@ public class Matricula extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(ButtonFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(FieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -178,7 +197,7 @@ public class Matricula extends javax.swing.JFrame {
                     .addComponent(FieldNumberGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButtonEnroll))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -189,6 +208,7 @@ public class Matricula extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonEnroll;
+    private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchCourse;
     private javax.swing.JTextField FieldCodeStudent;
     private javax.swing.JTextField FieldCodeSubject;
@@ -221,5 +241,41 @@ public class Matricula extends javax.swing.JFrame {
             courses.setVisible(true);
         }
     }
+    
+    public class ListenerFinished implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            estu = null;
+            main.setVisible(true);
+            setVisible(false);
+        }
+        
+    }
+    
+    public class ListenerSearch implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                
+                String codeSubject = FieldCodeSubject.getText().trim();
+                String grupo = FieldNumberGroup.getText().trim();
+                if(codeSubject.equals("")) throw new Exception("El campo del codigo de asignatura no puede ser vacio");
+                if(grupo.equals("")) throw new Exception("El campo de grupo no puede ser vacio");
+                byte group = Byte.parseByte(grupo);
+                    
+                
+                u.BuscarCurso(codeSubject, group);
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        
+    }
+            
+    
 
 }

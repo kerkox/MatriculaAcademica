@@ -22,12 +22,19 @@ public class LoginStudent extends javax.swing.JFrame {
      * Creates new form Login
      */
     private Universidad u;
-    public LoginStudent(Universidad uni) {
+    private Principal main;
+    public LoginStudent(Universidad uni, Principal main) {
+        this.main = main;
         this.u=uni;
         initComponents();
         ListenerLogueo lg = new ListenerLogueo();
         FieldPasswordStudent.addActionListener(lg);
         ButtonAccess.addActionListener(lg);
+        ButtonBack.addActionListener(new ListenerBack());
+    }
+    public void clear(){
+        FieldCodeStudent.setText("");
+        FieldPasswordStudent.setText("");
     }
 
     /**
@@ -46,8 +53,14 @@ public class LoginStudent extends javax.swing.JFrame {
         ButtonAccess = new javax.swing.JButton();
         FieldPasswordStudent = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
+        ButtonBack = new javax.swing.JButton();
 
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -65,6 +78,10 @@ public class LoginStudent extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/User_icon-cp200x161.png"))); // NOI18N
 
+        ButtonBack.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ButtonBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
+        ButtonBack.setText("Regresar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,9 +92,12 @@ public class LoginStudent extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(ButtonAccess)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ButtonAccess, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
@@ -96,7 +116,7 @@ public class LoginStudent extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -107,7 +127,10 @@ public class LoginStudent extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(FieldPasswordStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ButtonAccess)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonAccess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)))
                 .addContainerGap())
         );
 
@@ -115,10 +138,16 @@ public class LoginStudent extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        clear();
+        main.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAccess;
+    private javax.swing.JButton ButtonBack;
     private javax.swing.JTextField FieldCodeStudent;
     private javax.swing.JPasswordField FieldPasswordStudent;
     private javax.swing.JLabel jLabel1;
@@ -133,7 +162,7 @@ public class ListenerLogueo implements ActionListener{
             
             try {
                 Estudiante estu = u.buscarEstudiante(FieldCodeStudent.getText().trim());
-                new Matricula(u, estu).setVisible(true);
+                new Matricula(u, estu, main).setVisible(true);
                 setVisible(false);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -142,5 +171,14 @@ public class ListenerLogueo implements ActionListener{
     
 }
 
+public class ListenerBack implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            main.setVisible(true);
+            setVisible(false);
+        }
+    
+}
 
 }
