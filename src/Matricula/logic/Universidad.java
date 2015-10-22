@@ -83,14 +83,16 @@ public class Universidad {
     public void setPeriodoActual(Periodo actual) {
         try {
             
-            Periodo change = periodoJpa.findPeriodoActual();
-            change.setActual(false);
-            periodoJpa.edit(change);
+//            Periodo change = periodoJpa.findPeriodoActual();
+            periodoJpa.findPeriodoActual();
+//            change.setActual(false);
+//            periodoJpa.edit(change);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+            periodoJpa.create(actual);
         }
-        periodoJpa.create(actual);
+        
         
     }
 

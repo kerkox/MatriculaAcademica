@@ -110,15 +110,15 @@ public class Main {
                 new Curso((byte) 51, cupos[1], teachers[1], subjects[2])
             };
 //################################################################
-//            if (u.getPeridoActual().getCursos().isEmpty()) {
-//                System.out.println("Aqui no hay Cursos todavia");
-//
-//                //Registro de Cursos
-//                for (Curso x : cursos) {
-//                    u.registrar(x);
-//                }
-//                System.out.println("Termino de hacer los registros");
-//            }
+            if (u.getPeridoActual().getCursos().isEmpty()) {
+                System.out.println("Aqui no hay Cursos todavia");
+
+                //Registro de Cursos
+                for (Curso x : cursos) {
+                    u.registrar(x);
+                }
+                System.out.println("Termino de hacer los registros");
+            }
             
             if (u.getPeridoActual() == null) {
                 System.out.println("Entro aqui porque no tiene perido actual");
