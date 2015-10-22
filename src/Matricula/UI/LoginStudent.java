@@ -23,16 +23,18 @@ public class LoginStudent extends javax.swing.JFrame {
      */
     private Universidad u;
     private Principal main;
+
     public LoginStudent(Universidad uni, Principal main) {
         this.main = main;
-        this.u=uni;
+        this.u = uni;
         initComponents();
         ListenerLogueo lg = new ListenerLogueo();
         FieldPasswordStudent.addActionListener(lg);
         ButtonAccess.addActionListener(lg);
         ButtonBack.addActionListener(new ListenerBack());
     }
-    public void clear(){
+
+    public void clear() {
         FieldCodeStudent.setText("");
         FieldPasswordStudent.setText("");
     }
@@ -144,7 +146,6 @@ public class LoginStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAccess;
     private javax.swing.JButton ButtonBack;
@@ -155,30 +156,35 @@ public class LoginStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
-public class ListenerLogueo implements ActionListener{
+public class ListenerLogueo implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             try {
                 Estudiante estu = u.buscarEstudiante(FieldCodeStudent.getText().trim());
-                new Matricula(u, estu, main).setVisible(true);
-                setVisible(false);
+                if (estu.getPassword().equals(FieldPasswordStudent.getText())) {
+                    new Matricula(u, estu, main).setVisible(true);
+                    setVisible(false);
+                }else{
+                    throw new ObjectNotFoundException("Contraseña incorrecta");
+                }
+
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-    
-}
 
-public class ListenerBack implements ActionListener{
+    }
+
+    public class ListenerBack implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             main.setVisible(true);
             setVisible(false);
         }
-    
-}
+
+    }
 
 }
