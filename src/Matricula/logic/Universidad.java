@@ -25,21 +25,6 @@ public class Universidad {
     private List<Docente> docentes = new ArrayList<>();
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-//    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MatriculaAcademicaPU");
-//
-//    private AsignaturaJpaController asignaturaJpa = new AsignaturaJpaController(emf);
-//    private CupoJpaController cupoJpa = new CupoJpaController(emf);
-//    private CursoJpaController cursoJpa = new CursoJpaController(emf);
-//    private DeudaJpaController deudaJpa = new DeudaJpaController(emf);
-//    private DocenteJpaController docenteJpa = new DocenteJpaController(emf);
-//    private EstudianteJpaController estudianteJpa = new EstudianteJpaController(emf);
-//    private HorarioJpaController horarioJpa = new HorarioJpaController(emf);
-//    private MatriculaJpaController matricualJpa = new MatriculaJpaController(emf);
-//    private PeriodoJpaController periodoJpa = new PeriodoJpaController(emf);
-//    private PersonaJpaController personaJpa = new PersonaJpaController(emf);
-//    private ProgramaJpaController programaJpa = new ProgramaJpaController(emf);
-//    private SemestreJpaController semestreJpa = new SemestreJpaController(emf);
-//    private TabuladoJpaController tabuladoJpa = new TabuladoJpaController(emf);
     private EntityManagerFactory emf;
 
     private AsignaturaJpaController asignaturaJpa;

@@ -163,8 +163,11 @@ public class ListenerLogueo implements ActionListener {
 
             try {
                 Estudiante estu = u.buscarEstudiante(FieldCodeStudent.getText().trim());
+                if(estu==null){
+                    throw new ObjectNotFoundException("Estudiante no encontrados");
+                }
                 if (estu.getPassword().equals(FieldPasswordStudent.getText())) {
-                    new Matricula(u, estu, main).setVisible(true);
+                    new MatriculaUI(u, estu, main).setVisible(true);
                     setVisible(false);
                 }else{
                     throw new ObjectNotFoundException("Contraseña incorrecta");

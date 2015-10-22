@@ -64,6 +64,9 @@ public class Estudiante extends Persona {
         return deudas;
     }
     
+    public Tabulado getTabuladoActual(){
+        return tabuladoActual;
+    }
     
     
     //==================================

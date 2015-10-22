@@ -7,16 +7,18 @@ package Matricula.UI;
 
 import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.Matricula;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author atenea
  */
-public class Matricula extends javax.swing.JFrame {
+public class MatriculaUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Matricula
@@ -25,7 +27,7 @@ public class Matricula extends javax.swing.JFrame {
     private Universidad u;
     private Principal main;
 
-    public Matricula(Universidad u, Estudiante estu, Principal main) {
+    public MatriculaUI(Universidad u, Estudiante estu, Principal main) {
         this.main = main;
         this.u = u;
         this.estu = estu;
@@ -37,6 +39,46 @@ public class Matricula extends javax.swing.JFrame {
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
         ButtonFinished.addActionListener(new ListenerFinished());
         FieldNumberGroup.addActionListener(new ListenerSearch()); // Busqueda de un Curso por codigo de asignatura
+        tableEnrolls.setModel(new AbstractTableModel() {
+
+            String[] names ={"Codigo", "Asignatura", "Grupo", "Estado"};
+            @Override
+            public int getRowCount() {
+                if(estu.getTabuladoActual()==null){
+                    return 0;
+                }
+                return estu.getTabuladoActual().getMatriculas().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return names.length;
+            }
+            
+            
+            @Override
+            public String getColumnName(int column){
+                return names[column];
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Matricula matricula = estu.getTabuladoActual().getMatriculas().get(rowIndex);
+                
+                switch(columnIndex){
+                    case 0:
+                        return matricula.getCurso().getAsignatura().getCodigo();
+                    case 1:
+                        return matricula.getCurso().getAsignatura().getNombre();
+                    case 2:
+                        return matricula.getCurso().getGrupo();
+                    case 3:
+                        return matricula.getCurso().getEstado();
+                }
+                
+                return "";
+            }
+        });
     }
 
     /**
