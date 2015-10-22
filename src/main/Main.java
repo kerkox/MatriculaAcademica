@@ -1,6 +1,6 @@
 package main;
 
-import Matricula.UI.LoginStudent;
+import Matricula.UI.Principal;
 import Matricula.logic.Periodo;
 import Matricula.logic.*;
 import Matricula.logic.enumclass.Jornada;
@@ -110,7 +110,7 @@ public class Main {
 
 //*********************************
             System.out.println("Debe de hacer la conexion a la bd");
-            new LoginStudent(u).setVisible(true);
+            new Principal(u).setVisible(true);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());

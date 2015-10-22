@@ -80,8 +80,6 @@ public class CursosEstudiante extends javax.swing.JFrame {
         TableCursoStudent = new javax.swing.JTable();
         ButtonSelected = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         TableCursoStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -117,6 +115,7 @@ public class CursosEstudiante extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
  
