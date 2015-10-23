@@ -31,7 +31,7 @@ public class CursosEstudiante extends javax.swing.JFrame {
         this.TableCursoStudent.setModel(new AbstractTableModel() {
 
             
-            private String[] nombres = {"Codigo Asig.", "Nombre Asignatura", "Grupo", "Docente"};
+            private String[] nombres = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos"};
             
             @Override
             public int getRowCount() {
@@ -63,6 +63,8 @@ public class CursosEstudiante extends javax.swing.JFrame {
                         return curso.getGrupo();
                     case 3:
                         return curso.getDocente().getFullName();
+                    case 4:
+                        return curso.getAsignatura().getCreditos();
                 }
                 return "";
                 
@@ -104,7 +106,7 @@ public class CursosEstudiante extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonSelected)
@@ -113,8 +115,8 @@ public class CursosEstudiante extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ButtonSelected)
                 .addContainerGap())
         );
@@ -136,6 +138,7 @@ public class ListenerSelected implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             Curso curso = periodo.getCursos().get(TableCursoStudent.getSelectedRow());
             matri.LoadMatricula(curso);
+            TableCursoStudent.clearSelection();
             setVisible(false);
         }
     

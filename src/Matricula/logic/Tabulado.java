@@ -5,6 +5,7 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tabulado.findAll", query = "SELECT t FROM Tabulado t"),
     @NamedQuery(name = "Tabulado.findById", query = "SELECT t FROM Tabulado t WHERE t.id = :id")})
 public class Tabulado implements Serializable {
- 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,14 +42,13 @@ public class Tabulado implements Serializable {
     private List<Matricula> matriculas = new ArrayList<>();
     @OneToOne
     private Periodo periodo;
-    
 
     public Tabulado() {
     }
 
     public Tabulado(Periodo perido) {
         this.periodo = perido;
-        
+
     }
 
     //==============================
@@ -72,7 +72,6 @@ public class Tabulado implements Serializable {
     //==============================
     //==============================
     //Metodos Set
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -88,17 +87,20 @@ public class Tabulado implements Serializable {
     //==============================
     //Matricular cursos
     //////*********************************
-    public void MatricularCurso(Curso curso) throws Exception{
-        if(matriculas.contains(curso)){
-            throw new Exception("Curso ya Matriculado");
+    public void MatricularCurso(Curso curso) throws Exception {
+        if (matriculas.contains(new Matricula(new Date(), curso))) {
+            Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
+            if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
+                matri.getCurso().setEstado(EstadoCurso.ACTIVO);
+            } else {
+                throw new Exception("Curso ya Matriculado");
+            }
+        } else {
+            this.matriculas.add(new Matricula(new Date(), curso));
         }
-        this.matriculas.add(new Matricula(new Date(), curso));
     }
-    
-    
-    
-    //==============================
 
+    //==============================
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

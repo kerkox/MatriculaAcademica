@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author atenea
  */
 @Entity
-@Table(name = "PERIODO", uniqueConstraints = @UniqueConstraint(columnNames = {"incia", "year1"}))
+@Table(name = "PERIODO", uniqueConstraints = @UniqueConstraint(columnNames = {"inicia", "year1"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),

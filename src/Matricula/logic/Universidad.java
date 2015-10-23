@@ -5,6 +5,8 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -66,19 +68,10 @@ public class Universidad {
     }
 
     public void setPeriodoActual(Periodo actual) {
-        try {
-            
-//            Periodo change = periodoJpa.findPeriodoActual();
-            periodoJpa.findPeriodoActual();
-//            change.setActual(false);
-//            periodoJpa.edit(change);
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-            periodoJpa.create(actual);
-        }
-        
-        
+        periodoJpa.create(actual);
+//#################################
+        //Como evaluar error de repeticion en la BD
     }
 
     //==============================
@@ -228,6 +221,10 @@ public class Universidad {
             JOptionPane.showMessageDialog(null, ex.getMessage());
 
         }
+    }
+
+    public void ActulizarEstudainte(Estudiante estu) throws Exception {
+        estudianteJpa.edit(estu);
     }
 //Buscar un Curso por codigo de asignatura
 //    public Curso buscar(String codeAsignatura){

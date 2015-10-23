@@ -10,8 +10,11 @@ import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Matricula;
 import Matricula.logic.Universidad;
+import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -29,6 +32,7 @@ public class MatriculaUI extends javax.swing.JFrame {
     private Principal main;
     private MatriculaUI matri = this;
     private Curso cursoMatricular;
+    private byte creditos;
 
     public MatriculaUI(Universidad u, Estudiante estu, Principal main) {
         this.main = main;
@@ -42,10 +46,12 @@ public class MatriculaUI extends javax.swing.JFrame {
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
         ButtonFinished.addActionListener(new ListenerFinished());
         ButtonEnroll.addActionListener(new ListenerMatricular());
+        ButtonCancel.addActionListener(new ListenerCancelar());
+        
         FieldNumberGroup.addActionListener(new ListenerSearch()); // Busqueda de un Curso por codigo de asignatura
         tableEnrolls.setModel(new AbstractTableModel() {
 
-            String[] names = {"Codigo", "Asignatura", "Grupo", "Estado"};
+            String[] names = {"Codigo", "Asignatura", "Grupo", "Estado", "Creditos"};
 
             @Override
             public int getRowCount() {
@@ -78,6 +84,8 @@ public class MatriculaUI extends javax.swing.JFrame {
                         return matricula.getCurso().getGrupo();
                     case 3:
                         return matricula.getCurso().getEstado();
+                    case 4:
+                        return matricula.getCurso().getAsignatura().getCreditos();
                 }
 
                 return "";
@@ -96,6 +104,7 @@ public class MatriculaUI extends javax.swing.JFrame {
         cursoMatricular = null;
         FieldNameSubject.setText("");
         FieldNumberGroup.setText("");
+        
     }
 
     /**
@@ -125,6 +134,9 @@ public class MatriculaUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEnrolls = new javax.swing.JTable();
         ButtonFinished = new javax.swing.JButton();
+        ButtonCancel = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        FieldTotalCreditos = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,6 +152,7 @@ public class MatriculaUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(639, 411));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -193,6 +206,13 @@ public class MatriculaUI extends javax.swing.JFrame {
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
 
+        ButtonCancel.setText("Cancelar");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel6.setText("Total Creditos:");
+
+        FieldTotalCreditos.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -214,21 +234,30 @@ public class MatriculaUI extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                .addComponent(FieldCodeStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FieldNameStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(FieldPeriodo)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(FieldNumberGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButtonEnroll)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(FieldCodeSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(FieldCodeSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(FieldNumberGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ButtonEnroll)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ButtonSearchCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(FieldNameSubject)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(FieldTotalCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ButtonCancel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ButtonSearchCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(FieldNameSubject)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -259,9 +288,12 @@ public class MatriculaUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(FieldNumberGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonEnroll))
+                    .addComponent(ButtonEnroll)
+                    .addComponent(ButtonCancel)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FieldTotalCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -275,6 +307,7 @@ public class MatriculaUI extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonCancel;
     private javax.swing.JButton ButtonEnroll;
     private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchCourse;
@@ -284,11 +317,13 @@ public class MatriculaUI extends javax.swing.JFrame {
     private javax.swing.JTextField FieldNameSubject;
     private javax.swing.JTextField FieldNumberGroup;
     private javax.swing.JTextField FieldPeriodo;
+    private javax.swing.JTextField FieldTotalCreditos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
@@ -314,9 +349,18 @@ public class MatriculaUI extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            estu = null;
-            main.setVisible(true);
-            setVisible(false);
+            try {
+                u.ActulizarEstudainte(estu);
+                estu = null;
+                main.setVisible(true);
+                setVisible(false);
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
+            }
         }
 
     }
@@ -352,15 +396,44 @@ public class MatriculaUI extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                if (cursoMatricular == null) {
+                    throw new Exception("No se ha seleccionado ningun Curso");
+                }
                 estu.Matricular(cursoMatricular, u.getPeridoActual());
+                creditos += cursoMatricular.getAsignatura().getCreditos();
+                FieldTotalCreditos.setText(creditos+"");
                 tableEnrolls.updateUI();
-                clear();
+
             } catch (Exception ex) {
+
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+            clear();
 
         }
 
+    }
+    
+    public class ListenerCancelar implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //Aqui se cancela un Curso matriculado por un estudiante
+            if(tableEnrolls.getSelectedRow()==-1){
+             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Curso para Cancelar");
+            }else{
+            Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
+            if(curso.getEstado()==EstadoCurso.ACTIVO){
+                curso.setEstado(EstadoCurso.CANCELADO);
+                creditos -= curso.getAsignatura().getCreditos();
+                FieldTotalCreditos.setText(creditos+"");
+            }
+            
+            tableEnrolls.updateUI();
+            tableEnrolls.clearSelection();
+            }
+        }
+        
     }
 
 }

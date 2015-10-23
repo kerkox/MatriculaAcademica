@@ -1,7 +1,6 @@
 package main;
 
 import Matricula.UI.Principal;
-import Matricula.UI.load.PantallaCargandoMain;
 import Matricula.logic.Periodo;
 import Matricula.logic.*;
 import Matricula.logic.enumclass.Jornada;
@@ -38,6 +37,8 @@ public class Main {
 
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera");
+            System.out.println("Va a crear el periodo actual");
+                    
             u.setPeriodoActual(periodo);
             
 
@@ -57,7 +58,9 @@ public class Main {
             //Docentes
             Docente[] teachers = {
                 new Docente("Ingeniero de Sistemas", 123, "Antonio", "Velez", "1234"),
-                new Docente("Ingeniero Electronico", 54321, "Duvan", "Garcia", "1234")
+                new Docente("Matematico", 54321, "Jaime", "Florez", "1234"),
+                new Docente("Ingeniero Electronico", 54321, "Duvan", "Garcia", "1234"),
+                new Docente("Ingeniera de Sistemas", 654321, "Natalia", "Henao", "1234")
 
             };
             if (u.getDocentes().isEmpty()) {
@@ -72,7 +75,9 @@ public class Main {
             Asignatura[] subjects = {
                 new Asignatura("12345", "Interactivas", (byte) 4, (byte) 4),
                 new Asignatura("456", "Calculo 2", (byte) 4, (byte) 5),
-                new Asignatura("789", "Arquitectura 2", (byte) 3, (byte) 4)
+                new Asignatura("789", "Arquitectura 2", (byte) 3, (byte) 4),
+                new Asignatura("987", "Algebra Lineal", (byte) 4, (byte) 4),
+                new Asignatura("123", "Matematicas Discretas", (byte) 3, (byte) 4)
             };
             if (u.getAsignaturas().isEmpty()) {
                 //Registro de Asignaturas
@@ -107,7 +112,10 @@ public class Main {
             //Cursos
             Curso[] cursos = {
                 new Curso((byte) 50, cupos[0], teachers[0], subjects[0]),
-                new Curso((byte) 51, cupos[1], teachers[1], subjects[2])
+                new Curso((byte) 51, cupos[1], teachers[1], subjects[1]),
+                new Curso((byte) 50, cupos[1], teachers[2], subjects[2]),
+                new Curso((byte) 52, cupos[2], teachers[3], subjects[4]),
+                new Curso((byte) 50, cupos[2], teachers[1], subjects[3])
             };
 //################################################################
             if (u.getPeridoActual().getCursos().isEmpty()) {
@@ -218,7 +226,7 @@ public class Main {
             doneWidth = Math.max(0, Math.min(doneWidth, wid - 1));  // limit 0-width
 
             // fill the done part one pixel smaller than the outline
-            splashGraphics.setPaint(Color.GREEN);
+            splashGraphics.setPaint(Color.BLUE);
             splashGraphics.fillRect(x, y + 1, doneWidth, hgt - 1);
 
             // make sure it's displayed
