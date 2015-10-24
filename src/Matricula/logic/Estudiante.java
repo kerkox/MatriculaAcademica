@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,8 +38,7 @@ public class Estudiante extends Persona {
     private List<Tabulado> tabulados = new ArrayList<>();
     @OneToMany
     private List<Deuda> deudas = new ArrayList<>();
-    @OneToOne
-    private Tabulado tabuladoActual;
+        
 
     public Estudiante() {
     }
@@ -65,7 +63,15 @@ public class Estudiante extends Persona {
     }
     
     public Tabulado getTabuladoActual(){
-        return tabuladoActual;
+        Tabulado t=null;
+        if(tabulados==null) return null;
+        for(Tabulado tabu: tabulados){
+            if(tabu.isActual()){
+                t = tabu;
+                break;
+            }
+        }
+        return t;
     }
     
     
@@ -75,11 +81,12 @@ public class Estudiante extends Persona {
     //Metodos Add
     
     public void add(Tabulado tabulado){
-        if(this.tabuladoActual==null){
-            this.tabuladoActual = tabulado;
+        if(getTabuladoActual()==null){
+            this.tabulados.add(tabulado);
         }else{
-            this.tabulados.add(this.tabuladoActual);
-            this.tabuladoActual = tabulado;
+            Tabulado back = getTabuladoActual();
+            back.setActual(false);
+            this.tabulados.add(tabulado);
         }
         
     }
@@ -111,14 +118,17 @@ public class Estudiante extends Persona {
     //Metodos de matricula
     public void Matricular(Curso curso, Periodo periodo) throws Exception{
         //////*********************************
-        if(tabuladoActual==null){
-            tabuladoActual = new Tabulado(periodo);
+        if(getTabuladoActual()==null){
+            this.tabulados.add(new Tabulado(periodo));
         }
-        
-        this.tabuladoActual.MatricularCurso(curso);
+        getTabuladoActual().MatricularCurso(curso);
     }  
 
-    
+    //==================================
+    //Metodos de Cancelar curso
+    public void Cancelar(Curso curso){
+        getTabuladoActual().CancelarCurso(curso);
+    }
     
     
     //==================================

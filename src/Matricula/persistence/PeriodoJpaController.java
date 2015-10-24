@@ -31,14 +31,18 @@ public class PeriodoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Periodo periodo) {
+    public void create(Periodo periodo) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(periodo);
             em.getTransaction().commit();
-        } finally {
+        }catch(Exception ex){
+            throw new Exception("Periodo ya Creado");
+            //No funciono este arreglo para obtener el error del duplicado
+            //###################################
+        }finally {
             if (em != null) {
                 em.close();
             }

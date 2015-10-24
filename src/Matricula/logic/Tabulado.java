@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tabulado.findAll", query = "SELECT t FROM Tabulado t"),
-    @NamedQuery(name = "Tabulado.findById", query = "SELECT t FROM Tabulado t WHERE t.id = :id")})
+    @NamedQuery(name = "Tabulado.findById", query = "SELECT t FROM Tabulado t WHERE t.id = :id"),
+    @NamedQuery(name = "Tabulado.findByActual", query = "SELECT t FROM Tabulado t WHERE t.actual = :actual")})
 public class Tabulado implements Serializable {
 
     @Id
@@ -42,12 +44,17 @@ public class Tabulado implements Serializable {
     private List<Matricula> matriculas = new ArrayList<>();
     @OneToOne
     private Periodo periodo;
+    @Column
+    private byte creditos=0;
+    @Column
+    private boolean actual;
 
     public Tabulado() {
     }
 
     public Tabulado(Periodo perido) {
         this.periodo = perido;
+        this.actual=true;
 
     }
 
@@ -69,9 +76,29 @@ public class Tabulado implements Serializable {
         return id;
     }
 
+    public byte getCreditos() {
+        return creditos;
+    }
+
+    public boolean isActual() {
+        return actual;
+    }
+    
+    
+
     //==============================
     //==============================
     //Metodos Set
+    
+    
+    public void setActual(boolean Actual) {
+        this.actual = Actual;
+    }
+
+    public void setCreditos(byte creditos) {
+        this.creditos = creditos;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -92,14 +119,28 @@ public class Tabulado implements Serializable {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
             if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
                 matri.getCurso().setEstado(EstadoCurso.ACTIVO);
+                creditos +=  matri.getCurso().getAsignatura().getCreditos();
             } else {
                 throw new Exception("Curso ya Matriculado");
             }
         } else {
             this.matriculas.add(new Matricula(new Date(), curso));
+            creditos += curso.getAsignatura().getCreditos();
         }
     }
+    
+    //==============================
+    //Cancelar cursos
+    //////*********************************
 
+    public void CancelarCurso(Curso curso){
+        Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
+         if(matri.getCurso().getEstado()==EstadoCurso.ACTIVO){
+                matri.getCurso().setEstado(EstadoCurso.CANCELADO);
+                creditos -= matri.getCurso().getAsignatura().getCreditos();
+         }
+    }
+    
     //==============================
     @Override
     public boolean equals(Object obj) {

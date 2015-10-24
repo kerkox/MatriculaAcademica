@@ -42,12 +42,18 @@ public class MatriculaUI extends javax.swing.JFrame {
         FieldPeriodo.setText(u.getPeridoActual().toString());
         FieldCodeStudent.setText(estu.getCodigo());
         FieldNameStudent.setText(estu.getFullName());
+        if (estu.getTabuladoActual() == null) {
+            creditos = 0;
+        } else {
+            creditos = estu.getTabuladoActual().getCreditos();
+        }
+        FieldTotalCreditos.setText(creditos + "");
 
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
         ButtonFinished.addActionListener(new ListenerFinished());
         ButtonEnroll.addActionListener(new ListenerMatricular());
         ButtonCancel.addActionListener(new ListenerCancelar());
-        
+
         FieldNumberGroup.addActionListener(new ListenerSearch()); // Busqueda de un Curso por codigo de asignatura
         tableEnrolls.setModel(new AbstractTableModel() {
 
@@ -97,6 +103,7 @@ public class MatriculaUI extends javax.swing.JFrame {
         this.cursoMatricular = curso;
         FieldNameSubject.setText(cursoMatricular.getAsignatura().getNombre());
         FieldNumberGroup.setText(cursoMatricular.getGrupo() + "");
+        FieldCodeSubject.setText(cursoMatricular.getAsignatura().getCodigo());
 
     }
 
@@ -104,7 +111,8 @@ public class MatriculaUI extends javax.swing.JFrame {
         cursoMatricular = null;
         FieldNameSubject.setText("");
         FieldNumberGroup.setText("");
-        
+        FieldCodeSubject.setText("");
+
     }
 
     /**
@@ -126,10 +134,10 @@ public class MatriculaUI extends javax.swing.JFrame {
         FieldNameStudent = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         FieldCodeSubject = new javax.swing.JTextField();
+        FieldNumberGroup = new javax.swing.JTextField();
         ButtonSearchCourse = new javax.swing.JButton();
         FieldNameSubject = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        FieldNumberGroup = new javax.swing.JTextField();
         ButtonEnroll = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEnrolls = new javax.swing.JTable();
@@ -178,11 +186,17 @@ public class MatriculaUI extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Asignatura:");
 
+        FieldCodeSubject.setNextFocusableComponent(FieldNumberGroup);
+
+        FieldNumberGroup.setNextFocusableComponent(ButtonSearchCourse);
+
         ButtonSearchCourse.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         ButtonSearchCourse.setText("...");
         ButtonSearchCourse.setMaximumSize(new java.awt.Dimension(45, 20));
         ButtonSearchCourse.setMinimumSize(new java.awt.Dimension(45, 20));
         ButtonSearchCourse.setPreferredSize(new java.awt.Dimension(40, 22));
+
+        FieldNameSubject.setNextFocusableComponent(ButtonEnroll);
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Grupo:");
@@ -346,10 +360,14 @@ public class MatriculaUI extends javax.swing.JFrame {
     }
 
     public class ListenerFinished implements ActionListener {
-
+ //########################################################
+ //########################################################
+ //########################################################
+//        ERROR AL ACTUALIZAR CUANDO SE CANCELA UN CURSO
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                System.out.println("Cantidad de creditos: "+ estu.getTabuladoActual().getCreditos());
                 u.ActulizarEstudainte(estu);
                 estu = null;
                 main.setVisible(true);
@@ -381,7 +399,8 @@ public class MatriculaUI extends javax.swing.JFrame {
                 }
                 byte group = Byte.parseByte(grupo);
 
-                u.BuscarCurso(codeSubject, group);
+                cursoMatricular = u.BuscarCurso(codeSubject, group);
+                FieldNameSubject.setText(cursoMatricular.getAsignatura().getNombre());
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             } catch (Exception ex) {
@@ -400,8 +419,8 @@ public class MatriculaUI extends javax.swing.JFrame {
                     throw new Exception("No se ha seleccionado ningun Curso");
                 }
                 estu.Matricular(cursoMatricular, u.getPeridoActual());
-                creditos += cursoMatricular.getAsignatura().getCreditos();
-                FieldTotalCreditos.setText(creditos+"");
+                creditos = estu.getTabuladoActual().getCreditos();
+                FieldTotalCreditos.setText(creditos + "");
                 tableEnrolls.updateUI();
 
             } catch (Exception ex) {
@@ -413,27 +432,26 @@ public class MatriculaUI extends javax.swing.JFrame {
         }
 
     }
-    
-    public class ListenerCancelar implements ActionListener{
+
+    public class ListenerCancelar implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             //Aqui se cancela un Curso matriculado por un estudiante
-            if(tableEnrolls.getSelectedRow()==-1){
-             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Curso para Cancelar");
-            }else{
-            Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
-            if(curso.getEstado()==EstadoCurso.ACTIVO){
-                curso.setEstado(EstadoCurso.CANCELADO);
-                creditos -= curso.getAsignatura().getCreditos();
-                FieldTotalCreditos.setText(creditos+"");
-            }
-            
-            tableEnrolls.updateUI();
-            tableEnrolls.clearSelection();
+            if (tableEnrolls.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Curso para Cancelar");
+            } else {
+                Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
+
+                estu.Cancelar(curso);
+                creditos = estu.getTabuladoActual().getCreditos();
+                FieldTotalCreditos.setText(creditos + "");
+
+                tableEnrolls.updateUI();
+                tableEnrolls.clearSelection();
             }
         }
-        
+
     }
 
 }

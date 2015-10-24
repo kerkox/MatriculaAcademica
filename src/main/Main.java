@@ -59,7 +59,7 @@ public class Main {
             Docente[] teachers = {
                 new Docente("Ingeniero de Sistemas", 123, "Antonio", "Velez", "1234"),
                 new Docente("Matematico", 54321, "Jaime", "Florez", "1234"),
-                new Docente("Ingeniero Electronico", 54321, "Duvan", "Garcia", "1234"),
+                new Docente("Ingeniero Electronico", 4321, "Duvan", "Garcia", "1234"),
                 new Docente("Ingeniera de Sistemas", 654321, "Natalia", "Henao", "1234")
 
             };

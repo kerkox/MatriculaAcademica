@@ -35,12 +35,12 @@ public class EstudianteJpaController implements Serializable {
     public void create(Estudiante estudiante) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
-            
+
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(estudiante);
             em.getTransaction().commit();
-            
+
         } catch (Exception ex) {
             if (findEstudiante(estudiante.getIdentificacion()) != null) {
                 throw new PreexistingEntityException("Estudiante " + estudiante + " already exists.", ex);
@@ -129,11 +129,10 @@ public class EstudianteJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Estudiante findEstudianteCode(String code) {
         EntityManager em = getEntityManager();
-        return (Estudiante) 
-                em.createNamedQuery("Estudiante.findByCodigo")
+        return (Estudiante) em.createNamedQuery("Estudiante.findByCodigo")
                 .setParameter("codigo", code)
                 .getSingleResult();
     }
@@ -150,5 +149,5 @@ public class EstudianteJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

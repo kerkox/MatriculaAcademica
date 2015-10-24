@@ -204,6 +204,18 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldCodeSubject">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="FieldNumberGroup"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="FieldNumberGroup">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ButtonSearchCourse"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="ButtonSearchCourse">
       <Properties>
@@ -223,6 +235,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldNameSubject">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ButtonEnroll"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -231,8 +248,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Grupo:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="FieldNumberGroup">
     </Component>
     <Component class="javax.swing.JButton" name="ButtonEnroll">
       <Properties>

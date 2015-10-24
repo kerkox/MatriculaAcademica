@@ -122,6 +122,13 @@ public class TabuladoJpaController implements Serializable {
         }
     }
 
+    public Tabulado findTabuladoActual() {
+        EntityManager em = getEntityManager();
+        return (Tabulado) em.createNamedQuery("Tabulado.findByActual")
+                .setParameter("actual", true)
+                .getSingleResult();
+    }
+
     public int getTabuladoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -134,5 +141,5 @@ public class TabuladoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -67,9 +67,11 @@ public class Universidad {
 //        this.periodoJpa.create(periodoActual);
     }
 
-    public void setPeriodoActual(Periodo actual) {
+    public void setPeriodoActual(Periodo actual) throws Exception {
 
-        periodoJpa.create(actual);
+        
+//        periodoJpa.create(actual);
+        
 //#################################
         //Como evaluar error de repeticion en la BD
     }
@@ -163,7 +165,7 @@ public class Universidad {
      * @throws DateBeforeException Se lanza el error cuando se desea crear un
      * periodo y el año es anterior al ultimo periodo registrado
      */
-    public void CrearPeriodo(String incia, String finaliza, int year) throws DateBeforeException {
+    public void CrearPeriodo(String incia, String finaliza, int year) throws DateBeforeException, Exception {
         //################################
         //Pendiente Optimizar con BD  
 
@@ -224,7 +226,10 @@ public class Universidad {
     }
 
     public void ActulizarEstudainte(Estudiante estu) throws Exception {
+        
+        System.out.println("Actualizando estudiante");
         estudianteJpa.edit(estu);
+//        estudianteJpa.edit(estu);
     }
 //Buscar un Curso por codigo de asignatura
 //    public Curso buscar(String codeAsignatura){
