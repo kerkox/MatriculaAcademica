@@ -6,6 +6,8 @@
 package Matricula.logic;
 
 import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.persistence.CursoJpaController;
+import Matricula.persistence.MatriculaJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +47,7 @@ public class Tabulado implements Serializable {
     @OneToOne
     private Periodo periodo;
     @Column
-    private byte creditos=0;
+    private byte creditos = 0;
     @Column
     private boolean actual;
 
@@ -54,7 +56,7 @@ public class Tabulado implements Serializable {
 
     public Tabulado(Periodo perido) {
         this.periodo = perido;
-        this.actual=true;
+        this.actual = true;
 
     }
 
@@ -83,14 +85,10 @@ public class Tabulado implements Serializable {
     public boolean isActual() {
         return actual;
     }
-    
-    
 
     //==============================
     //==============================
     //Metodos Set
-    
-    
     public void setActual(boolean Actual) {
         this.actual = Actual;
     }
@@ -119,28 +117,44 @@ public class Tabulado implements Serializable {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
             if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
                 matri.getCurso().setEstado(EstadoCurso.ACTIVO);
-                creditos +=  matri.getCurso().getAsignatura().getCreditos();
+               creditos += matri.getCurso().getAsignatura().getCreditos();
+
             } else {
                 throw new Exception("Curso ya Matriculado");
             }
         } else {
             this.matriculas.add(new Matricula(new Date(), curso));
+
             creditos += curso.getAsignatura().getCreditos();
+
         }
     }
-    
+
     //==============================
     //Cancelar cursos
     //////*********************************
-
-    public void CancelarCurso(Curso curso){
+    public void CancelarCurso(Curso curso) {
         Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-         if(matri.getCurso().getEstado()==EstadoCurso.ACTIVO){
-                matri.getCurso().setEstado(EstadoCurso.CANCELADO);
-                creditos -= matri.getCurso().getAsignatura().getCreditos();
-         }
+        if (matri.getCurso().getEstado() == EstadoCurso.ACTIVO) {
+            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
+            matri.setCancelada(new Date());
+            creditos -= matri.getCurso().getAsignatura().getCreditos();
+
+        }
     }
-    
+
+    public void CancelarCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+        Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
+        if (matri.getCurso().getEstado() == EstadoCurso.ACTIVO) {
+            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
+            CursoJpa.edit(matri.getCurso());
+            matri.setCancelada(new Date());
+            matriculaJpa.edit(matri);
+            creditos -= matri.getCurso().getAsignatura().getCreditos();
+
+        }
+    }
+
     //==============================
     @Override
     public boolean equals(Object obj) {

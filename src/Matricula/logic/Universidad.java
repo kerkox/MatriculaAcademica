@@ -2,8 +2,10 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import static Matricula.logic.Tabulado_.matriculas;
 import Matricula.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,9 +71,7 @@ public class Universidad {
 
     public void setPeriodoActual(Periodo actual) throws Exception {
 
-        
-//        periodoJpa.create(actual);
-        
+        periodoJpa.create(actual);
 //#################################
         //Como evaluar error de repeticion en la BD
     }
@@ -226,7 +226,7 @@ public class Universidad {
     }
 
     public void ActulizarEstudainte(Estudiante estu) throws Exception {
-        
+
         System.out.println("Actualizando estudiante");
         estudianteJpa.edit(estu);
 //        estudianteJpa.edit(estu);
@@ -258,6 +258,18 @@ public class Universidad {
         estu.Matricular(curso, getPeridoActual());
         estudianteJpa.edit(estu);
         //////*********************************
+    }
+
+    public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
+        estu.Cancelar(curso, cursoJpa, matricualJpa);
+
+        cursoJpa.edit(curso);
+        List<Matricula> matris = estu.getTabuladoActual().getMatriculas();
+        matricualJpa.edit(matris.get(matris.indexOf(new Matricula(new Date(), curso))));
+
+        tabuladoJpa.edit(estu.getTabuladoActual());
+        estudianteJpa.edit(estu);
+
     }
 
     public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {

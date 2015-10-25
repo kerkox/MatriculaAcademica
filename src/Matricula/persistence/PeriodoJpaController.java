@@ -8,13 +8,16 @@ package Matricula.persistence;
 import Matricula.logic.Periodo;
 import Matricula.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,16 +36,38 @@ public class PeriodoJpaController implements Serializable {
 
     public void create(Periodo periodo) throws Exception {
         EntityManager em = null;
+        System.out.println("Entro al metodo de crear");
         try {
+            System.out.println("comenzo el try");
+            List<Periodo> periodos = findPeriodoEntities();
+            System.out.println("Leyo la lista de la BD");
+            int a =1;
+            for (Periodo per : periodos) {
+                System.out.println("entro en el for");
+                String incia1 = periodo.getInicia(), inicia2=per.getInicia();
+                if(incia1.equals("Agosto")){
+                    System.out.println("Pregunto respuesta afirmativa");
+                    throw new Exception("Periodo ya Creado");
+                    
+                }else{
+                    System.out.println("Pregunto respuesta negativa");
+                }
+                if (incia1.equals(inicia2)) {
+                    JOptionPane.showMessageDialog(null, "Error periodo ya creado");
+//                    throw new Exception("Periodo ya Creado");
+                }
+                System.out.println("Salto o acabo la pregunta");
+
+            }
+
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(periodo);
             em.getTransaction().commit();
-        }catch(Exception ex){
-            throw new Exception("Periodo ya Creado");
+
             //No funciono este arreglo para obtener el error del duplicado
             //###################################
-        }finally {
+        } finally {
             if (em != null) {
                 em.close();
             }
@@ -125,11 +150,10 @@ public class PeriodoJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public Periodo findPeriodoActual(){
-         EntityManager em = getEntityManager();
-        return (Periodo) 
-                em.createNamedQuery("Periodo.findByActual")
+
+    public Periodo findPeriodoActual() {
+        EntityManager em = getEntityManager();
+        return (Periodo) em.createNamedQuery("Periodo.findByActual")
                 .setParameter("actual", true)
                 .getSingleResult();
     }
@@ -146,5 +170,5 @@ public class PeriodoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

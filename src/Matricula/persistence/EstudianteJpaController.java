@@ -136,7 +136,7 @@ public class EstudianteJpaController implements Serializable {
                 .setParameter("codigo", code)
                 .getSingleResult();
     }
-
+    
     public int getEstudianteCount() {
         EntityManager em = getEntityManager();
         try {

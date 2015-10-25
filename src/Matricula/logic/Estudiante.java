@@ -5,11 +5,16 @@
  */
 package Matricula.logic;
 
+import Matricula.persistence.CursoJpaController;
+import Matricula.persistence.EstudianteJpaController;
+import Matricula.persistence.MatriculaJpaController;
+import Matricula.persistence.TabuladoJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,14 +36,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Estudiante.findByNombre", query = "SELECT e FROM Estudiante e WHERE e.nombre = :nombre")})
 public class Estudiante extends Persona {
 
-
     @Column(nullable = false)
     private String codigo;
     @OneToMany
     private List<Tabulado> tabulados = new ArrayList<>();
     @OneToMany
     private List<Deuda> deudas = new ArrayList<>();
-        
 
     public Estudiante() {
     }
@@ -47,7 +50,7 @@ public class Estudiante extends Persona {
         super(identificacion, nombre, apellido, password);
         this.codigo = codigo;
     }
-    
+
     //==================================
     //Metodos Get
     public String getCodigo() {
@@ -61,45 +64,42 @@ public class Estudiante extends Persona {
     public List<Deuda> getDeudas() {
         return deudas;
     }
-    
-    public Tabulado getTabuladoActual(){
-        Tabulado t=null;
-        if(tabulados==null) return null;
-        for(Tabulado tabu: tabulados){
-            if(tabu.isActual()){
+
+    public Tabulado getTabuladoActual() {
+        Tabulado t = null;
+        if (tabulados == null) {
+            return null;
+        }
+        for (Tabulado tabu : tabulados) {
+            if (tabu.isActual()) {
                 t = tabu;
                 break;
             }
         }
         return t;
     }
-    
-    
+
     //==================================
-    
     //==================================
     //Metodos Add
-    
-    public void add(Tabulado tabulado){
-        if(getTabuladoActual()==null){
+    public void add(Tabulado tabulado) {
+        if (getTabuladoActual() == null) {
             this.tabulados.add(tabulado);
-        }else{
+        } else {
             Tabulado back = getTabuladoActual();
             back.setActual(false);
             this.tabulados.add(tabulado);
         }
-        
+
     }
-    
-    public void add(Deuda deuda){
+
+    public void add(Deuda deuda) {
         this.deudas.add(deuda);
     }
-    
+
     //==================================
-    
     //==================================
     //Metodos Set
-
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
@@ -111,26 +111,29 @@ public class Estudiante extends Persona {
     public void setDeudas(List<Deuda> deudas) {
         this.deudas = deudas;
     }
-    
-    
-    
+
     //==================================
     //Metodos de matricula
-    public void Matricular(Curso curso, Periodo periodo) throws Exception{
+    public void Matricular(Curso curso, Periodo periodo) throws Exception {
         //////*********************************
-        if(getTabuladoActual()==null){
+        if (getTabuladoActual() == null) {
             this.tabulados.add(new Tabulado(periodo));
         }
         getTabuladoActual().MatricularCurso(curso);
-    }  
+    }
 
     //==================================
     //Metodos de Cancelar curso
-    public void Cancelar(Curso curso){
+    public void Cancelar(Curso curso) {
         getTabuladoActual().CancelarCurso(curso);
     }
-    
-    
+
+    public void Cancelar(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+
+        getTabuladoActual().CancelarCurso(curso, CursoJpa, matriculaJpa);
+
+    }
+
     //==================================
     @Override
     public boolean equals(Object obj) {
@@ -147,9 +150,4 @@ public class Estudiante extends Persona {
         return true;
     }
 
-   
-    
-    
-    
-    
 }

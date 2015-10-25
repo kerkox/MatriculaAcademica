@@ -13,6 +13,8 @@ import Matricula.logic.Universidad;
 import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -360,14 +362,10 @@ public class MatriculaUI extends javax.swing.JFrame {
     }
 
     public class ListenerFinished implements ActionListener {
- //########################################################
- //########################################################
- //########################################################
-//        ERROR AL ACTUALIZAR CUANDO SE CANCELA UN CURSO
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                System.out.println("Cantidad de creditos: "+ estu.getTabuladoActual().getCreditos());
+
                 u.ActulizarEstudainte(estu);
                 estu = null;
                 main.setVisible(true);
@@ -441,14 +439,17 @@ public class MatriculaUI extends javax.swing.JFrame {
             if (tableEnrolls.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Curso para Cancelar");
             } else {
-                Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
-
-                estu.Cancelar(curso);
-                creditos = estu.getTabuladoActual().getCreditos();
-                FieldTotalCreditos.setText(creditos + "");
-
-                tableEnrolls.updateUI();
-                tableEnrolls.clearSelection();
+                try {
+                    Curso curso = estu.getTabuladoActual().getMatriculas().get(tableEnrolls.getSelectedRow()).getCurso();
+                    
+                    u.CancelarCurso(estu, curso);
+                    creditos = estu.getTabuladoActual().getCreditos();
+                    FieldTotalCreditos.setText(creditos + "");
+                    tableEnrolls.updateUI();
+                    tableEnrolls.clearSelection();
+                } catch (Exception ex) {
+                    Logger.getLogger(MatriculaUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
