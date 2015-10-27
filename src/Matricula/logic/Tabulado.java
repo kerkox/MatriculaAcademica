@@ -135,14 +135,16 @@ public class Tabulado implements Serializable {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
             if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
                 matri.getCurso().setEstado(EstadoCurso.ACTIVO);
+                CursoJpa.edit(matri.getCurso());
                 creditos += matri.getCurso().getAsignatura().getCreditos();
+                matriculaJpa.edit(matri);
 
             } else {
                 throw new Exception("Curso ya Matriculado");
             }
         } else {
             this.matriculas.add(new Matricula(new Date(), curso));
-
+            
             creditos += curso.getAsignatura().getCreditos();
 
         }
