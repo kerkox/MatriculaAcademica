@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,13 +37,20 @@ public class Main {
 //         begin with the interactive portion of the program
         try {
 
+            //+++++++++++++++++++++++++++++++++++++++++++++
+            //=============================================
+            //Codigo de conexion a la BD
+            
+
+            //=============================================
+            //+++++++++++++++++++++++++++++++++++++++++++++
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera");
             System.out.println("Va a crear el periodo actual");
-                    
-            u.setPeriodoActual(periodo);
-            
-
+            if(u.setPeriodoActual(periodo)){
+                System.out.println("Periodo ya creado se usara el que ya esta");
+            }
+           
             //Estudiantes            
             Estudiante[] students = {
                 new Estudiante("123", 12345, "Pol", "Cortes", "1234"),
@@ -127,7 +136,7 @@ public class Main {
                 }
                 System.out.println("Termino de hacer los registros");
             }
-            
+
             if (u.getPeridoActual() == null) {
                 System.out.println("Entro aqui porque no tiene perido actual");
 
@@ -144,7 +153,7 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Prepare the global variables for the other splash functions
      */
@@ -241,7 +250,7 @@ public class Main {
     private static void appInit() {
         for (int i = 1; i <= 10; i++) {
             int pctDone = i * 10;
-            splashText("Cargando... " + i*10+"%");
+            splashText("Cargando... " + i * 10 + "%");
             splashProgress(pctDone);
             try {
                 Thread.sleep(200);

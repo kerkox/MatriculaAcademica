@@ -114,12 +114,12 @@ public class Estudiante extends Persona {
 
     //==================================
     //Metodos de matricula
-    public void Matricular(Curso curso, Periodo periodo) throws Exception {
+    public void Matricular(Curso curso, Periodo periodo, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
         //////*********************************
         if (getTabuladoActual() == null) {
             this.tabulados.add(new Tabulado(periodo));
         }
-        getTabuladoActual().MatricularCurso(curso);
+        getTabuladoActual().MatricularCurso(curso, CursoJpa, matriculaJpa);
     }
 
     //==================================

@@ -69,9 +69,12 @@ public class Universidad {
 //        this.periodoJpa.create(periodoActual);
     }
 
-    public void setPeriodoActual(Periodo actual) throws Exception {
+    public boolean setPeriodoActual(Periodo actual) throws Exception {
 
-        periodoJpa.create(actual);
+        return periodoJpa.create(actual);
+//       if(periodoJpa.create(actual))  throw new Exception("Ya esta creado el periodo ");
+
+     
 //#################################
         //Como evaluar error de repeticion en la BD
     }
@@ -229,7 +232,6 @@ public class Universidad {
 
         System.out.println("Actualizando estudiante");
         estudianteJpa.edit(estu);
-//        estudianteJpa.edit(estu);
     }
 //Buscar un Curso por codigo de asignatura
 //    public Curso buscar(String codeAsignatura){

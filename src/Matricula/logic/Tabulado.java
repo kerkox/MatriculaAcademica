@@ -117,7 +117,25 @@ public class Tabulado implements Serializable {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
             if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
                 matri.getCurso().setEstado(EstadoCurso.ACTIVO);
-               creditos += matri.getCurso().getAsignatura().getCreditos();
+                creditos += matri.getCurso().getAsignatura().getCreditos();
+
+            } else {
+                throw new Exception("Curso ya Matriculado");
+            }
+        } else {
+            this.matriculas.add(new Matricula(new Date(), curso));
+
+            creditos += curso.getAsignatura().getCreditos();
+
+        }
+    }
+
+    public void MatricularCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
+        if (matriculas.contains(new Matricula(new Date(), curso))) {
+            Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
+            if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
+                matri.getCurso().setEstado(EstadoCurso.ACTIVO);
+                creditos += matri.getCurso().getAsignatura().getCreditos();
 
             } else {
                 throw new Exception("Curso ya Matriculado");

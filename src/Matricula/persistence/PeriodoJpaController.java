@@ -34,8 +34,9 @@ public class PeriodoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Periodo periodo) throws Exception {
+    public boolean create(Periodo periodo) throws Exception {
         EntityManager em = null;
+        boolean created=false;
         System.out.println("Entro al metodo de crear");
         try {
             System.out.println("comenzo el try");
@@ -47,23 +48,29 @@ public class PeriodoJpaController implements Serializable {
                 String incia1 = periodo.getInicia(), inicia2=per.getInicia();
                 if(incia1.equals("Agosto")){
                     System.out.println("Pregunto respuesta afirmativa");
-                    throw new Exception("Periodo ya Creado");
+                    created=true;
+                    break;
                     
                 }else{
                     System.out.println("Pregunto respuesta negativa");
                 }
                 if (incia1.equals(inicia2)) {
-                    JOptionPane.showMessageDialog(null, "Error periodo ya creado");
+                    created=true;
+                    break;
+//                    JOptionPane.showMessageDialog(null, "Error periodo ya creado");
 //                    throw new Exception("Periodo ya Creado");
                 }
                 System.out.println("Salto o acabo la pregunta");
 
             }
-
+            if(!created){
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(periodo);
-            em.getTransaction().commit();
+            em.getTransaction().commit();    
+            }
+            
+            
 
             //No funciono este arreglo para obtener el error del duplicado
             //###################################
@@ -71,6 +78,7 @@ public class PeriodoJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            return created;
         }
     }
 
