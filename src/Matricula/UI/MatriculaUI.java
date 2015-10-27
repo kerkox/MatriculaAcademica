@@ -416,7 +416,8 @@ public class MatriculaUI extends javax.swing.JFrame {
                 if (cursoMatricular == null) {
                     throw new Exception("No se ha seleccionado ningun Curso");
                 }
-                estu.Matricular(cursoMatricular, u.getPeridoActual(), );
+//                estu.Matricular(cursoMatricular, u.getPeridoActual(), );
+                u.MatricularCurso(estu, cursoMatricular);
                 creditos = estu.getTabuladoActual().getCreditos();
                 FieldTotalCreditos.setText(creditos + "");
                 tableEnrolls.updateUI();
