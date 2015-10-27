@@ -257,7 +257,7 @@ public class Universidad {
 
     //////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
-        estu.Matricular(curso, getPeridoActual());
+        estu.Matricular(curso, getPeridoActual(), cursoJpa, matricualJpa);
         estudianteJpa.edit(estu);
         //////*********************************
     }
