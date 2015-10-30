@@ -25,10 +25,11 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
         splashInit();           // initialize splash overlay drawing parameters
         appInit();              // simulate what an application would do 
-
+        Connection conn = null;
         // before starting
         if (mySplash != null) // check if we really had a spash screen
         {
@@ -41,7 +42,7 @@ public class Main {
             //=============================================
             //Codigo de conexion a la BD
             
-
+           
             //=============================================
             //+++++++++++++++++++++++++++++++++++++++++++++
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
@@ -51,10 +52,24 @@ public class Main {
                 System.out.println("Periodo ya creado se usara el que ya esta");
             }
            
+              //Programas
+            Programa[] programs = {
+                new Programa("2711", "Tecnologia de Sistemas", Jornada.DIURNA),
+                new Programa("3843", "Ingenieria de Sistemas", Jornada.DIURNA),
+                new Programa("3841", "Contaduria Pública", Jornada.DIURNA)
+            };
+            if (u.getProgramas().isEmpty()) {
+                //Registro de Programas
+                for (Programa x : programs) {
+                    u.registrar(x);
+                }
+            }
+            
+//*********************************
             //Estudiantes            
             Estudiante[] students = {
-                new Estudiante("123", 12345, "Pol", "Cortes", "1234"),
-                new Estudiante("1234", 123456789, "Jeniffer", "Rosales", "1234")};
+                new Estudiante("123", 12345, "Pol", "Cortes", "1234", programs[0]),
+                new Estudiante("1234", 123456789, "Jeniffer", "Rosales", "1234", programs[2])};
             if (u.getEstudiantes().isEmpty()) {
                 System.out.println("la lista de estudiantes en la BD es vacia");
                 //Registro de Estudiantes
@@ -62,8 +77,7 @@ public class Main {
                     u.registrar(x);
                 }
             }
-//*********************************
-
+//*********************************            
             //Docentes
             Docente[] teachers = {
                 new Docente("Ingeniero de Sistemas", 123, "Antonio", "Velez", "1234"),
@@ -96,18 +110,7 @@ public class Main {
             }
 //*********************************
 
-            //Programas
-            Programa[] programs = {
-                new Programa("2711", "Tecnologia de Sistemas", Jornada.DIURNA),
-                new Programa("3843", "Ingenieria de Sistemas", Jornada.DIURNA),
-                new Programa("3841", "Contaduria Pública", Jornada.DIURNA)
-            };
-            if (u.getProgramas().isEmpty()) {
-                //Registro de Programas
-                for (Programa x : programs) {
-                    u.registrar(x);
-                }
-            }
+          
 //*********************************
 
             //Cupos

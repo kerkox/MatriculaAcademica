@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Estudiante.findByIdentificacion", query = "SELECT e FROM Estudiante e WHERE e.identificacion = :identificacion"),
     @NamedQuery(name = "Estudiante.findByApellido", query = "SELECT e FROM Estudiante e WHERE e.apellido = :apellido"),
     @NamedQuery(name = "Estudiante.findByCodigo", query = "SELECT e FROM Estudiante e WHERE e.codigo = :codigo"),
+    @NamedQuery(name = "Estudiante.findByPrograma", query = "SELECT e FROM Estudiante e WHERE e.programa = :programa"),
     @NamedQuery(name = "Estudiante.findByNombre", query = "SELECT e FROM Estudiante e WHERE e.nombre = :nombre")})
 public class Estudiante extends Persona {
 
@@ -42,13 +44,16 @@ public class Estudiante extends Persona {
     private List<Tabulado> tabulados = new ArrayList<>();
     @OneToMany
     private List<Deuda> deudas = new ArrayList<>();
+    @OneToOne
+    private Programa programa;
 
     public Estudiante() {
     }
 
-    public Estudiante(String codigo, long identificacion, String nombre, String apellido, String password) {
+    public Estudiante(String codigo, long identificacion, String nombre, String apellido, String password, Programa programa) {
         super(identificacion, nombre, apellido, password);
         this.codigo = codigo;
+        this.programa = programa;
     }
 
     //==================================
@@ -57,6 +62,10 @@ public class Estudiante extends Persona {
         return codigo;
     }
 
+    public Programa getPrograma() {
+        return programa;
+    }
+    
     public List<Tabulado> getTabulados() {
         return tabulados;
     }
@@ -100,6 +109,11 @@ public class Estudiante extends Persona {
     //==================================
     //==================================
     //Metodos Set
+    
+    public void setPrograma(Programa programa) {
+        this.programa = programa;
+    }
+
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }

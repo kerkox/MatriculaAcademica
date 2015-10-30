@@ -16,9 +16,15 @@
     <class>Matricula.logic.Semestre</class>
     <class>Matricula.logic.Tabulado</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Universidad"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:Universidad"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      <!--  
+        "org.apache.derby.jdbc.EmbeddedDriver"
+        url: jdbc:derby:Univesidada
+        donde la carpeta ubicada de Universidad es en el proyecto
+        Codigo para iniciar el motor automatico interno pero con la BD creada
+      -->
       <property name="javax.persistence.jdbc.password" value="toor"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
