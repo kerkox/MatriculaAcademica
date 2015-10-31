@@ -7,8 +7,10 @@ package Matricula.UI;
 
 import Matricula.logic.Curso;
 import Matricula.logic.Periodo;
+import Matricula.logic.Programa;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -22,7 +24,7 @@ public class CursosEstudiante extends javax.swing.JFrame {
      */
     private Periodo periodo = null;
     private MatriculaUI matri;
-    public CursosEstudiante(Periodo periodo, MatriculaUI matri) {
+    public CursosEstudiante(Periodo periodo, MatriculaUI matri, Programa programa) {
         
         initComponents();
         this.matri = matri;
@@ -32,13 +34,13 @@ public class CursosEstudiante extends javax.swing.JFrame {
 
             
             private String[] nombres = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos"};
-            
+            private List<Curso> cursos =periodo.cursosPrograma(programa);
             @Override
             public int getRowCount() {
-                if(periodo.getCursos().isEmpty()){
+                if(cursos.isEmpty()){
                     return 0;
                 }
-                return periodo.getCursos().size();
+                return cursos.size();
             }
 
             @Override
@@ -53,7 +55,7 @@ public class CursosEstudiante extends javax.swing.JFrame {
             
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                Curso curso = periodo.getCursos().get(rowIndex);
+                Curso curso = cursos.get(rowIndex);
                 switch(columnIndex){
                     case 0:
                         return curso.getAsignatura().getCodigo();

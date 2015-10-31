@@ -134,7 +134,9 @@ public class Main {
                 new Asignatura("456", "Calculo 2", (byte) 4, (byte) 5),
                 new Asignatura("789", "Arquitectura 2", (byte) 3, (byte) 4),
                 new Asignatura("987", "Algebra Lineal", (byte) 4, (byte) 4),
-                new Asignatura("123", "Matematicas Discretas", (byte) 3, (byte) 4)
+                new Asignatura("123", "Matematicas Discretas", (byte) 3, (byte) 4),
+                new Asignatura("123", "Matematicas financieras", (byte) 3, (byte) 4)
+                
             };
             if (u.getAsignaturas().isEmpty()) {
                 //Registro de Asignaturas
@@ -151,17 +153,18 @@ public class Main {
             Cupo[] cupos = {
                 new Cupo(55, programs[0]),
                 new Cupo(50, programs[1]),
-                new Cupo(60, programs[2])
+                new Cupo(60, programs[2]),
+                new Cupo(55, programs[2])
             };
 //*********************************
 
             //Cursos
             Curso[] cursos = {
                 new Curso((byte) 50, cupos[0], teachers[0], subjects[0]),
-                new Curso((byte) 51, cupos[1], teachers[1], subjects[1]),
-                new Curso((byte) 50, cupos[1], teachers[2], subjects[2]),
-                new Curso((byte) 52, cupos[2], teachers[3], subjects[4]),
-                new Curso((byte) 50, cupos[2], teachers[1], subjects[3])
+                new Curso((byte) 51, cupos[0], teachers[1], subjects[1]),
+                new Curso((byte) 50, cupos[0], teachers[2], subjects[2]),
+                new Curso((byte) 52, cupos[0], teachers[3], subjects[4]),
+                new Curso((byte) 50, cupos[0], teachers[1], subjects[3])
             };
 //################################################################
             if (u.getPeridoActual().getCursos().isEmpty()) {

@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Periodo.findByInicia", query = "SELECT p FROM Periodo p WHERE p.inicia = :inicia"),
     @NamedQuery(name = "Periodo.findByYear1", query = "SELECT p FROM Periodo p WHERE p.year1 = :year1")})
 public class Periodo implements Serializable {
-   
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +46,11 @@ public class Periodo implements Serializable {
     private String inicia;
     @Column
     private String fin;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private int year1;
     @OneToMany
     private List<Curso> cursos = new ArrayList<>();
-    @Column (nullable = false)
+    @Column(nullable = false)
     private boolean actual;
 
     public Periodo() {
@@ -64,12 +63,8 @@ public class Periodo implements Serializable {
         this.actual = true;
     }
 
-    
-    
-    
     //============================
     //Metodos Get
-    
     public boolean isActual() {
         return actual;
     }
@@ -106,12 +101,10 @@ public class Periodo implements Serializable {
 
     //============================
     //Metodos Set
-
     public void setActual(boolean actual) {
         this.actual = actual;
     }
 
-    
     public void setInicia(String inicia) {
         this.inicia = inicia;
     }
@@ -127,14 +120,12 @@ public class Periodo implements Serializable {
     public void setCursos(List<Curso> cursos) {
         this.cursos = cursos;
     }
-    
-    
+
     public void setId(Long id) {
         this.id = id;
     }
     //==============================
-    
-    
+
     //==============================
     //Metodos Buscar
     /**
@@ -159,6 +150,21 @@ public class Periodo implements Serializable {
 
         return cursosProgramados;
 
+    }
+
+    public List<Curso> cursosPrograma(Programa programa) {
+        ArrayList<Curso> cursosPrograma = new ArrayList<>();
+        for (Curso curso : this.cursos) {
+            for (Cupo cupo : curso.getCupos()) {
+                if (cupo.getPrograma().equals(programa)) {
+                    cursosPrograma.add(curso);
+
+                }
+            }
+
+        }
+
+        return cursosPrograma;
     }
 
     public Curso buscar(Curso curso) throws Exception {
@@ -204,8 +210,6 @@ public class Periodo implements Serializable {
         this.year1 = year1;
     }
 
-    
-
     public int getYear1() {
         return year1;
     }
@@ -216,11 +220,7 @@ public class Periodo implements Serializable {
 
     @Override
     public String toString() {
-        return   inicia + " - " + fin + " " + year1 ;
+        return inicia + " - " + fin + " " + year1;
     }
-
-    
-
-    
 
 }

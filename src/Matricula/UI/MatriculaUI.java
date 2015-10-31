@@ -10,11 +10,8 @@ import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Matricula;
 import Matricula.logic.Universidad;
-import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -355,7 +352,7 @@ public class MatriculaUI extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (courses == null) {
-                courses = new CursosEstudiante(u.getPeridoActual(), matri);
+                courses = new CursosEstudiante(u.getPeridoActual(), matri, estu.getPrograma());
             }
             courses.setVisible(true);
         }
