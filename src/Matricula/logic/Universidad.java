@@ -246,6 +246,15 @@ public class Universidad {
         }
         return estu;
     }
+    /**
+     * 
+     * @param estu: estudiante para validad deudas
+     * @return true, si esta libre de deudas
+     *  false, en el caso de que tenga alguna deuda
+     */
+    public boolean ValidarDeudas(Estudiante estu){        
+        return estu.getDeudas().isEmpty();        
+    }
 
     public Docente buscarDocente(long id) throws ObjectNotFoundException {
         Docente teacher = docenteJpa.findDocente(id);

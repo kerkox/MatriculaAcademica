@@ -6,15 +6,12 @@
 package Matricula.logic;
 
 import Matricula.persistence.CursoJpaController;
-import Matricula.persistence.EstudianteJpaController;
 import Matricula.persistence.MatriculaJpaController;
-import Matricula.persistence.TabuladoJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -163,5 +160,12 @@ public class Estudiante extends Persona {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return super.getFullName() + " Codigo: " + codigo;
+    }
+    
+    
 
 }

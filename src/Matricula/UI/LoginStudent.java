@@ -6,10 +6,13 @@
 package Matricula.UI;
 
 import Matricula.logic.Estudiante;
+import Matricula.logic.Exceptions.DebtStudentException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -163,17 +166,19 @@ public class ListenerLogueo implements ActionListener {
 
             try {
                 Estudiante estu = u.buscarEstudiante(FieldCodeStudent.getText().trim());
-                if(estu==null){
-                    throw new ObjectNotFoundException("Estudiante no encontrados");
-                }
                 if (estu.getPassword().equals(FieldPasswordStudent.getText())) {
+                    if(!u.ValidarDeudas(estu)){
+                        throw new DebtStudentException("El actual Estudiante: "+ estu.toString()+" Presenta Deudas");
+                    }
                     new MatriculaUI(u, estu, main).setVisible(true);
                     setVisible(false);
                 }else{
                     throw new ObjectNotFoundException("Contraseña incorrecta");
                 }
-
+                
             } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (DebtStudentException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
