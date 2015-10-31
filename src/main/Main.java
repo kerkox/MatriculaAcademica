@@ -10,11 +10,14 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.derby.drda.NetworkServerControl;
 
 /**
  *
@@ -27,9 +30,10 @@ public class Main {
      */
     
     public static void main(String[] args) {
+        boolean initServer; 
         splashInit();           // initialize splash overlay drawing parameters
         appInit();              // simulate what an application would do 
-        Connection conn = null;
+//        Connection conn = null;
         // before starting
         if (mySplash != null) // check if we really had a spash screen
         {
@@ -41,7 +45,37 @@ public class Main {
             //+++++++++++++++++++++++++++++++++++++++++++++
             //=============================================
             //Codigo de conexion a la BD
-            
+            try {
+            NetworkServerControl derbyServer = new NetworkServerControl();
+            derbyServer.start(null);
+            initServer = true;
+//            GreenUtil.LOGGER.log(Level.INFO, "javadb server initialized");
+        } catch (Exception ex) {
+            initServer = false;
+//            GreenUtil.LOGGER.log(Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(null, GreenUtil.getLocalizedMessage("database.server.init.fail"));
+            JOptionPane.showMessageDialog(null, "database.server.init.fail");
+            return;
+        }
+
+        /**
+         * Verificación de la existencia de la base de datos
+         */
+        File file = new File("Universidad");
+        if (!file.exists()) {
+            try {
+                /**
+                 * En caso de no existir la base de datos, se forza la creación
+                 * de la misma
+                 */
+//                Class.forName("org.apache.derby.jdbc.ClientDriver");
+                Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+                Connection conn = DriverManager.getConnection("jdbc:derby:Universidad;create=true;user=root;password=toor");
+            } catch (ClassNotFoundException | SQLException ex) {
+//                GreenUtil.LOGGER.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        }
            
             //=============================================
             //+++++++++++++++++++++++++++++++++++++++++++++
