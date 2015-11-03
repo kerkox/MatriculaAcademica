@@ -117,7 +117,8 @@ public class Main {
                 new Docente("Ingeniero de Sistemas", 123, "Antonio", "Velez", "1234"),
                 new Docente("Matematico", 54321, "Jaime", "Florez", "1234"),
                 new Docente("Ingeniero Electronico", 4321, "Duvan", "Garcia", "1234"),
-                new Docente("Ingeniera de Sistemas", 654321, "Natalia", "Henao", "1234")
+                new Docente("Ingeniera de Sistemas", 654321, "Natalia", "Henao", "1234"),
+                new Docente("Contadora Pública", 987654, "Martha", "Fuertes", "1234")
 
             };
             if (u.getDocentes().isEmpty()) {
@@ -164,7 +165,9 @@ public class Main {
                 new Curso((byte) 51, cupos[0], teachers[1], subjects[1]),
                 new Curso((byte) 50, cupos[0], teachers[2], subjects[2]),
                 new Curso((byte) 52, cupos[0], teachers[3], subjects[4]),
-                new Curso((byte) 50, cupos[0], teachers[1], subjects[3])
+                new Curso((byte) 50, cupos[0], teachers[1], subjects[3]),
+                new Curso((byte) 51, cupos[3], teachers[1], subjects[1]),
+                new Curso((byte) 54, cupos[3], teachers[4], subjects[5])
             };
 //################################################################
             if (u.getPeridoActual().getCursos().isEmpty()) {
