@@ -28,9 +28,8 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    
     public static void main(String[] args) {
-        boolean initServer; 
+        boolean initServer;
         splashInit();           // initialize splash overlay drawing parameters
         appInit();              // simulate what an application would do 
 //        Connection conn = null;
@@ -46,47 +45,47 @@ public class Main {
             //=============================================
             //Codigo de conexion a la BD
             try {
-            NetworkServerControl derbyServer = new NetworkServerControl();
-            derbyServer.start(null);
-            initServer = true;
+                NetworkServerControl derbyServer = new NetworkServerControl();
+                derbyServer.start(null);
+                initServer = true;
 //            GreenUtil.LOGGER.log(Level.INFO, "javadb server initialized");
-        } catch (Exception ex) {
-            initServer = false;
+            } catch (Exception ex) {
+                initServer = false;
 //            GreenUtil.LOGGER.log(Level.SEVERE, null, ex);
 //            JOptionPane.showMessageDialog(null, GreenUtil.getLocalizedMessage("database.server.init.fail"));
-            JOptionPane.showMessageDialog(null, "database.server.init.fail");
-            return;
-        }
-
-        /**
-         * Verificación de la existencia de la base de datos
-         */
-        File file = new File("Universidad");
-        if (!file.exists()) {
-            try {
-                /**
-                 * En caso de no existir la base de datos, se forza la creación
-                 * de la misma
-                 */
-//                Class.forName("org.apache.derby.jdbc.ClientDriver");
-                Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-                Connection conn = DriverManager.getConnection("jdbc:derby:Universidad;create=true;user=root;password=toor");
-            } catch (ClassNotFoundException | SQLException ex) {
-//                GreenUtil.LOGGER.log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "database.server.init.fail");
+                return;
             }
-        }
-           
+
+            /**
+             * Verificación de la existencia de la base de datos
+             */
+            File file = new File("Universidad");
+            if (!file.exists()) {
+                try {
+                    /**
+                     * En caso de no existir la base de datos, se forza la
+                     * creación de la misma
+                     */
+//                Class.forName("org.apache.derby.jdbc.ClientDriver");
+                    Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+                    Connection conn = DriverManager.getConnection("jdbc:derby:Universidad;create=true;user=root;password=toor");
+                } catch (ClassNotFoundException | SQLException ex) {
+//                GreenUtil.LOGGER.log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                }
+            }
+
             //=============================================
             //+++++++++++++++++++++++++++++++++++++++++++++
             Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera");
             System.out.println("Va a crear el periodo actual");
-            if(u.setPeriodoActual(periodo)){
+            if (u.setPeriodoActual(periodo)) {
                 System.out.println("Periodo ya creado se usara el que ya esta");
             }
-           
-              //Programas
+
+            //Programas
             Programa[] programs = {
                 new Programa("2711", "Tecnologia de Sistemas", Jornada.DIURNA),
                 new Programa("3843", "Ingenieria de Sistemas", Jornada.DIURNA),
@@ -98,7 +97,7 @@ public class Main {
                     u.registrar(x);
                 }
             }
-            
+
 //*********************************
             //Estudiantes            
             Estudiante[] students = {
@@ -114,11 +113,14 @@ public class Main {
 //*********************************            
             //Docentes
             Docente[] teachers = {
-                new Docente("Ingeniero de Sistemas", 123, "Antonio", "Velez", "1234"),
-                new Docente("Matematico", 54321, "Jaime", "Florez", "1234"),
-                new Docente("Ingeniero Electronico", 4321, "Duvan", "Garcia", "1234"),
-                new Docente("Ingeniera de Sistemas", 654321, "Natalia", "Henao", "1234"),
-                new Docente("Contadora Pública", 987654, "Martha", "Fuertes", "1234")
+                new Docente("Ingeniero de Sistemas", 100, "Antonio", "Velez", "1234"), // 0
+                new Docente("Matematico", 101, "Jaime", "Florez", "1234"), // 1 
+                new Docente("Ingeniero Electronico", 102, "Duvan", "Garcia", "1234"), // 2
+                new Docente("Ingeniera de Sistemas", 103, "Natalia", "Henao", "1234"), // 3
+                new Docente("Contador Público", 200, "Juan Pablo", "Hincapie", "1234"), // 4
+                new Docente("Contador Público", 201, "Robinson", "Holguin Peña", "1234"), // 5
+                new Docente("Contadora Pública", 202, "Martha Lucia", "Fuertes Diaz", "1234"), // 6
+                new Docente("Contador Público", 203, "Javier Alonso", "Murillo Muñoz", "1234"), // 7
 
             };
             if (u.getDocentes().isEmpty()) {
@@ -131,13 +133,21 @@ public class Main {
 
             //Asignaturas
             Asignatura[] subjects = {
-                new Asignatura("12345", "Interactivas", (byte) 4, (byte) 4),
-                new Asignatura("456", "Calculo 2", (byte) 4, (byte) 5),
-                new Asignatura("789", "Arquitectura 2", (byte) 3, (byte) 4),
-                new Asignatura("987", "Algebra Lineal", (byte) 4, (byte) 4),
-                new Asignatura("123", "Matematicas Discretas", (byte) 3, (byte) 4),
-                new Asignatura("123", "Matematicas financieras", (byte) 3, (byte) 4)
+                //Asignaturas de Sistemas
+                new Asignatura("1000", "Interactivas", (byte) 4, (byte) 4), // 0
+                new Asignatura("1001", "Calculo 2", (byte) 4, (byte) 5), // 1
+                new Asignatura("1002", "Arquitectura 2", (byte) 3, (byte) 4), // 2
+                new Asignatura("1003", "Algebra Lineal", (byte) 4, (byte) 4), // 3
+                new Asignatura("1004", "Matematicas Discretas", (byte) 3, (byte) 4), // 4
+                //Asignaturas de Contaduria
+                //                new Asignatura(null, null, creditos, intensidad)                
+                new Asignatura("2000", "Etica, Moral y Fe Pública ", (byte) 3, (byte) 3), // 5
+                new Asignatura("2001", "Evaluación Financ de Proyectos", (byte) 2, (byte) 3), // 6
+                new Asignatura("2002", "Metodologia Investigacion Contable", (byte) 3, (byte) 3), // 7
+                new Asignatura("2003", "Revisoria Fiscal", (byte) 3, (byte) 3), // 8 
+                new Asignatura("2004", "Resolucion de problemas y toma de decisiones", (byte) 3, (byte) 3) // 9
                 
+
             };
             if (u.getAsignaturas().isEmpty()) {
                 //Registro de Asignaturas
@@ -147,9 +157,7 @@ public class Main {
             }
 //*********************************
 
-          
 //*********************************
-
             //Cupos
             Cupo[] cupos = {
                 new Cupo(55, programs[0]),
@@ -164,10 +172,13 @@ public class Main {
                 new Curso((byte) 50, cupos[0], teachers[0], subjects[0]),
                 new Curso((byte) 51, cupos[0], teachers[1], subjects[1]),
                 new Curso((byte) 50, cupos[0], teachers[2], subjects[2]),
-                new Curso((byte) 52, cupos[0], teachers[3], subjects[4]),
                 new Curso((byte) 50, cupos[0], teachers[1], subjects[3]),
-                new Curso((byte) 51, cupos[3], teachers[1], subjects[1]),
-                new Curso((byte) 54, cupos[3], teachers[4], subjects[5])
+                new Curso((byte) 52, cupos[0], teachers[3], subjects[4]),
+                new Curso((byte) 50, cupos[3], teachers[4], subjects[5]),
+                new Curso((byte) 52, cupos[3], teachers[6], subjects[6]),
+                new Curso((byte) 55, cupos[3], teachers[4], subjects[7]),
+                new Curso((byte) 57, cupos[3], teachers[5], subjects[8]),
+                new Curso((byte) 57, cupos[3], teachers[7], subjects[9])
             };
 //################################################################
             if (u.getPeridoActual().getCursos().isEmpty()) {

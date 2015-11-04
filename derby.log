@@ -1,7 +1,23 @@
-Sat Oct 31 10:34:58 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.1.3 - (1557168) y está listo para aceptar las conexiones en el puerto 1527
+Tue Nov 03 19:32:58 COT 2015 : No se ha podido recibir en el puerto 1527 en el host localhost:
+ java.net.BindException: La dirección ya se está usando
+Se ha generado una excepción al iniciar el servidor de red. DRDA_ListenPort.S:No se ha podido recibir en el puerto 1527 en el host localhost:
+ java.net.BindException: La dirección ya se está usando
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.apache.derby.iapi.jdbc.DRDAServerStarter.run(Unknown Source)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.Exception: DRDA_ListenPort.S:No se ha podido recibir en el puerto 1527 en el host localhost:
+ java.net.BindException: La dirección ya se está usando
+	at org.apache.derby.impl.drda.NetworkServerControlImpl.consolePropertyMessageWork(Unknown Source)
+	at org.apache.derby.impl.drda.NetworkServerControlImpl.consolePropertyMessage(Unknown Source)
+	at org.apache.derby.impl.drda.NetworkServerControlImpl.blockingStart(Unknown Source)
+	... 6 more
 ----------------------------------------------------------------
-Sat Oct 31 10:34:59 COT 2015:
- Iniciando instancia a816c00e-0150-be89-91cd-000002edd948 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
+Tue Nov 03 19:32:59 COT 2015:
+ Iniciando instancia a816c00e-0150-cfe9-3603-000002ee92b8 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
 en el directorio de base de datos /home/atenea/NetBeansProjects/MatriculaAcademica/Universidad con el cargador de clases sun.misc.Launcher$AppClassLoader@6f94fa3e
 Cargado desde file:/opt/jdk1.8.0_31/db/lib/derby.jar
 java.vendor=Oracle Corporation

@@ -35,11 +35,14 @@ public class CursosEstudiante extends javax.swing.JFrame {
             
             private String[] nombres = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos"};
             private List<Curso> cursos =periodo.cursosPrograma(programa);
+            
             @Override
             public int getRowCount() {
                 if(cursos.isEmpty()){
+                    System.out.println("Cantidad lista cursos: 0");
                     return 0;
                 }
+                System.out.println("Cantidad lista cursos: "+ cursos.size());
                 return cursos.size();
             }
 
