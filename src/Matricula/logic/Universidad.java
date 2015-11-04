@@ -74,7 +74,6 @@ public class Universidad {
         return periodoJpa.create(actual);
 //       if(periodoJpa.create(actual))  throw new Exception("Ya esta creado el periodo ");
 
-     
 //#################################
         //Como evaluar error de repeticion en la BD
     }
@@ -229,8 +228,6 @@ public class Universidad {
     }
 
     public void ActulizarEstudainte(Estudiante estu) throws Exception {
-
-        System.out.println("Actualizando estudiante");
         estudianteJpa.edit(estu);
     }
 //Buscar un Curso por codigo de asignatura
@@ -246,14 +243,15 @@ public class Universidad {
         }
         return estu;
     }
+
     /**
-     * 
+     *
      * @param estu: estudiante para validad deudas
-     * @return true, si esta libre de deudas
-     *  false, en el caso de que tenga alguna deuda
+     * @return true, si esta libre de deudas false, en el caso de que tenga
+     * alguna deuda
      */
-    public boolean ValidarDeudas(Estudiante estu){        
-        return estu.getDeudas().isEmpty();        
+    public boolean ValidarDeudas(Estudiante estu) {
+        return estu.getDeudas().isEmpty();
     }
 
     public Docente buscarDocente(long id) throws ObjectNotFoundException {

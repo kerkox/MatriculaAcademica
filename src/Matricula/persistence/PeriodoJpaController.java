@@ -8,16 +8,13 @@ package Matricula.persistence;
 import Matricula.logic.Periodo;
 import Matricula.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,41 +33,34 @@ public class PeriodoJpaController implements Serializable {
 
     public boolean create(Periodo periodo) throws Exception {
         EntityManager em = null;
-        boolean created=false;
-        System.out.println("Entro al metodo de crear");
+        boolean created = false;
+
         try {
-            System.out.println("comenzo el try");
+
             List<Periodo> periodos = findPeriodoEntities();
-            System.out.println("Leyo la lista de la BD");
-            int a =1;
+
+            int a = 1;
             for (Periodo per : periodos) {
-                System.out.println("entro en el for");
-                String incia1 = periodo.getInicia(), inicia2=per.getInicia();
-                if(incia1.equals("Agosto")){
-                    System.out.println("Pregunto respuesta afirmativa");
-                    created=true;
+
+                String incia1 = periodo.getInicia(), inicia2 = per.getInicia();
+                if (incia1.equals("Agosto")) {
+                    created = true;
                     break;
-                    
-                }else{
-                    System.out.println("Pregunto respuesta negativa");
                 }
                 if (incia1.equals(inicia2)) {
-                    created=true;
+                    created = true;
                     break;
 //                    JOptionPane.showMessageDialog(null, "Error periodo ya creado");
 //                    throw new Exception("Periodo ya Creado");
                 }
-                System.out.println("Salto o acabo la pregunta");
 
             }
-            if(!created){
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(periodo);
-            em.getTransaction().commit();    
+            if (!created) {
+                em = getEntityManager();
+                em.getTransaction().begin();
+                em.persist(periodo);
+                em.getTransaction().commit();
             }
-            
-            
 
             //No funciono este arreglo para obtener el error del duplicado
             //###################################
