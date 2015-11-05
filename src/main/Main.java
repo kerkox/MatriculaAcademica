@@ -219,9 +219,11 @@ public class Main {
     static SplashScreen mySplash;
 
     private static void splashInit() {
-
+        
+     
         mySplash = SplashScreen.getSplashScreen();
         if (mySplash != null) {   // if there are any problems displaying the splash this will be null
+            
             Dimension ssDim = mySplash.getSize();
             int height = ssDim.height;
             int width = ssDim.width;
@@ -237,6 +239,8 @@ public class Main {
             // initialize the status info
             splashText("Starting");
             splashProgress(0);
+        }else{
+        System.out.println("Hay algun problema con el splash");
         }
     }
 

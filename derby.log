@@ -1,7 +1,7 @@
-Thu Nov 05 00:10:31 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.11.1.2 - (1629631) y está listo para aceptar las conexiones en el puerto 1527
+Thu Nov 05 00:49:22 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.11.1.2 - (1629631) y está listo para aceptar las conexiones en el puerto 1527
 ----------------------------------------------------------------
-Thu Nov 05 00:10:33 COT 2015:
- Iniciando instancia a816c00e-0150-d60d-ab29-00000302c5f0 de Derby, versión The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): 
+Thu Nov 05 00:49:23 COT 2015:
+ Iniciando instancia a816c00e-0150-d631-3bd7-00000307d5d8 de Derby, versión The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): 
 en el directorio de base de datos D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica\Universidad con el cargador de clases sun.misc.Launcher$AppClassLoader@266474c2
 Cargado desde file:/C:/Program%20Files/Java/jdk1.8.0_65/db/lib/derby.jar
 java.vendor=Oracle Corporation
