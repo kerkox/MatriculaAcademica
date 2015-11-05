@@ -166,6 +166,7 @@ public class Tabulado implements Serializable {
     public void CancelarCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
         Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
         if (matri.getCurso().getEstado() == EstadoCurso.ACTIVO) {
+            if((creditos-matri.getCurso().getAsignatura().getCreditos())<6) throw new Exception("ERROR: no se puede cancelar cantidad minima de creditos invalida (6)");
             matri.getCurso().setEstado(EstadoCurso.CANCELADO);
             CursoJpa.edit(matri.getCurso());
             matri.setCancelada(new Date());

@@ -446,7 +446,7 @@ public class MatriculaUI extends javax.swing.JFrame {
                     tableEnrolls.updateUI();
                     tableEnrolls.clearSelection();
                 } catch (Exception ex) {
-                    Logger.getLogger(MatriculaUI.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             }
         }
