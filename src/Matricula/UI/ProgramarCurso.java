@@ -5,6 +5,8 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Asignatura;
+import Matricula.logic.Curso;
 import Matricula.logic.Docente;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Universidad;
@@ -26,14 +28,20 @@ public class ProgramarCurso extends javax.swing.JFrame {
     Docente docenteLogueado;
     Universidad u;
     Docente docente;
+    Asignatura asignatura;
+    Curso curso;
+    
     
     public ProgramarCurso(Docente docente, Universidad u) {
         this.docenteLogueado = docente;
         this.u=u;
         initComponents();
         BuscarDocente BuscarDoc = new BuscarDocente();
+        searchCourse sc = new searchCourse();
         TeacherID.addActionListener(BuscarDoc);
         ButtonSearchTeacher.addActionListener(BuscarDoc);
+        SubjectCode.addActionListener(sc);
+        SubjectGroup.addActionListener(sc);
     }
 
     /**
@@ -373,7 +381,22 @@ public class BuscarDocente implements ActionListener{
     
 }
 
+public class searchCourse implements ActionListener{
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                curso =  u.BuscarCurso(SubjectCode.getText().trim(), Byte.parseByte(SubjectGroup.getText().trim()));
+                SubjectCredits.setText(curso.getAsignatura().getCreditos()+"");
+                SubjectIntensity.setText(curso.getAsignatura().getIntensidad()+"");
+                SubjectName.setText(curso.getAsignatura().getNombre());
+                
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+    
+}
 
 
 }

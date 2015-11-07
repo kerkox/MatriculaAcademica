@@ -1,7 +1,7 @@
-Fri Nov 06 19:04:12 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.1.3 - (1557168) y está listo para aceptar las conexiones en el puerto 1527
+Fri Nov 06 20:22:46 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.1.3 - (1557168) y está listo para aceptar las conexiones en el puerto 1527
 ----------------------------------------------------------------
-Fri Nov 06 19:04:13 COT 2015:
- Iniciando instancia a816c00e-0150-df41-f00a-000002c1f780 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
+Fri Nov 06 20:22:47 COT 2015:
+ Iniciando instancia a816c00e-0150-df89-de5d-000002c2d480 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
 en el directorio de base de datos /home/atenea/NetBeansProjects/Matriculaacademica/Universidad con el cargador de clases sun.misc.Launcher$AppClassLoader@6f94fa3e
 Cargado desde file:/opt/jdk1.8.0_31/db/lib/derby.jar
 java.vendor=Oracle Corporation
