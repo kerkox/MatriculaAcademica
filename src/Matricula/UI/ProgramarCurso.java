@@ -6,6 +6,7 @@
 package Matricula.UI;
 
 import Matricula.logic.Asignatura;
+import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
 import Matricula.logic.Docente;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -42,6 +44,39 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ButtonSearchTeacher.addActionListener(BuscarDoc);
         SubjectCode.addActionListener(sc);
         SubjectGroup.addActionListener(sc);
+        
+        TableCupos.setModel(new AbstractTableModel() {
+            
+            String[] names={"Programa", "Cupos"};
+            @Override
+            public int getRowCount() {
+                if(curso==null) return 0;
+                return curso.getCupos().size();
+            }
+
+            @Override
+            public String getColumnName(int columnIndex) {
+                return names[columnIndex];
+            }
+                
+            
+            @Override
+            public int getColumnCount() {
+                return names.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Cupo cupo = curso.getCupos().get(rowIndex);
+                switch(columnIndex){
+                    case 0:
+                        return cupo.getPrograma().toString();
+                    case 1:
+                        return cupo.getCantidad();
+                }
+                return "";
+            }
+        });
     }
 
     /**
@@ -54,7 +89,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        SubjectCode = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         SubjectName = new javax.swing.JTextField();
@@ -63,6 +97,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         SubjectIntensity = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        SubjectCode = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         SubjectGroup = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -101,6 +136,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel4.setText("intensidad Horaria:");
 
+        SubjectCode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,7 +157,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -137,10 +174,10 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jLabel3)
-                    .addComponent(SubjectCredits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SubjectCredits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SubjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,7 +331,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(SubjectGroup))
-                        .addGap(0, 54, Short.MAX_VALUE))
+                        .addGap(0, 43, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -338,7 +375,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JTextField CuposTotal;
     private javax.swing.JButton NewCourse;
     private javax.swing.JButton Save;
-    private javax.swing.JTextField SubjectCode;
+    private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
     private javax.swing.JTextField SubjectGroup;
     private javax.swing.JTextField SubjectIntensity;
@@ -393,6 +430,13 @@ public class searchCourse implements ActionListener{
                 
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (NumberFormatException ex){
+                if(SubjectCode.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "El campo Codigo no puede estar vacio");
+                }
+                if(SubjectGroup.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "El campo grupo no puede estar vacio");
+                }
             }
         }
     
