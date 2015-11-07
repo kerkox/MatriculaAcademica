@@ -10,11 +10,10 @@ import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
 import Matricula.logic.Docente;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -27,16 +26,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
     /**
      * Creates new form ProgramarCurso
      */
-    Docente docenteLogueado;
-    Universidad u;
-    Docente docente;
-    Asignatura asignatura;
-    Curso curso;
-    
-    
+    private Docente docenteLogueado;
+    private Universidad u;
+    private Docente docente;
+    private Curso curso;
+
     public ProgramarCurso(Docente docente, Universidad u) {
         this.docenteLogueado = docente;
-        this.u=u;
+        this.u = u;
         initComponents();
         BuscarDocente BuscarDoc = new BuscarDocente();
         searchCourse sc = new searchCourse();
@@ -44,13 +41,16 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ButtonSearchTeacher.addActionListener(BuscarDoc);
         SubjectCode.addActionListener(sc);
         SubjectGroup.addActionListener(sc);
-        
+
         TableCupos.setModel(new AbstractTableModel() {
-            
-            String[] names={"Programa", "Cupos"};
+
+            String[] names = {"Programa", "Cupos"};
+
             @Override
             public int getRowCount() {
-                if(curso==null) return 0;
+                if (curso == null) {
+                    return 0;
+                }
                 return curso.getCupos().size();
             }
 
@@ -58,8 +58,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
             public String getColumnName(int columnIndex) {
                 return names[columnIndex];
             }
-                
-            
+
             @Override
             public int getColumnCount() {
                 return names.length;
@@ -68,7 +67,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Cupo cupo = curso.getCupos().get(rowIndex);
-                switch(columnIndex){
+                switch (columnIndex) {
                     case 0:
                         return cupo.getPrograma().toString();
                     case 1:
@@ -77,6 +76,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 return "";
             }
         });
+
+        for(Programa pro : u.getProgramas()){
+                CupoList.addItem(pro);
+        }
+
     }
 
     /**
@@ -130,9 +134,15 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jButton1.setText("...");
 
+        SubjectName.setEditable(false);
+
         jLabel2.setText("Nombre:");
 
+        SubjectCredits.setEditable(false);
+
         jLabel3.setText("Creditos:");
+
+        SubjectIntensity.setEditable(false);
 
         jLabel4.setText("intensidad Horaria:");
 
@@ -197,7 +207,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel7.setText("Nombre:");
 
+        TeacherName.setEditable(false);
+
         jLabel8.setText("Formación:");
+
+        TeacherEducation.setEditable(false);
 
         TeacherID.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
@@ -246,21 +260,24 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel9.setText("Programa Académico");
 
-        CupoList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CupoList.setEnabled(false);
 
         jLabel10.setText("Cupos:");
 
+        CuposNumber.setEditable(false);
+
         jButton2.setText("Agregar");
+        jButton2.setEnabled(false);
 
         TableCupos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(TableCupos);
@@ -306,6 +323,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         );
 
         jLabel11.setText("Total de Cupos: ");
+
+        CuposTotal.setEditable(false);
 
         NewCourse.setText("Programar Nuevo Curso");
 
@@ -366,7 +385,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSearchTeacher;
@@ -402,11 +420,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-public class BuscarDocente implements ActionListener{
+public class BuscarDocente implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             try {
                 docente = u.buscarDocente(Long.parseLong(TeacherID.getText()));
                 TeacherEducation.setText(docente.getProfesion());
@@ -415,32 +433,31 @@ public class BuscarDocente implements ActionListener{
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-    
-}
 
-public class searchCourse implements ActionListener{
+    }
+
+    public class searchCourse implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                curso =  u.BuscarCurso(SubjectCode.getText().trim(), Byte.parseByte(SubjectGroup.getText().trim()));
-                SubjectCredits.setText(curso.getAsignatura().getCreditos()+"");
-                SubjectIntensity.setText(curso.getAsignatura().getIntensidad()+"");
+                curso = u.BuscarCurso(SubjectCode.getText().trim(), Byte.parseByte(SubjectGroup.getText().trim()));
+                SubjectCredits.setText(curso.getAsignatura().getCreditos() + "");
+                SubjectIntensity.setText(curso.getAsignatura().getIntensidad() + "");
                 SubjectName.setText(curso.getAsignatura().getNombre());
-                
+
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
-            } catch (NumberFormatException ex){
-                if(SubjectCode.getText().trim().equals("")){
+            } catch (NumberFormatException ex) {
+                if (SubjectCode.getText().trim().equals("")) {
                     JOptionPane.showMessageDialog(null, "El campo Codigo no puede estar vacio");
                 }
-                if(SubjectGroup.getText().trim().equals("")){
+                if (SubjectGroup.getText().trim().equals("")) {
                     JOptionPane.showMessageDialog(null, "El campo grupo no puede estar vacio");
                 }
             }
         }
-    
-}
 
+    }
 
 }
