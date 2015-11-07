@@ -5,6 +5,15 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Docente;
+import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.Universidad;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author atenea
@@ -14,8 +23,17 @@ public class ProgramarCurso extends javax.swing.JFrame {
     /**
      * Creates new form ProgramarCurso
      */
-    public ProgramarCurso() {
+    Docente docenteLogueado;
+    Universidad u;
+    Docente docente;
+    
+    public ProgramarCurso(Docente docente, Universidad u) {
+        this.docenteLogueado = docente;
+        this.u=u;
         initComponents();
+        BuscarDocente BuscarDoc = new BuscarDocente();
+        TeacherID.addActionListener(BuscarDoc);
+        ButtonSearchTeacher.addActionListener(BuscarDoc);
     }
 
     /**
@@ -46,6 +64,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         TeacherEducation = new javax.swing.JTextField();
         TeacherID = new javax.swing.JFormattedTextField();
+        ButtonSearchTeacher = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         CupoList = new javax.swing.JComboBox();
@@ -137,6 +156,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         TeacherID.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
+        ButtonSearchTeacher.setText("Buscar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -153,7 +174,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addComponent(TeacherEducation)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(TeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ButtonSearchTeacher)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -162,7 +184,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(TeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSearchTeacher))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -288,7 +311,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NewCourse)
                     .addComponent(Save))
@@ -301,6 +324,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JComboBox CupoList;
     private javax.swing.JTextField CuposNumber;
     private javax.swing.JTextField CuposTotal;
@@ -333,4 +357,23 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+public class BuscarDocente implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            try {
+                docente = u.buscarDocente(Long.parseLong(TeacherID.getText()));
+                TeacherEducation.setText(docente.getProfesion());
+                TeacherName.setText(docente.getFullName());
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+    
+}
+
+
+
+
 }

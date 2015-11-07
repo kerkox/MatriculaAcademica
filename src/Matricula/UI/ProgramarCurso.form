@@ -74,7 +74,7 @@
                   <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CuposTotal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="48" max="32767" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="NewCourse" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Save" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -238,7 +238,8 @@
                       <Component id="TeacherEducation" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="TeacherID" min="-2" pref="190" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="ButtonSearchTeacher" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -252,6 +253,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="TeacherID" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ButtonSearchTeacher" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -293,6 +295,11 @@
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format format="#0" subtype="-1" type="0"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="ButtonSearchTeacher">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
         </Component>
       </SubComponents>

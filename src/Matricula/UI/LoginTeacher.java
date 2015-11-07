@@ -32,6 +32,7 @@ public class LoginTeacher extends javax.swing.JFrame {
         initComponents();
         
         ButtonLogueoTeacher.addActionListener(new ListenerLogueo());
+        FieldPasswordTeacher.addActionListener(new ListenerLogueo());
         ButtonBack.addActionListener(new ListenerBack());
         
     }
@@ -166,8 +167,9 @@ public class ListenerLogueo implements ActionListener{
             try {
                 Docente teacher = u.buscarDocente(Long.parseLong(FieldIdTeacher.getText().trim()));
                 //Aqui va la ventana del profesor de la matricula
-//                setVisible(false);
-                JOptionPane.showMessageDialog(null, "Logueo Exitoso");
+                setVisible(false);
+                new ProgramarCurso(teacher, u).setVisible(true);
+                
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
