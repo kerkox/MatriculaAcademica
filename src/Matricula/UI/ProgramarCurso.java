@@ -30,13 +30,23 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Universidad u;
     private Docente docente;
     private Curso curso;
+    private ProgramarCurso proCurso = this;
+    private Principal main;
 
-    public ProgramarCurso(Docente docente, Universidad u) {
+    public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
+        this.main = main;
         this.u = u;
         initComponents();
         BuscarDocente BuscarDoc = new BuscarDocente();
         searchCourse sc = new searchCourse();
+        SeleccionarAsignatura sa = new SeleccionarAsignatura();
+        SeleccionarDocente sd = new SeleccionarDocente();
+        TeacherSelected.addActionListener(sd);
+        ListenerFinished lf = new ListenerFinished();
+        ButtonFinished.addActionListener(lf);
+
+        SubjectSearch.addActionListener(sa);
         TeacherID.addActionListener(BuscarDoc);
         ButtonSearchTeacher.addActionListener(BuscarDoc);
         SubjectCode.addActionListener(sc);
@@ -77,10 +87,39 @@ public class ProgramarCurso extends javax.swing.JFrame {
             }
         });
 
-        for(Programa pro : u.getProgramas()){
-                CupoList.addItem(pro);
+        for (Programa pro : u.getProgramas()) {
+            CupoList.addItem(pro);
         }
 
+    }
+
+    public void ActivateProgramCourse(boolean yn) {
+        CupoList.setEnabled(yn);
+        CuposNumber.setEnabled(yn);
+        ButtonAddCourse.setEnabled(yn);
+
+    }
+
+    public void LoadCourse(Curso curso) {
+        this.curso = curso;
+        SubjectCode.setText(curso.getAsignatura().getCodigo());
+        SubjectGroup.setText(curso.getGrupo() + "");
+        SubjectCredits.setText(curso.getAsignatura().getCreditos() + "");
+        SubjectIntensity.setText(curso.getAsignatura().getIntensidad() + "");
+        SubjectName.setText(curso.getAsignatura().getNombre());
+        if (docente != null) {
+            ActivateProgramCourse(true);
+        }
+    }
+
+    public void LoadTeacher(Docente profesor) {
+        this.docente = profesor;
+        TeacherID.setText(profesor.getIdentificacion() + "");
+        TeacherName.setText(profesor.getFullName());
+        TeacherEducation.setText(profesor.getProfesion());
+        if (curso != null) {
+            ActivateProgramCourse(true);
+        }
     }
 
     /**
@@ -94,7 +133,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        SubjectSearch = new javax.swing.JButton();
         SubjectName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         SubjectCredits = new javax.swing.JTextField();
@@ -112,27 +151,34 @@ public class ProgramarCurso extends javax.swing.JFrame {
         TeacherEducation = new javax.swing.JTextField();
         TeacherID = new javax.swing.JFormattedTextField();
         ButtonSearchTeacher = new javax.swing.JButton();
+        TeacherSelected = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         CupoList = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
-        CuposNumber = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        ButtonAddCourse = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableCupos = new javax.swing.JTable();
+        CuposNumber = new javax.swing.JSpinner();
         jLabel11 = new javax.swing.JLabel();
         CuposTotal = new javax.swing.JTextField();
         NewCourse = new javax.swing.JButton();
         Save = new javax.swing.JButton();
+        ButtonFinished = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Asignatura", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 12))); // NOI18N
 
         jLabel1.setText("Código:");
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jButton1.setText("...");
+        SubjectSearch.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        SubjectSearch.setText("...");
 
         SubjectName.setEditable(false);
 
@@ -169,7 +215,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SubjectSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -184,7 +230,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
+                    .addComponent(SubjectSearch)
                     .addComponent(jLabel3)
                     .addComponent(SubjectCredits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -217,6 +263,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         ButtonSearchTeacher.setText("Buscar");
 
+        TeacherSelected.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        TeacherSelected.setText("...");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -233,6 +282,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addComponent(TeacherEducation)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(TeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TeacherSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ButtonSearchTeacher)))
                 .addContainerGap())
@@ -244,7 +295,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(TeacherID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonSearchTeacher))
+                    .addComponent(ButtonSearchTeacher)
+                    .addComponent(TeacherSelected))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -264,10 +316,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel10.setText("Cupos:");
 
-        CuposNumber.setEditable(false);
-
-        jButton2.setText("Agregar");
-        jButton2.setEnabled(false);
+        ButtonAddCourse.setText("Agregar");
+        ButtonAddCourse.setEnabled(false);
 
         TableCupos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -282,6 +332,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TableCupos);
 
+        CuposNumber.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -289,7 +341,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CupoList, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,9 +352,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
                                 .addComponent(jLabel10)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)))))
+                                .addComponent(ButtonAddCourse)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -315,8 +367,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CupoList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(ButtonAddCourse)
+                    .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addContainerGap())
@@ -330,6 +382,10 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         Save.setText("Guardar");
 
+        ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
+        ButtonFinished.setText("Finalizar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -339,11 +395,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -354,7 +405,15 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NewCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(NewCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ButtonFinished, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -375,7 +434,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NewCourse)
                     .addComponent(Save))
@@ -385,11 +446,17 @@ public class ProgramarCurso extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        new ListenerFinished().actionPerformed(null);
+    }//GEN-LAST:event_formWindowClosing
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAddCourse;
+    private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JComboBox CupoList;
-    private javax.swing.JTextField CuposNumber;
+    private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
     private javax.swing.JButton NewCourse;
     private javax.swing.JButton Save;
@@ -398,12 +465,12 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JTextField SubjectGroup;
     private javax.swing.JTextField SubjectIntensity;
     private javax.swing.JTextField SubjectName;
+    private javax.swing.JButton SubjectSearch;
     private javax.swing.JTable TableCupos;
     private javax.swing.JTextField TeacherEducation;
     private javax.swing.JFormattedTextField TeacherID;
     private javax.swing.JTextField TeacherName;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton TeacherSelected;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -429,6 +496,9 @@ public class BuscarDocente implements ActionListener {
                 docente = u.buscarDocente(Long.parseLong(TeacherID.getText()));
                 TeacherEducation.setText(docente.getProfesion());
                 TeacherName.setText(docente.getFullName());
+                if (curso != null) {
+                    ActivateProgramCourse(true);
+                }
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -445,7 +515,9 @@ public class BuscarDocente implements ActionListener {
                 SubjectCredits.setText(curso.getAsignatura().getCreditos() + "");
                 SubjectIntensity.setText(curso.getAsignatura().getIntensidad() + "");
                 SubjectName.setText(curso.getAsignatura().getNombre());
-
+                if (docente != null) {
+                    ActivateProgramCourse(true);
+                }
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             } catch (NumberFormatException ex) {
@@ -456,6 +528,47 @@ public class BuscarDocente implements ActionListener {
                     JOptionPane.showMessageDialog(null, "El campo grupo no puede estar vacio");
                 }
             }
+        }
+
+    }
+
+    public class SeleccionarAsignatura implements ActionListener {
+
+        CursosProgramados cursoPro = null;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (cursoPro == null) {
+                cursoPro = new CursosProgramados(u, proCurso);
+            }
+            cursoPro.setVisible(true);
+        }
+
+    }
+
+    public class ListenerFinished implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            docenteLogueado = null;
+            main.setVisible(true);
+            setVisible(false);
+
+        }
+
+    }
+
+    public class SeleccionarDocente implements ActionListener {
+
+        DocentesAvaible DocAvaible = null;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (DocAvaible == null) {
+                DocAvaible = new DocentesAvaible(u, proCurso);
+            }
+            DocAvaible.setVisible(true);
         }
 
     }

@@ -168,7 +168,7 @@ public class ListenerLogueo implements ActionListener{
                 Docente teacher = u.buscarDocente(Long.parseLong(FieldIdTeacher.getText().trim()));
                 //Aqui va la ventana del profesor de la matricula
                 setVisible(false);
-                new ProgramarCurso(teacher, u).setVisible(true);
+                new ProgramarCurso(teacher, u, main).setVisible(true);
                 
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());

@@ -11,8 +11,6 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**

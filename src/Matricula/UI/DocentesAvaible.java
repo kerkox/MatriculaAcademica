@@ -5,19 +5,18 @@
  */
 package Matricula.UI;
 
-import Matricula.logic.Curso;
+import Matricula.logic.Docente;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author Polker
  */
-public class CursosProgramados extends javax.swing.JFrame {
+public class DocentesAvaible extends javax.swing.JFrame {
 
     /**
      * Creates new form CursosEstudiante
@@ -25,22 +24,22 @@ public class CursosProgramados extends javax.swing.JFrame {
     private Universidad universidad = null;
     private ProgramarCurso proCurso;
 
-    public CursosProgramados(Universidad universidad, ProgramarCurso pro) {
+    public DocentesAvaible(Universidad universidad, ProgramarCurso pro) {
         this.universidad = universidad;
         this.proCurso = pro;
         initComponents();
         this.ButtonSelected.addActionListener(new ListenerSelected());
-        this.TableCursoProgramed.setModel(new AbstractTableModel() {
+        this.TableTeacherAvaible.setModel(new AbstractTableModel() {
 
-            private String[] nombres = {"Codigo", "Nombre Asignatura", "Creditos", "intensidad", "Docente", "Grupo"};
-            private List<Curso> cursos = universidad.TodaLaProgramacion();
+            private String[] nombres = {"Identificacion", "Nombre", "Apellido", "Profession"};
+            private List<Docente> docentes = universidad.getDocentes();
 
             @Override
             public int getRowCount() {
-                if (cursos.isEmpty()) {
+                if (docentes.isEmpty()) {
                     return 0;
                 }
-                return cursos.size();
+                return docentes.size();
             }
 
             @Override
@@ -55,20 +54,16 @@ public class CursosProgramados extends javax.swing.JFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                Curso curso = cursos.get(rowIndex);
+                Docente teacher = docentes.get(rowIndex);
                 switch (columnIndex) {
                     case 0:
-                        return curso.getAsignatura().getCodigo();
+                        return teacher.getIdentificacion();
                     case 1:
-                        return curso.getAsignatura().getNombre();
+                        return teacher.getNombre();
                     case 2:
-                        return curso.getAsignatura().getCreditos();
+                        return teacher.getApellido();
                     case 3:
-                        return curso.getAsignatura().getIntensidad() + " hrs";
-                    case 4:
-                        return curso.getDocente().getFullName();
-                    case 5:
-                        return curso.getGrupo();
+                        return teacher.getProfesion();
                 }
                 return "";
 
@@ -87,10 +82,10 @@ public class CursosProgramados extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableCursoProgramed = new javax.swing.JTable();
+        TableTeacherAvaible = new javax.swing.JTable();
         ButtonSelected = new javax.swing.JButton();
 
-        TableCursoProgramed.setModel(new javax.swing.table.DefaultTableModel(
+        TableTeacherAvaible.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -101,7 +96,7 @@ public class CursosProgramados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TableCursoProgramed);
+        jScrollPane1.setViewportView(TableTeacherAvaible);
 
         ButtonSelected.setText("Seleccionar");
 
@@ -131,18 +126,18 @@ public class CursosProgramados extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonSelected;
-    private javax.swing.JTable TableCursoProgramed;
+    private javax.swing.JTable TableTeacherAvaible;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 public class ListenerSelected implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Curso curso = universidad.TodaLaProgramacion().get(TableCursoProgramed.getSelectedRow());
-            proCurso.LoadCourse(curso);
-            TableCursoProgramed.clearSelection();
+            Docente maestro = universidad.getDocentes().get(TableTeacherAvaible.getSelectedRow());
+            proCurso.LoadTeacher(maestro);
+            TableTeacherAvaible.clearSelection();
             setVisible(false);
-            
+
         }
 
     }
