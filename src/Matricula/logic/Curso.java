@@ -145,7 +145,10 @@ public class Curso implements Serializable {
   
     //============================
     //Metodos Add
-    public void add(Cupo cupo){
+    public void add(Cupo cupo) throws Exception{
+        if(cupos.contains(cupo)){
+            throw new Exception("cupo ya contenido");
+        }
         this.cupos.add(cupo);
         this.totalCupos += cupo.getCantidad();
     }

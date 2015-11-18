@@ -5,7 +5,6 @@
  */
 package Matricula.UI;
 
-import Matricula.logic.Asignatura;
 import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
 import Matricula.logic.Docente;
@@ -14,6 +13,8 @@ import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -32,26 +33,34 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Curso curso;
     private ProgramarCurso proCurso = this;
     private Principal main;
+    private Cupo cupo;
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
         this.u = u;
         initComponents();
-        BuscarDocente BuscarDoc = new BuscarDocente();
-        searchCourse sc = new searchCourse();
-        SeleccionarAsignatura sa = new SeleccionarAsignatura();
+        //***************************************   
+        ListenerAddCupo AddCupo = new ListenerAddCupo();
+        ButtonAddCupo.addActionListener(AddCupo);
+        //***************************************   
         SeleccionarDocente sd = new SeleccionarDocente();
         TeacherSelected.addActionListener(sd);
+        //***************************************
         ListenerFinished lf = new ListenerFinished();
         ButtonFinished.addActionListener(lf);
-
+        //***************************************   
+        SeleccionarAsignatura sa = new SeleccionarAsignatura();
         SubjectSearch.addActionListener(sa);
+        //***************************************   
+        BuscarDocente BuscarDoc = new BuscarDocente();
         TeacherID.addActionListener(BuscarDoc);
         ButtonSearchTeacher.addActionListener(BuscarDoc);
+        //***************************************   
+        searchCourse sc = new searchCourse();
         SubjectCode.addActionListener(sc);
         SubjectGroup.addActionListener(sc);
-
+        //***************************************   
         TableCupos.setModel(new AbstractTableModel() {
 
             String[] names = {"Programa", "Cupos"};
@@ -96,7 +105,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
     public void ActivateProgramCourse(boolean yn) {
         CupoList.setEnabled(yn);
         CuposNumber.setEnabled(yn);
-        ButtonAddCourse.setEnabled(yn);
+        ButtonAddCupo.setEnabled(yn);
+        TableCupos.updateUI();
 
     }
 
@@ -156,7 +166,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         CupoList = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
-        ButtonAddCourse = new javax.swing.JButton();
+        ButtonAddCupo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableCupos = new javax.swing.JTable();
         CuposNumber = new javax.swing.JSpinner();
@@ -316,8 +326,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel10.setText("Cupos:");
 
-        ButtonAddCourse.setText("Agregar");
-        ButtonAddCourse.setEnabled(false);
+        ButtonAddCupo.setText("Agregar");
+        ButtonAddCupo.setEnabled(false);
 
         TableCupos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -354,7 +364,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ButtonAddCourse)))))
+                                .addComponent(ButtonAddCupo)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -367,7 +377,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CupoList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonAddCourse)
+                    .addComponent(ButtonAddCupo)
                     .addComponent(CuposNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
@@ -452,7 +462,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonAddCourse;
+    private javax.swing.JButton ButtonAddCupo;
     private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JComboBox CupoList;
@@ -569,6 +579,26 @@ public class BuscarDocente implements ActionListener {
                 DocAvaible = new DocentesAvaible(u, proCurso);
             }
             DocAvaible.setVisible(true);
+        }
+
+    }
+
+    public class ListenerAddCupo implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            try {
+                Programa pro = (Programa) CupoList.getSelectedItem();
+                System.out.println("programa: " + pro.getNombre());
+                cupo = new Cupo((int) CuposNumber.getValue(), pro);
+                curso.add(cupo);
+                TableCupos.updateUI();
+                cupo = null;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+
         }
 
     }

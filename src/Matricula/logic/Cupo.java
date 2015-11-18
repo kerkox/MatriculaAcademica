@@ -6,6 +6,7 @@
 package Matricula.logic;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -132,8 +133,26 @@ public class Cupo implements Serializable {
         this.disponibles = disponibles;
     }
 
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cupo other = (Cupo) obj;
+       
+        if (!Objects.equals(this.programa, other.programa)) {
+            return false;
+        }
+        return true;
+    }
+
   
 
+    
     @Override
     public String toString() {
         return "Matricula.logic.Cupo[ id=" + id + " ]";
