@@ -1,14 +1,14 @@
-Tue Nov 17 19:50:27 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.1.3 - (1557168) y está listo para aceptar las conexiones en el puerto 1527
+Thu Nov 26 03:09:43 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.11.1.2 - (1629631) y está listo para aceptar las conexiones en el puerto 1527
 ----------------------------------------------------------------
-Tue Nov 17 19:50:28 COT 2015:
- Iniciando instancia a816c00e-0151-1812-3efe-000002c4d4d0 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): 
-en el directorio de base de datos /home/atenea/NetBeansProjects/MatriculaAcademica/Universidad con el cargador de clases sun.misc.Launcher$AppClassLoader@6f94fa3e
-Cargado desde file:/opt/jdk1.8.0_31/db/lib/derby.jar
+Thu Nov 26 03:09:45 COT 2015:
+ Iniciando instancia a816c00e-0151-42d7-473e-000002edcc28 de Derby, versión The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): 
+en el directorio de base de datos D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica\Universidad con el cargador de clases sun.misc.Launcher$AppClassLoader@266474c2
+Cargado desde file:/C:/Program%20Files/Java/jdk1.8.0_65/db/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_31-b13
-user.dir=/home/atenea/NetBeansProjects/MatriculaAcademica
-os.name=Linux
+java.runtime.version=1.8.0_65-b17
+user.dir=D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica
+os.name=Windows 10
 os.arch=amd64
-os.version=3.16.0-30-generic
+os.version=10.0
 derby.system.home=null
 Cargador de clases de base de datos iniciado - derby.database.classpath=''

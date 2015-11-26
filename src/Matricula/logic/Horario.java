@@ -54,7 +54,13 @@ public class Horario implements Serializable {
     }
     
 
-    public Horario(Date horaIncio, Date horaFinalizacion, Dia dia) {
+    public Horario(Date horaIncio, Date horaFinalizacion, Dia dia) throws Exception {
+        if(horaFinalizacion.getHours()<=horaIncio.getHours()){
+            throw new Exception("Error la Hora de finalizacion no puede ser anterior a la Hora de inicio");
+        }
+        if(((horaFinalizacion.getHours()-1)==horaIncio.getHours())&&(horaIncio.getMinutes()!=horaFinalizacion.getMinutes())){
+            throw new Exception("Error Tiempo Minimo de la clase 1 hora");
+        }
         this.horaIncio = horaIncio;
         this.horaFinalizacion = horaFinalizacion;
         this.dia = dia;

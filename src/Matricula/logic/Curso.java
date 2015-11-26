@@ -153,6 +153,14 @@ public class Curso implements Serializable {
         this.totalCupos += cupo.getCantidad();
     }
     
+    public void add(Horario horario) throws Exception{
+        if(horarios.contains(horario)){
+            throw new Exception("Horario ya asignado");
+        }
+        this.horarios.add(horario);
+        
+    }
+    
     //============================
     //==============================
     //Metodos Modificar
@@ -201,7 +209,10 @@ public class Curso implements Serializable {
             
      
     //==============================
-    
+     //Metodos Eliminar
+     public void removeHorario(int index){
+         this.horarios.remove(index);
+     }
   
   
 

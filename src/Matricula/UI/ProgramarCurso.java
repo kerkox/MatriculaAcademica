@@ -13,8 +13,6 @@ import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -34,12 +32,16 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private ProgramarCurso proCurso = this;
     private Principal main;
     private Cupo cupo;
+    private HorariosCurso horariosUI = null;
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
         this.u = u;
         initComponents();
+        //***************************************   
+        ListenerAddTime AddTime = new ListenerAddTime();
+        ButtonSetTime.addActionListener(AddTime);
         //***************************************   
         ListenerAddCupo AddCupo = new ListenerAddCupo();
         ButtonAddCupo.addActionListener(AddCupo);
@@ -103,6 +105,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     }
 
     public void ActivateProgramCourse(boolean yn) {
+        ButtonSetTime.setEnabled(yn);
         CupoList.setEnabled(yn);
         CuposNumber.setEnabled(yn);
         ButtonAddCupo.setEnabled(yn);
@@ -175,6 +178,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         NewCourse = new javax.swing.JButton();
         Save = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
+        ButtonSetTime = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -396,6 +400,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
 
+        ButtonSetTime.setText("Asignar Horarios");
+        ButtonSetTime.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -408,10 +415,15 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SubjectGroup))
-                        .addGap(0, 43, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(SubjectGroup))
+                                .addGap(0, 118, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(ButtonSetTime))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -435,7 +447,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonSetTime, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -465,6 +478,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton ButtonAddCupo;
     private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchTeacher;
+    private javax.swing.JButton ButtonSetTime;
     private javax.swing.JComboBox CupoList;
     private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
@@ -601,6 +615,18 @@ public class BuscarDocente implements ActionListener {
 
         }
 
+    }
+    
+    public class ListenerAddTime implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if(horariosUI==null){
+                horariosUI= new HorariosCurso(curso);
+             }
+            horariosUI.setVisible(true);
+        }
+        
     }
 
 }
