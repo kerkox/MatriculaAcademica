@@ -5,6 +5,7 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Asignatura;
 import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
 import Matricula.logic.Docente;
@@ -113,26 +114,26 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
     }
 
-    public void LoadCourse(Curso curso) {
-        this.curso = curso;
-        SubjectCode.setText(curso.getAsignatura().getCodigo());
-        SubjectGroup.setText(curso.getGrupo() + "");
-        SubjectCredits.setText(curso.getAsignatura().getCreditos() + "");
-        SubjectIntensity.setText(curso.getAsignatura().getIntensidad() + "");
-        SubjectName.setText(curso.getAsignatura().getNombre());
-        if (docente != null) {
-            ActivateProgramCourse(true);
-        }
+    public void LoadSubject(Asignatura asignatura) {
+        this.curso = new Curso();
+        SubjectCode.setText(asignatura.getCodigo());
+        SubjectCredits.setText(asignatura.getCreditos() + "");
+        SubjectIntensity.setText(asignatura.getIntensidad() + "");
+        SubjectName.setText(asignatura.getNombre());
+        curso.setAsignatura(asignatura);
+        if (docente != null) ActivateProgramCourse(true);
+        
     }
 
     public void LoadTeacher(Docente profesor) {
+        if(curso==null) curso = new Curso();        
         this.docente = profesor;
         TeacherID.setText(profesor.getIdentificacion() + "");
         TeacherName.setText(profesor.getFullName());
         TeacherEducation.setText(profesor.getProfesion());
-        if (curso != null) {
-            ActivateProgramCourse(true);
-        }
+        curso.setDocente(docente);
+        ActivateProgramCourse(true);
+        
     }
 
     /**
@@ -393,6 +394,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         CuposTotal.setEditable(false);
 
         NewCourse.setText("Programar Nuevo Curso");
+        NewCourse.setEnabled(false);
 
         Save.setText("Guardar");
 
@@ -625,6 +627,20 @@ public class BuscarDocente implements ActionListener {
                 horariosUI= new HorariosCurso(curso);
              }
             horariosUI.setVisible(true);
+        }
+        
+    }
+    
+    public class Guardar implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(curso.getHorarios().isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se ha registrado Un horario al curso");
+            }else{
+            u.registrar(curso);
+            }
+            
         }
         
     }

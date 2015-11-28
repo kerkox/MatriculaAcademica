@@ -268,7 +268,7 @@ public class Universidad {
         estudianteJpa.edit(estu);
         //////*********************************
     }
-
+    
     public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Cancelar(curso, cursoJpa, matricualJpa);
 

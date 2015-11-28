@@ -5,6 +5,7 @@
  */
 package Matricula.UI;
 
+import Matricula.logic.Asignatura;
 import Matricula.logic.Curso;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
@@ -32,15 +33,15 @@ public class CursosProgramados extends javax.swing.JFrame {
         this.ButtonSelected.addActionListener(new ListenerSelected());
         this.TableCursoProgramed.setModel(new AbstractTableModel() {
 
-            private String[] nombres = {"Codigo", "Nombre Asignatura", "Creditos", "intensidad", "Docente", "Grupo"};
+            private String[] nombres = {"Codigo", "Nombre Asignatura", "Creditos", "intensidad" };
             private List<Curso> cursos = universidad.TodaLaProgramacion();
 
             @Override
             public int getRowCount() {
-                if (cursos.isEmpty()) {
+                if (universidad.getAsignaturas().isEmpty()) {
                     return 0;
                 }
-                return cursos.size();
+                return universidad.getAsignaturas().size();
             }
 
             @Override
@@ -55,20 +56,17 @@ public class CursosProgramados extends javax.swing.JFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                Curso curso = cursos.get(rowIndex);
+                Asignatura asignatura = universidad.getAsignaturas().get(rowIndex);
                 switch (columnIndex) {
                     case 0:
-                        return curso.getAsignatura().getCodigo();
+                        return asignatura.getCodigo();
                     case 1:
-                        return curso.getAsignatura().getNombre();
+                        return asignatura.getNombre();
                     case 2:
-                        return curso.getAsignatura().getCreditos();
+                        return asignatura.getCreditos();
                     case 3:
-                        return curso.getAsignatura().getIntensidad() + " hrs";
-                    case 4:
-                        return curso.getDocente().getFullName();
-                    case 5:
-                        return curso.getGrupo();
+                        return asignatura.getIntensidad() + " hrs";
+                        
                 }
                 return "";
 
@@ -138,8 +136,8 @@ public class ListenerSelected implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Curso curso = universidad.TodaLaProgramacion().get(TableCursoProgramed.getSelectedRow());
-            proCurso.LoadCourse(curso);
+            Asignatura asignatura = universidad.getAsignaturas().get(TableCursoProgramed.getSelectedRow());
+            proCurso.LoadSubject(asignatura);
             TableCursoProgramed.clearSelection();
             setVisible(false);
             

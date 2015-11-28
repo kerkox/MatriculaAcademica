@@ -486,6 +486,7 @@
     <Component class="javax.swing.JButton" name="NewCourse">
       <Properties>
         <Property name="text" type="java.lang.String" value="Programar Nuevo Curso"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Save">
