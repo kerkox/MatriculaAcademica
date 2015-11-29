@@ -126,20 +126,6 @@ public class Horario implements Serializable {
         if (this.dia != other.dia) {
             return false;
         }
-        //**************************
-        //Evaluando el rango de horarios ya asignado
-        System.out.println("Analizando el rango de horario");
-        System.out.println("this.horaFinalizacion.before(other.horaIncio): "+this.horaFinalizacion.before(other.horaIncio));
-        System.out.println("this.horaFinalizacion.after(other.horaIncio)): "+this.horaFinalizacion.after(other.horaIncio));
-        System.out.println("this.horaIncio.after(other.horaFinalizacion)): "+this.horaIncio.after(other.horaFinalizacion));
-        System.out.println("this.horaIncio.before(other.horaFinalizacion)): "+this.horaIncio.before(other.horaFinalizacion));
-        
-        
-        if(this.horaFinalizacion.before(other.horaIncio)){
-            return false;
-        }
-        
-        //**************************
         
         return true;
     }

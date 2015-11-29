@@ -153,8 +153,18 @@ public class Curso implements Serializable {
         this.totalCupos += cupo.getCantidad();
     }
     
+    public boolean CruceHorario(Horario horario){
+        for(Horario hour: this.horarios){
+            if((hour.getDia()==horario.getDia())&&(hour.getHoraFinalizacion().getTime()<=horario.getHoraIncio().getTime())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void add(Horario horario) throws Exception{
-        if(horarios.contains(horario)){
+        if(CruceHorario(horario)||horarios.contains(horario)){
+            
             throw new Exception("Horario ya asignado");
         }
         this.horarios.add(horario);

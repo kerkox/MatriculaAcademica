@@ -34,7 +34,7 @@ public class HorariosCurso extends javax.swing.JFrame {
     public HorariosCurso(Curso curso) {
         this.curso = curso;
         initComponents();
-
+        ComboDay.removeAllItems();
         for (int x = 0; x < 7; x++) {
             this.ComboDay.addItem(Dia.values()[x]);
         }
