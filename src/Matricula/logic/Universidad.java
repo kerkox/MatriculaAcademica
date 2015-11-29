@@ -262,7 +262,17 @@ public class Universidad {
         return teacher;
     }
 
-    //////*********************************
+    public Asignatura BuscarAsignatura(String code) throws ObjectNotFoundException{
+        for(Asignatura subject : this.asignaturas){
+            if(subject.getCodigo().equals(code)) return subject;
+                
+        }
+         throw new ObjectNotFoundException("Asignatura con codigo: "+ code+ " no encontrada");
+    }
+
+
+
+//////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Matricular(curso, getPeridoActual(), cursoJpa, matricualJpa);
         estudianteJpa.edit(estu);

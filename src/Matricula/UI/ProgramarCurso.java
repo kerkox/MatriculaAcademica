@@ -14,6 +14,7 @@ import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.print.event.PrintJobEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -30,10 +31,12 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Universidad u;
     private Docente docente;
     private Curso curso;
+    private Asignatura asignatura;
     private ProgramarCurso proCurso = this;
     private Principal main;
     private Cupo cupo;
     private HorariosCurso horariosUI = null;
+    private boolean save = false;
 
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
@@ -60,9 +63,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         TeacherID.addActionListener(BuscarDoc);
         ButtonSearchTeacher.addActionListener(BuscarDoc);
         //***************************************   
-        searchCourse sc = new searchCourse();
+        SearchSubject sc = new SearchSubject();
         SubjectCode.addActionListener(sc);
-        SubjectGroup.addActionListener(sc);
+
         //***************************************   
         TableCupos.setModel(new AbstractTableModel() {
 
@@ -114,26 +117,33 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
     }
 
-    public void LoadSubject(Asignatura asignatura) {
+    public void LoadSubject(Asignatura subject) {
         this.curso = new Curso();
+        this.asignatura = subject;
         SubjectCode.setText(asignatura.getCodigo());
         SubjectCredits.setText(asignatura.getCreditos() + "");
         SubjectIntensity.setText(asignatura.getIntensidad() + "");
         SubjectName.setText(asignatura.getNombre());
         curso.setAsignatura(asignatura);
-        if (docente != null) ActivateProgramCourse(true);
-        
+        if (docente != null) {
+            ActivateProgramCourse(true);
+        }
+
     }
 
     public void LoadTeacher(Docente profesor) {
-        if(curso==null) curso = new Curso();        
+        if (curso == null) {
+            curso = new Curso();
+        }
         this.docente = profesor;
         TeacherID.setText(profesor.getIdentificacion() + "");
         TeacherName.setText(profesor.getFullName());
         TeacherEducation.setText(profesor.getProfesion());
         curso.setDocente(docente);
-        ActivateProgramCourse(true);
-        
+        if (asignatura != null) {
+            ActivateProgramCourse(true);
+        }
+
     }
 
     /**
@@ -156,7 +166,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         SubjectCode = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        SubjectGroup = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -180,6 +189,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         Save = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
         ButtonSetTime = new javax.swing.JButton();
+        SubjectGroup = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -418,14 +428,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(SubjectGroup))
-                                .addGap(0, 118, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(ButtonSetTime))))
+                                .addGap(0, 40, Short.MAX_VALUE)
+                                .addComponent(ButtonSetTime))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -445,12 +455,13 @@ public class ProgramarCurso extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonSetTime, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addComponent(ButtonSetTime)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -488,7 +499,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton Save;
     private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
-    private javax.swing.JTextField SubjectGroup;
+    private javax.swing.JSpinner SubjectGroup;
     private javax.swing.JTextField SubjectIntensity;
     private javax.swing.JTextField SubjectName;
     private javax.swing.JButton SubjectSearch;
@@ -532,15 +543,15 @@ public class BuscarDocente implements ActionListener {
 
     }
 
-    public class searchCourse implements ActionListener {
+    public class SearchSubject implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                curso = u.BuscarCurso(SubjectCode.getText().trim(), Byte.parseByte(SubjectGroup.getText().trim()));
-                SubjectCredits.setText(curso.getAsignatura().getCreditos() + "");
-                SubjectIntensity.setText(curso.getAsignatura().getIntensidad() + "");
-                SubjectName.setText(curso.getAsignatura().getNombre());
+                asignatura = u.BuscarAsignatura(SubjectCode.getText().trim());
+                SubjectCredits.setText(asignatura.getCreditos() + "");
+                SubjectIntensity.setText(asignatura.getIntensidad() + "");
+                SubjectName.setText(asignatura.getNombre());
                 if (docente != null) {
                     ActivateProgramCourse(true);
                 }
@@ -549,9 +560,6 @@ public class BuscarDocente implements ActionListener {
             } catch (NumberFormatException ex) {
                 if (SubjectCode.getText().trim().equals("")) {
                     JOptionPane.showMessageDialog(null, "El campo Codigo no puede estar vacio");
-                }
-                if (SubjectGroup.getText().trim().equals("")) {
-                    JOptionPane.showMessageDialog(null, "El campo grupo no puede estar vacio");
                 }
             }
         }
@@ -576,11 +584,19 @@ public class BuscarDocente implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (save) {
+                this.exit();
+            } else {
+                int op = JOptionPane.showConfirmDialog(null, "desea Salir sin Guardar", "Guardar?", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (op == 0) this.exit();
+            }
 
+        }
+
+        public void exit() {
             docenteLogueado = null;
             main.setVisible(true);
             setVisible(false);
-
         }
 
     }
@@ -606,7 +622,6 @@ public class BuscarDocente implements ActionListener {
 
             try {
                 Programa pro = (Programa) CupoList.getSelectedItem();
-                System.out.println("programa: " + pro.getNombre());
                 cupo = new Cupo((int) CuposNumber.getValue(), pro);
                 curso.add(cupo);
                 TableCupos.updateUI();
@@ -618,31 +633,31 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    
-    public class ListenerAddTime implements ActionListener{
+
+    public class ListenerAddTime implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(horariosUI==null){
-                horariosUI= new HorariosCurso(curso);
-             }
+            if (horariosUI == null) {
+                horariosUI = new HorariosCurso(curso);
+            }
             horariosUI.setVisible(true);
         }
-        
+
     }
-    
-    public class Guardar implements ActionListener{
+
+    public class Guardar implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(curso.getHorarios().isEmpty()){
+            if (curso.getHorarios().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se ha registrado Un horario al curso");
-            }else{
-            u.registrar(curso);
+            } else {
+                u.registrar(curso);
             }
-            
+
         }
-        
+
     }
 
 }
