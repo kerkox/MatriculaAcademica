@@ -55,11 +55,13 @@ public class Horario implements Serializable {
     
 
     public Horario(Date horaIncio, Date horaFinalizacion, Dia dia) throws Exception {
-        if(horaFinalizacion.getHours()<=horaIncio.getHours()){
+        if(horaFinalizacion.getHours()<horaIncio.getHours()){
             throw new Exception("Error la Hora de finalizacion no puede ser anterior a la Hora de inicio");
         }
-        if(((horaFinalizacion.getHours()-1)==horaIncio.getHours())&&(horaIncio.getMinutes()!=horaFinalizacion.getMinutes())){
+        if(horaFinalizacion.getHours()==horaIncio.getHours()){
+        if((horaIncio.getMinutes()>=0)&&(horaFinalizacion.getMinutes()<=59)){
             throw new Exception("Error Tiempo Minimo de la clase 1 hora");
+        }
         }
         this.horaIncio = horaIncio;
         this.horaFinalizacion = horaFinalizacion;
@@ -124,6 +126,21 @@ public class Horario implements Serializable {
         if (this.dia != other.dia) {
             return false;
         }
+        //**************************
+        //Evaluando el rango de horarios ya asignado
+        System.out.println("Analizando el rango de horario");
+        System.out.println("this.horaFinalizacion.before(other.horaIncio): "+this.horaFinalizacion.before(other.horaIncio));
+        System.out.println("this.horaFinalizacion.after(other.horaIncio)): "+this.horaFinalizacion.after(other.horaIncio));
+        System.out.println("this.horaIncio.after(other.horaFinalizacion)): "+this.horaIncio.after(other.horaFinalizacion));
+        System.out.println("this.horaIncio.before(other.horaFinalizacion)): "+this.horaIncio.before(other.horaFinalizacion));
+        
+        
+        if(this.horaFinalizacion.before(other.horaIncio)){
+            return false;
+        }
+        
+        //**************************
+        
         return true;
     }
 
