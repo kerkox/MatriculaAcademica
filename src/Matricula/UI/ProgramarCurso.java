@@ -12,11 +12,10 @@ import Matricula.logic.Docente;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
+import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
@@ -692,6 +691,8 @@ public class BuscarDocente implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                curso.setGrupo((byte)(int)SubjectGroup.getValue());
+                curso.setEstado(EstadoCurso.ACTIVO);
                 u.registrar(curso);
                 save = true;
                 NewCourse.setEnabled(save);

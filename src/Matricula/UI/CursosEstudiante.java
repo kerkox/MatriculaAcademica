@@ -5,6 +5,7 @@
  */
 package Matricula.UI;
 
+import static Matricula.logic.Cupo_.programa;
 import Matricula.logic.Curso;
 import Matricula.logic.Periodo;
 import Matricula.logic.Programa;
@@ -24,11 +25,13 @@ public class CursosEstudiante extends javax.swing.JFrame {
      */
     private Periodo periodo = null;
     private MatriculaUI matri;
+    private Programa programa=null;
     public CursosEstudiante(Periodo periodo, MatriculaUI matri, Programa programa) {
         
         initComponents();
         this.matri = matri;
         this.periodo = periodo;
+        this.programa = programa;
         this.ButtonSelected.addActionListener(new ListenerSelected());
         this.TableCursoStudent.setModel(new AbstractTableModel() {
 
@@ -139,7 +142,7 @@ public class ListenerSelected implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Curso curso = periodo.getCursos().get(TableCursoStudent.getSelectedRow());
+            Curso curso = periodo.cursosPrograma(programa).get(TableCursoStudent.getSelectedRow());
             matri.LoadMatricula(curso);
             TableCursoStudent.clearSelection();
             setVisible(false);
