@@ -155,8 +155,11 @@ public class Curso implements Serializable {
     
     public boolean CruceHorario(Horario horario){
         for(Horario hour: this.horarios){
-            if((hour.getDia()==horario.getDia())&&(hour.getHoraFinalizacion().getTime()<=horario.getHoraIncio().getTime())){
-                return true;
+            if((hour.getDia()==horario.getDia())){
+                if((hour.getHoraFinalizacion().getTime()>horario.getHoraIncio().getTime())){
+                    return true;
+                }
+                
             }
         }
         return false;
