@@ -14,8 +14,11 @@ import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.print.event.PrintJobEvent;
 import javax.swing.JOptionPane;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -37,7 +40,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Cupo cupo;
     private HorariosCurso horariosUI = null;
     private boolean save = false;
-
+    
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
@@ -65,12 +68,22 @@ public class ProgramarCurso extends javax.swing.JFrame {
         //***************************************   
         SearchSubject sc = new SearchSubject();
         SubjectCode.addActionListener(sc);
-
+        //***************************************   
+        ListenerSpinnerValue lsv = new ListenerSpinnerValue();
+        SubjectGroup.addChangeListener(lsv);
+        SubjectGroup.setValue(50);//valor por defecto
+        CuposNumber.addChangeListener(lsv);
+        //***************************************   
+        Guardar guardar = new Guardar();
+        Save.addActionListener(guardar);
+        //***************************************   
+        ListenerNewCourse lnc = new ListenerNewCourse();
+        NewCourse.addActionListener(lnc);
         //***************************************   
         TableCupos.setModel(new AbstractTableModel() {
-
+            
             String[] names = {"Programa", "Cupos"};
-
+            
             @Override
             public int getRowCount() {
                 if (curso == null) {
@@ -78,17 +91,17 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 }
                 return curso.getCupos().size();
             }
-
+            
             @Override
             public String getColumnName(int columnIndex) {
                 return names[columnIndex];
             }
-
+            
             @Override
             public int getColumnCount() {
                 return names.length;
             }
-
+            
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Cupo cupo = curso.getCupos().get(rowIndex);
@@ -101,22 +114,22 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 return "";
             }
         });
-
+        
         for (Programa pro : u.getProgramas()) {
             CupoList.addItem(pro);
         }
-
+        
     }
-
+    
     public void ActivateProgramCourse(boolean yn) {
         ButtonSetTime.setEnabled(yn);
         CupoList.setEnabled(yn);
         CuposNumber.setEnabled(yn);
         ButtonAddCupo.setEnabled(yn);
         TableCupos.updateUI();
-
+        
     }
-
+    
     public void LoadSubject(Asignatura subject) {
         this.curso = new Curso();
         this.asignatura = subject;
@@ -128,9 +141,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         if (docente != null) {
             ActivateProgramCourse(true);
         }
-
+        
     }
-
+    
     public void LoadTeacher(Docente profesor) {
         if (curso == null) {
             curso = new Curso();
@@ -143,7 +156,33 @@ public class ProgramarCurso extends javax.swing.JFrame {
         if (asignatura != null) {
             ActivateProgramCourse(true);
         }
+        
+    }
 
+    /**
+     * Reinicio de toda la interfaz y las variables
+     */
+    public void clear() {
+        this.docente = null;
+        this.asignatura = null;
+        this.curso = null;
+        this.cupo = null;
+        this.save = false;
+        ActivateProgramCourse(save);
+        NewCourse.setEnabled(save);
+        
+        this.TeacherEducation.setText("");
+        this.TeacherID.setText("");
+        this.TeacherName.setText("");
+        
+        this.SubjectCode.setText("");
+        this.SubjectCredits.setText("");
+        this.SubjectIntensity.setText("");
+        this.SubjectName.setText("");
+        
+        this.TableCupos.clearSelection();
+        this.TableCupos.updateUI();
+        
     }
 
     /**
@@ -525,10 +564,10 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 public class BuscarDocente implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            
             try {
                 docente = u.buscarDocente(Long.parseLong(TeacherID.getText()));
                 TeacherEducation.setText(docente.getProfesion());
@@ -540,11 +579,11 @@ public class BuscarDocente implements ActionListener {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-
+        
     }
-
+    
     public class SearchSubject implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -563,13 +602,13 @@ public class BuscarDocente implements ActionListener {
                 }
             }
         }
-
+        
     }
-
+    
     public class SeleccionarAsignatura implements ActionListener {
-
+        
         CursosProgramados cursoPro = null;
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             if (cursoPro == null) {
@@ -577,34 +616,36 @@ public class BuscarDocente implements ActionListener {
             }
             cursoPro.setVisible(true);
         }
-
+        
     }
-
+    
     public class ListenerFinished implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             if (save) {
                 this.exit();
             } else {
                 int op = JOptionPane.showConfirmDialog(null, "desea Salir sin Guardar", "Guardar?", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (op == 0) this.exit();
+                if (op == 0) {
+                    this.exit();
+                }
             }
-
+            
         }
-
+        
         public void exit() {
             docenteLogueado = null;
             main.setVisible(true);
             setVisible(false);
         }
-
+        
     }
-
+    
     public class SeleccionarDocente implements ActionListener {
-
+        
         DocentesAvaible DocAvaible = null;
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             if (DocAvaible == null) {
@@ -612,14 +653,14 @@ public class BuscarDocente implements ActionListener {
             }
             DocAvaible.setVisible(true);
         }
-
+        
     }
-
+    
     public class ListenerAddCupo implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            
             try {
                 Programa pro = (Programa) CupoList.getSelectedItem();
                 cupo = new Cupo((int) CuposNumber.getValue(), pro);
@@ -629,13 +670,13 @@ public class BuscarDocente implements ActionListener {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-
+            
         }
-
+        
     }
-
+    
     public class ListenerAddTime implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
             if (horariosUI == null) {
@@ -643,21 +684,48 @@ public class BuscarDocente implements ActionListener {
             }
             horariosUI.setVisible(true);
         }
-
+        
     }
-
+    
     public class Guardar implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (curso.getHorarios().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No se ha registrado Un horario al curso");
-            } else {
+            try {
                 u.registrar(curso);
+                save = true;
+                NewCourse.setEnabled(save);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-
+            
         }
-
+        
     }
+    
+    public class ListenerNewCourse implements ActionListener {
+        
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            clear();
+        }
+        
+    }
+    
+    public class ListenerSpinnerValue implements ChangeListener {
+        
 
+        @Override
+        public void stateChanged(ChangeEvent ce) {
+            if ((int) CuposNumber.getValue() < 0) {
+                CuposNumber.setValue(0);
+            }
+            if ((int) SubjectGroup.getValue() < 0) {
+                SubjectGroup.setValue(0);
+            }
+        }
+        
+    }
+    
 }

@@ -215,16 +215,43 @@ public class Universidad {
         }
     }
 
-    public void registrar(Curso curso) {
-        try {
+    
+    public void registrarIncial(Curso curso) throws Exception {
+        
             cursoJpa.create(curso);
             Periodo periodo = getPeridoActual();
             periodo.add(curso);
             periodoJpa.edit(periodo);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-
-        }
+        
+    }
+    
+    public void registrar(Curso curso) throws Exception {
+        
+            if (curso == null) {
+                    throw new Exception("No se ha creado el Curso");
+                }
+                if (curso.getHorarios().isEmpty()) {
+                    throw new Exception("No se ha registrado Un horario al curso");
+                }
+                if (curso.getCupos().isEmpty()) {
+                    throw new Exception("No se ha registrado Un Cupo al curso");
+                }
+                if (curso.getDocente() == null) {
+                    throw new Exception("Docente no asignado");
+                }
+                if (curso.getAsignatura() == null) {
+                    throw new Exception("Asignatura no asignada");
+                }
+                
+            if(cursoJpa.findCursoEntities().contains(curso)){
+                throw new Exception("ERROR CURSO YA REGISTRADO");
+            }
+            
+            cursoJpa.create(curso);
+            Periodo periodo = getPeridoActual();
+            periodo.add(curso);
+            periodoJpa.edit(periodo);
+        
     }
 
     public void ActulizarEstudainte(Estudiante estu) throws Exception {

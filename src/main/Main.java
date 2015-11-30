@@ -186,7 +186,7 @@ public class Main {
 
                 //Registro de Cursos
                 for (Curso x : cursos) {
-                    u.registrar(x);
+                    u.registrarIncial(x);
                 }
                 System.out.println("Termino de hacer los registros");
             }
