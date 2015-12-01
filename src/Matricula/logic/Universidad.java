@@ -321,7 +321,7 @@ public class Universidad {
     }
     
     public void CancelarCursoPeriodo(int index) throws Exception{
-         getPeridoActual().CancelarCurso(index);
+         getPeridoActual().CancelarCurso(index, cursoJpa);
          periodoJpa.edit(getPeridoActual());
     }
 

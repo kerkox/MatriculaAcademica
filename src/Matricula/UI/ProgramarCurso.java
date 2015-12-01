@@ -16,8 +16,6 @@ import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -877,12 +875,11 @@ public class BuscarDocente implements ActionListener {
                 Curso cur = u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
                 int op =JOptionPane.showConfirmDialog(null, "Desea cancelar el curso : "+cur+" ","Desea cancelar?",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if(op==0){
-                
-                    u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
+                u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
 //                u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
-                TableCursosProgramados.updateUI();
                 }
-                
+                TableCursosProgramados.updateUI();
+                TableCursosProgramados.clearSelection();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }

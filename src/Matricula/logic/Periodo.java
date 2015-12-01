@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.persistence.CursoJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,9 +135,12 @@ public class Periodo implements Serializable {
         course.setEstado(EstadoCurso.CANCELADO);
     }
     
-    public void CancelarCurso(int index){
+    public void CancelarCurso(int index,  CursoJpaController CursoJpa) throws Exception{
         Curso curso = this.cursos.get(index);
         curso.setEstado(EstadoCurso.CANCELADO);
+        CursoJpa.edit(curso);
+        this.cursos.set(index, curso);
+        
         
     }
     
