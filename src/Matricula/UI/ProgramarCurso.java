@@ -15,6 +15,7 @@ import Matricula.logic.Universidad;
 import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -39,7 +40,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private Cupo cupo;
     private HorariosCurso horariosUI = null;
     private boolean save = false;
-    
+
     public ProgramarCurso(Docente docente, Universidad u, Principal main) {
         this.docenteLogueado = docente;
         this.main = main;
@@ -80,9 +81,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         NewCourse.addActionListener(lnc);
         //***************************************   
         TableCupos.setModel(new AbstractTableModel() {
-            
+
             String[] names = {"Programa", "Cupos"};
-            
+
             @Override
             public int getRowCount() {
                 if (curso == null) {
@@ -90,17 +91,17 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 }
                 return curso.getCupos().size();
             }
-            
+
             @Override
             public String getColumnName(int columnIndex) {
                 return names[columnIndex];
             }
-            
+
             @Override
             public int getColumnCount() {
                 return names.length;
             }
-            
+
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Cupo cupo = curso.getCupos().get(rowIndex);
@@ -113,22 +114,68 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 return "";
             }
         });
-        
+
         for (Programa pro : u.getProgramas()) {
             CupoList.addItem(pro);
         }
-        
+
+        //##########################################
+        //Tab Cancelar Cursos
+        this.TableCursosProgramados.setModel(new AbstractTableModel() {
+
+            String[] names = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos"};
+
+            @Override
+            public String getColumnName(int ColumnIndex) {
+                return names[ColumnIndex];
+            }
+
+            @Override
+            public int getRowCount() {
+                List<Curso> courses = u.getPeridoActual().getCursos();
+                if ((courses == null) || (courses.isEmpty())) {
+                    return 0;
+                }
+                return u.getPeridoActual().getCursos().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return names.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Curso curso = u.getPeridoActual().getCursos().get(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return curso.getAsignatura().getCodigo();
+                    case 1:
+                        return curso.getAsignatura().getNombre();
+                    case 2:
+                        return curso.getGrupo();
+                    case 3:
+                        return curso.getDocente().getFullName();
+                    case 4:
+                        return curso.getAsignatura().getCreditos();
+
+                }
+                return "";
+            }
+        });
+
+        //##########################################
     }
-    
+
     public void ActivateProgramCourse(boolean yn) {
         ButtonSetTime.setEnabled(yn);
         CupoList.setEnabled(yn);
         CuposNumber.setEnabled(yn);
         ButtonAddCupo.setEnabled(yn);
         TableCupos.updateUI();
-        
+
     }
-    
+
     public void LoadSubject(Asignatura subject) {
         this.curso = new Curso();
         this.asignatura = subject;
@@ -140,9 +187,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         if (docente != null) {
             ActivateProgramCourse(true);
         }
-        
+
     }
-    
+
     public void LoadTeacher(Docente profesor) {
         if (curso == null) {
             curso = new Curso();
@@ -155,7 +202,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         if (asignatura != null) {
             ActivateProgramCourse(true);
         }
-        
+
     }
 
     /**
@@ -169,19 +216,19 @@ public class ProgramarCurso extends javax.swing.JFrame {
         this.save = false;
         ActivateProgramCourse(save);
         NewCourse.setEnabled(save);
-        
+
         this.TeacherEducation.setText("");
         this.TeacherID.setText("");
         this.TeacherName.setText("");
-        
+
         this.SubjectCode.setText("");
         this.SubjectCredits.setText("");
         this.SubjectIntensity.setText("");
         this.SubjectName.setText("");
-        
+
         this.TableCupos.clearSelection();
         this.TableCupos.updateUI();
-        
+
     }
 
     /**
@@ -193,6 +240,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        PanelRegistrar = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         SubjectSearch = new javax.swing.JButton();
@@ -204,6 +253,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         SubjectCode = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
+        ButtonSetTime = new javax.swing.JButton();
+        SubjectGroup = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -223,11 +274,13 @@ public class ProgramarCurso extends javax.swing.JFrame {
         CuposNumber = new javax.swing.JSpinner();
         jLabel11 = new javax.swing.JLabel();
         CuposTotal = new javax.swing.JTextField();
-        NewCourse = new javax.swing.JButton();
         Save = new javax.swing.JButton();
+        NewCourse = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableCursosProgramados = new javax.swing.JTable();
+        ButtonCancelCourse = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
-        ButtonSetTime = new javax.swing.JButton();
-        SubjectGroup = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -309,6 +362,9 @@ public class ProgramarCurso extends javax.swing.JFrame {
         );
 
         jLabel5.setText("Grupo:");
+
+        ButtonSetTime.setText("Asignar Horarios");
+        ButtonSetTime.setEnabled(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Docente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 12))); // NOI18N
 
@@ -404,7 +460,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CupoList, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,79 +497,138 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         CuposTotal.setEditable(false);
 
+        Save.setText("Guardar");
+
         NewCourse.setText("Programar Nuevo Curso");
         NewCourse.setEnabled(false);
 
-        Save.setText("Guardar");
+        javax.swing.GroupLayout PanelRegistrarLayout = new javax.swing.GroupLayout(PanelRegistrar);
+        PanelRegistrar.setLayout(PanelRegistrarLayout);
+        PanelRegistrarLayout.setHorizontalGroup(
+            PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 683, Short.MAX_VALUE)
+            .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelRegistrarLayout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(ButtonSetTime))
+                                .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                                    .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5)
+                                        .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(106, 106, 106))))
+                        .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                            .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(NewCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelRegistrarLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel11)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap()))
+        );
+        PanelRegistrarLayout.setVerticalGroup(
+            PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 698, Short.MAX_VALUE)
+            .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(PanelRegistrarLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(71, 71, 71)
+                            .addComponent(ButtonSetTime)))
+                    .addGap(18, 18, 18)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(NewCourse)
+                        .addComponent(Save))
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("Programar Curso", PanelRegistrar);
+
+        TableCursosProgramados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(TableCursosProgramados);
+
+        ButtonCancelCourse.setText("Cancelar Curso");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonCancelCourse)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ButtonCancelCourse)
+                .addContainerGap(329, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Cancelar Curso", jPanel4);
 
         ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
-
-        ButtonSetTime.setText("Asignar Horarios");
-        ButtonSetTime.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 40, Short.MAX_VALUE)
-                                .addComponent(ButtonSetTime))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ButtonFinished))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NewCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ButtonFinished, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGap(24, 24, 24)
+                        .addComponent(jTabbedPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
-                        .addComponent(ButtonSetTime)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(CuposTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NewCourse)
-                    .addComponent(Save))
                 .addContainerGap())
         );
 
@@ -527,6 +642,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddCupo;
+    private javax.swing.JButton ButtonCancelCourse;
     private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JButton ButtonSetTime;
@@ -534,6 +650,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
     private javax.swing.JButton NewCourse;
+    private javax.swing.JPanel PanelRegistrar;
     private javax.swing.JButton Save;
     private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
@@ -542,6 +659,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JTextField SubjectName;
     private javax.swing.JButton SubjectSearch;
     private javax.swing.JTable TableCupos;
+    private javax.swing.JTable TableCursosProgramados;
     private javax.swing.JTextField TeacherEducation;
     private javax.swing.JFormattedTextField TeacherID;
     private javax.swing.JTextField TeacherName;
@@ -560,13 +678,16 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 public class BuscarDocente implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             try {
                 docente = u.buscarDocente(Long.parseLong(TeacherID.getText()));
                 TeacherEducation.setText(docente.getProfesion());
@@ -578,11 +699,11 @@ public class BuscarDocente implements ActionListener {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-        
+
     }
-    
+
     public class SearchSubject implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -601,13 +722,13 @@ public class BuscarDocente implements ActionListener {
                 }
             }
         }
-        
+
     }
-    
+
     public class SeleccionarAsignatura implements ActionListener {
-        
+
         CursosProgramados cursoPro = null;
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (cursoPro == null) {
@@ -615,11 +736,11 @@ public class BuscarDocente implements ActionListener {
             }
             cursoPro.setVisible(true);
         }
-        
+
     }
-    
+
     public class ListenerFinished implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (save) {
@@ -630,21 +751,21 @@ public class BuscarDocente implements ActionListener {
                     this.exit();
                 }
             }
-            
+
         }
-        
+
         public void exit() {
             docenteLogueado = null;
             main.setVisible(true);
             setVisible(false);
         }
-        
+
     }
-    
+
     public class SeleccionarDocente implements ActionListener {
-        
+
         DocentesAvaible DocAvaible = null;
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (DocAvaible == null) {
@@ -652,14 +773,14 @@ public class BuscarDocente implements ActionListener {
             }
             DocAvaible.setVisible(true);
         }
-        
+
     }
-    
+
     public class ListenerAddCupo implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             try {
                 Programa pro = (Programa) CupoList.getSelectedItem();
                 cupo = new Cupo((int) CuposNumber.getValue(), pro);
@@ -669,13 +790,13 @@ public class BuscarDocente implements ActionListener {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-            
+
         }
-        
+
     }
-    
+
     public class ListenerAddTime implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             if (horariosUI == null) {
@@ -683,39 +804,38 @@ public class BuscarDocente implements ActionListener {
             }
             horariosUI.setVisible(true);
         }
-        
+
     }
-    
+
     public class Guardar implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                curso.setGrupo((byte)(int)SubjectGroup.getValue());
+                curso.setGrupo((byte) (int) SubjectGroup.getValue());
                 curso.setEstado(EstadoCurso.ACTIVO);
                 u.registrar(curso);
                 save = true;
                 NewCourse.setEnabled(save);
-                
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-            
+
         }
-        
+
     }
-    
+
     public class ListenerNewCourse implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             clear();
         }
-        
+
     }
-    
+
     public class ListenerSpinnerValue implements ChangeListener {
-        
 
         @Override
         public void stateChanged(ChangeEvent ce) {
@@ -726,7 +846,16 @@ public class BuscarDocente implements ActionListener {
                 SubjectGroup.setValue(0);
             }
         }
-        
+
     }
     
+    public class ListenerCancelarCurso implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "#En Desarrollo...");
+        }
+        
+    }
+
 }

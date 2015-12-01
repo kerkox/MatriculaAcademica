@@ -58,6 +58,7 @@ public class Curso implements Serializable {
     private EstadoCurso estado;
 
     public Curso() {
+        this.estado = EstadoCurso.ACTIVO;
     }
     
 
