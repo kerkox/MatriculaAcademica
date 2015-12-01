@@ -2,13 +2,10 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
-import static Matricula.logic.Tabulado_.matriculas;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -316,6 +313,16 @@ public class Universidad {
         tabuladoJpa.edit(estu.getTabuladoActual());
         estudianteJpa.edit(estu);
 
+    }
+    
+    public void CancelarCursoPeriodo(Curso curso) throws Exception{
+         getPeridoActual().CancelarCurso(curso);
+         periodoJpa.edit(getPeridoActual());
+    }
+    
+    public void CancelarCursoPeriodo(int index) throws Exception{
+         getPeridoActual().CancelarCurso(index);
+         periodoJpa.edit(getPeridoActual());
     }
 
     public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {

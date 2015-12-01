@@ -6,6 +6,7 @@
 package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,20 @@ public class Periodo implements Serializable {
     }
     //==============================
 
+    //==============================
+    //Metodo Cancelar Curso
+    public void CancelarCurso(Curso curso){
+        Curso course = this.cursos.get(this.cursos.indexOf(id));
+        course.setEstado(EstadoCurso.CANCELADO);
+    }
+    
+    public void CancelarCurso(int index){
+        Curso curso = this.cursos.get(index);
+        curso.setEstado(EstadoCurso.CANCELADO);
+        
+    }
+    
+    //==============================
     //==============================
     //Metodos Buscar
     /**

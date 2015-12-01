@@ -16,7 +16,11 @@ import Matricula.logic.enumclass.EstadoCurso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
@@ -80,6 +84,12 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ListenerNewCourse lnc = new ListenerNewCourse();
         NewCourse.addActionListener(lnc);
         //***************************************   
+        ButtonRefresh.addActionListener(new ListenerActualizar());    
+        //***************************************   
+        TabCancelCourse.addAncestorListener(new ListenerRefresco());
+        //***************************************   
+        ButtonCancelCourse.addActionListener(new ListenerCancelarCurso());
+        //***************************************   
         TableCupos.setModel(new AbstractTableModel() {
 
             String[] names = {"Programa", "Cupos"};
@@ -123,7 +133,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         //Tab Cancelar Cursos
         this.TableCursosProgramados.setModel(new AbstractTableModel() {
 
-            String[] names = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos"};
+            String[] names = {"Codigo", "Nombre Asignatura", "Grupo", "Docente", "Creditos", "Estado"};
 
             @Override
             public String getColumnName(int ColumnIndex) {
@@ -158,6 +168,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         return curso.getDocente().getFullName();
                     case 4:
                         return curso.getAsignatura().getCreditos();
+                    case 5:
+                        return curso.getEstado();                       
 
                 }
                 return "";
@@ -240,7 +252,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TabCancelCourse = new javax.swing.JTabbedPane();
         PanelRegistrar = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -280,6 +292,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCursosProgramados = new javax.swing.JTable();
         ButtonCancelCourse = new javax.swing.JButton();
+        ButtonRefresh = new javax.swing.JButton();
         ButtonFinished = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -565,7 +578,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addContainerGap()))
         );
 
-        jTabbedPane1.addTab("Programar Curso", PanelRegistrar);
+        TabCancelCourse.addTab("Programar Curso", PanelRegistrar);
 
         TableCursosProgramados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -582,6 +595,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         ButtonCancelCourse.setText("Cancelar Curso");
 
+        ButtonRefresh.setText("Actualizar");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -590,6 +605,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ButtonCancelCourse)
+                .addGap(18, 18, 18)
+                .addComponent(ButtonRefresh)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -598,11 +615,13 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(ButtonCancelCourse)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonCancelCourse)
+                    .addComponent(ButtonRefresh))
                 .addContainerGap(329, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cancelar Curso", jPanel4);
+        TabCancelCourse.addTab("Cancelar Curso", jPanel4);
 
         ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
@@ -619,14 +638,14 @@ public class ProgramarCurso extends javax.swing.JFrame {
                         .addComponent(ButtonFinished))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jTabbedPane1)))
+                        .addComponent(TabCancelCourse)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TabCancelCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ButtonFinished, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -644,6 +663,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton ButtonAddCupo;
     private javax.swing.JButton ButtonCancelCourse;
     private javax.swing.JButton ButtonFinished;
+    private javax.swing.JButton ButtonRefresh;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JButton ButtonSetTime;
     private javax.swing.JComboBox CupoList;
@@ -658,6 +678,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JTextField SubjectIntensity;
     private javax.swing.JTextField SubjectName;
     private javax.swing.JButton SubjectSearch;
+    private javax.swing.JTabbedPane TabCancelCourse;
     private javax.swing.JTable TableCupos;
     private javax.swing.JTable TableCursosProgramados;
     private javax.swing.JTextField TeacherEducation;
@@ -681,7 +702,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 public class BuscarDocente implements ActionListener {
 
@@ -853,9 +873,50 @@ public class BuscarDocente implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "#En Desarrollo...");
+            try {
+                Curso cur = u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
+                int op =JOptionPane.showConfirmDialog(null, "Desea cancelar el curso : "+cur+" ","Desea cancelar?",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                if(op==0){
+                
+                    u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
+//                u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
+                TableCursosProgramados.updateUI();
+                }
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
         
     }
+    
+    public class ListenerActualizar implements ActionListener{
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            TableCursosProgramados.updateUI();
+        }
+        
+    }
+    
+    public class ListenerRefresco implements AncestorListener{
+
+        @Override
+        public void ancestorAdded(AncestorEvent event) {
+        
+        }
+
+        @Override
+        public void ancestorRemoved(AncestorEvent event) {
+        
+        }
+
+        @Override
+        public void ancestorMoved(AncestorEvent event) {
+            TableCursosProgramados.updateUI();
+        }
+        
+    }
+            
+    
 }
