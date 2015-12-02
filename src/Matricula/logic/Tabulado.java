@@ -59,6 +59,13 @@ public class Tabulado implements Serializable {
         this.actual = true;
 
     }
+    
+    public void ActualizarCreditos(){
+        this.creditos=0;
+        for(Matricula matri : this.matriculas){
+            this.creditos += matri.getCurso().getAsignatura().getCreditos();
+        }
+    }
 
     //==============================
     //Metodos Get

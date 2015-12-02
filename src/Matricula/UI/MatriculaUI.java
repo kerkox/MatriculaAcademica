@@ -42,6 +42,7 @@ public class MatriculaUI extends javax.swing.JFrame {
         if (estu.getTabuladoActual() == null) {
             creditos = 0;
         } else {
+            estu.getTabuladoActual().ActualizarCreditos();
             creditos = estu.getTabuladoActual().getCreditos();
         }
         FieldTotalCreditos.setText(creditos + "");

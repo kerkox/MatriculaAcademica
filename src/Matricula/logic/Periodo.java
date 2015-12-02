@@ -144,7 +144,7 @@ public class Periodo implements Serializable {
         Curso curso = this.cursos.get(index);
         curso.setEstado(EstadoCurso.CANCELADO);
 
-        CursoJpa.edit(curso);
+//        CursoJpa.edit(curso);
         this.cursos.set(index, curso);
 
     }

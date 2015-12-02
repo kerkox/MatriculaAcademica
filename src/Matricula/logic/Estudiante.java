@@ -44,6 +44,7 @@ public class Estudiante extends Persona {
     @OneToOne
     private Programa programa;
 
+    
     public Estudiante() {
     }
 
@@ -51,6 +52,9 @@ public class Estudiante extends Persona {
         super(identificacion, nombre, apellido, password);
         this.codigo = codigo;
         this.programa = programa;
+         
+        
+        
     }
 
     //==================================
@@ -85,6 +89,8 @@ public class Estudiante extends Persona {
         return t;
     }
 
+    
+    
     //==================================
     //==================================
     //Metodos Add

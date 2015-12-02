@@ -1,14 +1,14 @@
-Tue Dec 01 20:14:48 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.2.0 - (1582446) y está listo para aceptar las conexiones en el puerto 1527
+Wed Dec 02 01:54:54 COT 2015 : Servidor de red Apache Derby: Se ha iniciado 10.10.2.0 - (1582446) y está listo para aceptar las conexiones en el puerto 1527
 ----------------------------------------------------------------
-Tue Dec 01 20:14:48 COT 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0151-6041-90a3-0000034208e8 
-on database directory /home/atenea/NetBeansProjects/MatriculaAcademica/Universidad with class loader sun.misc.Launcher$AppClassLoader@28d93b30 
-Loaded from file:/home/atenea/NetBeansProjects/MatriculaAcademica/lib/derby.jar
+Wed Dec 02 01:54:56 COT 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0151-6178-f0e1-000002d80000 
+on database directory D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica\Universidad with class loader sun.misc.Launcher$AppClassLoader@7d4991ad 
+Loaded from file:/D:/Documents/NetBeansProjects/UNIVALLE/MatriculaAcademica/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_31-b13
-user.dir=/home/atenea/NetBeansProjects/MatriculaAcademica
-os.name=Linux
+java.runtime.version=1.8.0_65-b17
+user.dir=D:\Documents\NetBeansProjects\UNIVALLE\MatriculaAcademica
+os.name=Windows 10
 os.arch=amd64
-os.version=3.16.0-30-generic
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

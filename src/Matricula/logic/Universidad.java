@@ -181,7 +181,6 @@ public class Universidad {
 
     public void registrar(Estudiante estudiante) {
         try {
-
             estudianteJpa.create(estudiante);
 
         } catch (Exception ex) {
@@ -322,7 +321,7 @@ public class Universidad {
     public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Cancelar(curso, cursoJpa, matricualJpa);
 
-        cursoJpa.edit(curso);
+//        cursoJpa.edit(curso);
         List<Matricula> matris = estu.getTabuladoActual().getMatriculas();
         matricualJpa.edit(matris.get(matris.indexOf(new Matricula(new Date(), curso))));
 
