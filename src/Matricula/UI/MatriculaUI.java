@@ -87,7 +87,7 @@ public class MatriculaUI extends javax.swing.JFrame {
                     case 2:
                         return matricula.getCurso().getGrupo();
                     case 3:
-                        return matricula.getCurso().getEstado();
+                        return matricula.getEstado();
                     case 4:
                         return matricula.getCurso().getAsignatura().getCreditos();
                 }

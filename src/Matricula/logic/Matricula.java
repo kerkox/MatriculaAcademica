@@ -5,6 +5,7 @@
  */
 package Matricula.logic;
 
+import Matricula.logic.enumclass.Estado;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Matricula.findAll", query = "SELECT m FROM Matricula m"),
     @NamedQuery(name = "Matricula.findById", query = "SELECT m FROM Matricula m WHERE m.id = :id"),
     @NamedQuery(name = "Matricula.findByCancelada", query = "SELECT m FROM Matricula m WHERE m.cancelada = :cancelada"),
+    @NamedQuery(name = "Matricula.findByEstado", query = "SELECT m FROM Matricula m WHERE m.estado = :estado"),
     @NamedQuery(name = "Matricula.findByMatriculada", query = "SELECT m FROM Matricula m WHERE m.matriculada = :matriculada")})
 public class Matricula implements Serializable {
    
@@ -48,6 +50,10 @@ public class Matricula implements Serializable {
     private Date cancelada;
     @OneToOne
     private Curso curso;
+    @Column
+    private Estado estado;
+
+    
 
     public Matricula() {
     }
@@ -61,6 +67,11 @@ public class Matricula implements Serializable {
     
     //============================
     //Metodos Get
+    
+    public Estado getEstado(){
+            return estado;
+    }
+    
     public Date getMatriculada() {
         return matriculada;
     }
@@ -83,6 +94,7 @@ public class Matricula implements Serializable {
     //Metodos Set
     public void setCancelada(Date cancelada) {
         this.cancelada = cancelada;
+        this.estado = Estado.CANCELADO;
     }
     
     public void setId(Long id) {
@@ -96,9 +108,19 @@ public class Matricula implements Serializable {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
+    
+    public void setEstado(Estado estado){
+        this.estado= estado;
+        if(estado == Estado.ACTIVO){
+        this.cancelada=null;
+        }
+        
+    }
 
     //============================
 
+    
+    
     public Matricula(Long id) {
         this.id = id;
     }

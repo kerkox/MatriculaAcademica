@@ -2,7 +2,7 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
-import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.logic.enumclass.Estado;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -242,9 +242,9 @@ public class Universidad {
         List<Curso> cursos = cursoJpa.findCursoEntities();
 
         if (cursos.contains(curso)) {
-            if (cursos.get(cursos.indexOf(curso)).getEstado() == EstadoCurso.CANCELADO) {
+            if (cursos.get(cursos.indexOf(curso)).getEstado() == Estado.CANCELADO) {
                 Curso course = cursoJpa.findCursoEntities().get(cursos.indexOf(curso));
-                course.setEstado(EstadoCurso.ACTIVO);
+                course.setEstado(Estado.ACTIVO);
                 cursoJpa.edit(course);
                 Periodo periodo = getPeridoActual();
                 periodo.editCurso(curso);
@@ -347,19 +347,22 @@ public class Universidad {
         }
         return course;
     }
-    
+
     public boolean estudiantesMatriculados(Curso curso) {
         List<Estudiante> estudiantes = this.estudianteJpa.findEstudianteEntities();
-        for(Estudiante estu : estudiantes){
-            for(Matricula matri :estu.getTabuladoActual().getMatriculas()){
-                if(matri.getCurso().equals(curso)){
-                    return true;
+        for (Estudiante estu : estudiantes) {
+            for (Matricula matri : estu.getTabuladoActual().getMatriculas()) {
+                if (matri.getCurso().equals(curso)) {
+                    if (matri.getEstado() == Estado.ACTIVO) {
+                        return true;
+                    }
+
                 }
             }
-            
+
         }
         return false;
-        
+
     }
 
 }

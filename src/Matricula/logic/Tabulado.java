@@ -5,7 +5,7 @@
  */
 package Matricula.logic;
 
-import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.logic.enumclass.Estado;
 import Matricula.persistence.CursoJpaController;
 import Matricula.persistence.MatriculaJpaController;
 import java.io.Serializable;
@@ -63,7 +63,9 @@ public class Tabulado implements Serializable {
     public void ActualizarCreditos(){
         this.creditos=0;
         for(Matricula matri : this.matriculas){
+            if(matri.getEstado()==Estado.ACTIVO){
             this.creditos += matri.getCurso().getAsignatura().getCreditos();
+            }
         }
     }
 
@@ -122,8 +124,8 @@ public class Tabulado implements Serializable {
     public void MatricularCurso(Curso curso) throws Exception {
         if (matriculas.contains(new Matricula(new Date(), curso))) {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-            if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
-                matri.getCurso().setEstado(EstadoCurso.ACTIVO);
+            if (matri.getCurso().getEstado() == Estado.CANCELADO) {
+                matri.getCurso().setEstado(Estado.ACTIVO);
                 creditos += matri.getCurso().getAsignatura().getCreditos();
 
             } else {
@@ -140,9 +142,8 @@ public class Tabulado implements Serializable {
     public void MatricularCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
         if (matriculas.contains(new Matricula(new Date(), curso))) {
             Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-            if (matri.getCurso().getEstado() == EstadoCurso.CANCELADO) {
-                matri.getCurso().setEstado(EstadoCurso.ACTIVO);
-                CursoJpa.edit(matri.getCurso());
+            if (matri.getEstado() == Estado.CANCELADO) {
+                matri.setEstado(Estado.ACTIVO);
                 creditos += matri.getCurso().getAsignatura().getCreditos();
                 matriculaJpa.edit(matri);
 
@@ -162,8 +163,8 @@ public class Tabulado implements Serializable {
     //////*********************************
     public void CancelarCurso(Curso curso) {
         Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-        if (matri.getCurso().getEstado() == EstadoCurso.ACTIVO) {
-            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
+        if (matri.getCurso().getEstado() == Estado.ACTIVO) {
+            matri.getCurso().setEstado(Estado.CANCELADO);
             matri.setCancelada(new Date());
             creditos -= matri.getCurso().getAsignatura().getCreditos();
 
@@ -172,10 +173,10 @@ public class Tabulado implements Serializable {
 
     public void CancelarCurso(Curso curso, CursoJpaController CursoJpa, MatriculaJpaController matriculaJpa) throws Exception {
         Matricula matri = matriculas.get(matriculas.indexOf(new Matricula(new Date(), curso)));
-        if (matri.getCurso().getEstado() == EstadoCurso.ACTIVO) {
+        if (matri.getCurso().getEstado() == Estado.ACTIVO) {
             if((creditos-matri.getCurso().getAsignatura().getCreditos())<6) throw new Exception("ERROR: no se puede cancelar cantidad minima de creditos invalida (6)");
-            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
-            CursoJpa.edit(matri.getCurso());
+//            matri.getCurso().setEstado(EstadoCurso.CANCELADO);
+//            CursoJpa.edit(matri.getCurso());
             matri.setCancelada(new Date());
             matriculaJpa.edit(matri);
             creditos -= matri.getCurso().getAsignatura().getCreditos();

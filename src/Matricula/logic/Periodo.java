@@ -6,7 +6,7 @@
 package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
-import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.logic.enumclass.Estado;
 import Matricula.persistence.CursoJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -130,21 +130,20 @@ public class Periodo implements Serializable {
     
     public void editCurso(Curso curso){
         Curso course = this.cursos.get(this.cursos.indexOf(curso));
-        course.setEstado(EstadoCurso.ACTIVO);
+        course.setEstado(Estado.ACTIVO);
     }
 
     //==============================
     //Metodo Cancelar Curso
     public void CancelarCurso(Curso curso) {
         Curso course = this.cursos.get(this.cursos.indexOf(id));
-        course.setEstado(EstadoCurso.CANCELADO);
+        course.setEstado(Estado.CANCELADO);
     }
 
     public void CancelarCurso(int index, CursoJpaController CursoJpa) throws Exception {
         Curso curso = this.cursos.get(index);
-        curso.setEstado(EstadoCurso.CANCELADO);
-
-//        CursoJpa.edit(curso);
+        curso.setEstado(Estado.CANCELADO);
+        CursoJpa.edit(curso);
         this.cursos.set(index, curso);
 
     }
@@ -179,7 +178,7 @@ public class Periodo implements Serializable {
     public List<Curso> cursosPrograma(Programa programa) {
         ArrayList<Curso> cursosPrograma = new ArrayList<>();
         for (Curso curso : this.cursos) {
-            if (curso.getEstado() == EstadoCurso.ACTIVO) {
+            if (curso.getEstado() == Estado.ACTIVO) {
                 for (Cupo cupo : curso.getCupos()) {
                     if (cupo.getPrograma().equals(programa)) {
                         cursosPrograma.add(curso);

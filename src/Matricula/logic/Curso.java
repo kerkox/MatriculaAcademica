@@ -2,7 +2,7 @@
 package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
-import Matricula.logic.enumclass.EstadoCurso;
+import Matricula.logic.enumclass.Estado;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +55,11 @@ public class Curso implements Serializable {
     @OneToOne(cascade = CascadeType.DETACH)
     private Asignatura asignatura;
     @Column
-    private EstadoCurso estado;
+    private Estado estado;
 
 
     public Curso() {
-        this.estado = EstadoCurso.ACTIVO;
+        this.estado = Estado.ACTIVO;
     }
     
 
@@ -69,7 +69,7 @@ public class Curso implements Serializable {
         this.docente = docente;
         this.asignatura = asignatura;
         this.cupos.add(cupo);
-        this.estado = EstadoCurso.ACTIVO;
+        this.estado = Estado.ACTIVO;
     }
     
     
@@ -99,7 +99,7 @@ public class Curso implements Serializable {
         return horarios;
     }
 
-    public EstadoCurso getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
@@ -139,7 +139,7 @@ public class Curso implements Serializable {
         this.cupos = cupos;
     }
 
-    public void setEstado(EstadoCurso estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
     

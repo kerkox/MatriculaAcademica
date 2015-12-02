@@ -9,7 +9,7 @@ package Matricula.logic.enumclass;
  *
  * @author atenea
  */
-public enum EstadoCurso {
+public enum Estado {
     ACTIVO,
     CANCELADO;
 }
