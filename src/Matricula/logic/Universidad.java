@@ -351,6 +351,7 @@ public class Universidad {
     public boolean estudiantesMatriculados(Curso curso) {
         List<Estudiante> estudiantes = this.estudianteJpa.findEstudianteEntities();
         for (Estudiante estu : estudiantes) {
+            if(estu.getTabuladoActual()==null) continue;
             for (Matricula matri : estu.getTabuladoActual().getMatriculas()) {
                 if (matri.getCurso().equals(curso)) {
                     if (matri.getEstado() == Estado.ACTIVO) {

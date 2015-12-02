@@ -61,6 +61,7 @@ public class Matricula implements Serializable {
     public Matricula(Date matriculada, Curso curso) {
         this.matriculada = matriculada;
         this.curso = curso;
+        this.estado= Estado.ACTIVO;
     }
 
     

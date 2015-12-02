@@ -82,7 +82,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         ListenerNewCourse lnc = new ListenerNewCourse();
         NewCourse.addActionListener(lnc);
         //***************************************   
-        ButtonRefresh.addActionListener(new ListenerActualizar());    
+        ButtonRefresh.addActionListener(new ListenerActualizar());
         //***************************************   
         TabCancelCourse.addAncestorListener(new ListenerRefresco());
         //***************************************   
@@ -167,7 +167,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     case 4:
                         return curso.getAsignatura().getCreditos();
                     case 5:
-                        return curso.getEstado();                       
+                        return curso.getEstado();
 
                 }
                 return "";
@@ -867,20 +867,23 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
-    
-    public class ListenerCancelarCurso implements ActionListener{
+
+    public class ListenerCancelarCurso implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                if (TableCursosProgramados.getSelectedRow() == -1) {
+                    throw new Exception("No se ha seleccinado un curso para cancelar");
+                }
                 Curso cur = u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
-                int op =JOptionPane.showConfirmDialog(null, "Desea cancelar el curso : "+cur+" ","Desea cancelar?",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if(op==0){
-                    if(u.estudiantesMatriculados(cur)){
+                int op = JOptionPane.showConfirmDialog(null, "Desea cancelar el curso : " + cur + " ", "Desea cancelar?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (op == 0) {
+                    if (u.estudiantesMatriculados(cur)) {
                         throw new Exception("Error no Se puede cancelar porque hay estudiantes Matriculados ");
-                                
+
                     }
-                u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
+                    u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
 //                u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
                 }
                 TableCursosProgramados.updateUI();
@@ -890,36 +893,35 @@ public class BuscarDocente implements ActionListener {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
-        
+
     }
-    
-    public class ListenerActualizar implements ActionListener{
+
+    public class ListenerActualizar implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             TableCursosProgramados.updateUI();
         }
-        
+
     }
-    
-    public class ListenerRefresco implements AncestorListener{
+
+    public class ListenerRefresco implements AncestorListener {
 
         @Override
         public void ancestorAdded(AncestorEvent event) {
-        
+
         }
 
         @Override
         public void ancestorRemoved(AncestorEvent event) {
-        
+
         }
 
         @Override
         public void ancestorMoved(AncestorEvent event) {
             TableCursosProgramados.updateUI();
         }
-        
+
     }
-            
-    
+
 }
