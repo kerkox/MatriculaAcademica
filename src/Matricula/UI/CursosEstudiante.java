@@ -5,7 +5,6 @@
  */
 package Matricula.UI;
 
-import static Matricula.logic.Cupo_.programa;
 import Matricula.logic.Curso;
 import Matricula.logic.Periodo;
 import Matricula.logic.Programa;

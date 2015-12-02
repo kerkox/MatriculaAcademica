@@ -5,6 +5,7 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -56,6 +58,7 @@ public class Curso implements Serializable {
     private Asignatura asignatura;
     @Column
     private EstadoCurso estado;
+
 
     public Curso() {
         this.estado = EstadoCurso.ACTIVO;
@@ -101,10 +104,11 @@ public class Curso implements Serializable {
     public EstadoCurso getEstado() {
         return estado;
     }
-    
-    
+
+
     //============================
       //Metodos Set
+  
     public void setGrupo(byte grupo) {
         this.grupo = grupo;
     }

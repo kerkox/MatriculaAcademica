@@ -2,6 +2,7 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.enumclass.EstadoCurso;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -212,43 +213,58 @@ public class Universidad {
         }
     }
 
-    
     public void registrarIncial(Curso curso) throws Exception {
-        
-            cursoJpa.create(curso);
-            Periodo periodo = getPeridoActual();
-            periodo.add(curso);
-            periodoJpa.edit(periodo);
-        
+
+        cursoJpa.create(curso);
+        Periodo periodo = getPeridoActual();
+        periodo.add(curso);
+        periodoJpa.edit(periodo);
+
     }
-    
+
     public void registrar(Curso curso) throws Exception {
-        
-            if (curso == null) {
-                    throw new Exception("No se ha creado el Curso");
-                }
-                if (curso.getHorarios().isEmpty()) {
-                    throw new Exception("No se ha registrado Un horario al curso");
-                }
-                if (curso.getCupos().isEmpty()) {
-                    throw new Exception("No se ha registrado Un Cupo al curso");
-                }
-                if (curso.getDocente() == null) {
-                    throw new Exception("Docente no asignado");
-                }
-                if (curso.getAsignatura() == null) {
-                    throw new Exception("Asignatura no asignada");
-                }
-                
-            if(cursoJpa.findCursoEntities().contains(curso)){
+
+        boolean create = true;
+        if (curso == null) {
+            throw new Exception("No se ha creado el Curso");
+        }
+        if (curso.getHorarios().isEmpty()) {
+            throw new Exception("No se ha registrado Un horario al curso");
+        }
+        if (curso.getCupos().isEmpty()) {
+            throw new Exception("No se ha registrado Un Cupo al curso");
+        }
+        if (curso.getDocente() == null) {
+            throw new Exception("Docente no asignado");
+        }
+        if (curso.getAsignatura() == null) {
+            throw new Exception("Asignatura no asignada");
+        }
+        List<Curso> cursos = cursoJpa.findCursoEntities();
+
+        if (cursos.contains(curso)) {
+            if (cursos.get(cursos.indexOf(curso)).getEstado() == EstadoCurso.CANCELADO) {
+                Curso course = cursoJpa.findCursoEntities().get(cursos.indexOf(curso));
+                course.setEstado(EstadoCurso.ACTIVO);
+                cursoJpa.edit(course);
+                Periodo periodo = getPeridoActual();
+                periodo.editCurso(curso);
+                periodoJpa.edit(periodo);
+                create = false;
+
+            } else {
                 throw new Exception("ERROR CURSO YA REGISTRADO");
             }
-            
+
+        }
+
+        if (create) {
             cursoJpa.create(curso);
             Periodo periodo = getPeridoActual();
             periodo.add(curso);
             periodoJpa.edit(periodo);
-        
+        }
+
     }
 
     public void ActulizarEstudainte(Estudiante estu) throws Exception {
@@ -286,23 +302,23 @@ public class Universidad {
         return teacher;
     }
 
-    public Asignatura BuscarAsignatura(String code) throws ObjectNotFoundException{
-        for(Asignatura subject : this.asignaturas){
-            if(subject.getCodigo().equals(code)) return subject;
-                
+    public Asignatura BuscarAsignatura(String code) throws ObjectNotFoundException {
+        for (Asignatura subject : this.asignaturas) {
+            if (subject.getCodigo().equals(code)) {
+                return subject;
+            }
+
         }
-         throw new ObjectNotFoundException("Asignatura con codigo: "+ code+ " no encontrada");
+        throw new ObjectNotFoundException("Asignatura con codigo: " + code + " no encontrada");
     }
 
-
-
-        //////*********************************
+    //////*********************************
     public void MatricularCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Matricular(curso, getPeridoActual(), cursoJpa, matricualJpa);
         estudianteJpa.edit(estu);
         //////*********************************
     }
-    
+
     public void CancelarCurso(Estudiante estu, Curso curso) throws Exception {
         estu.Cancelar(curso, cursoJpa, matricualJpa);
 
@@ -314,15 +330,15 @@ public class Universidad {
         estudianteJpa.edit(estu);
 
     }
-    
-    public void CancelarCursoPeriodo(Curso curso) throws Exception{
-         getPeridoActual().CancelarCurso(curso);
-         periodoJpa.edit(getPeridoActual());
+
+    public void CancelarCursoPeriodo(Curso curso) throws Exception {
+        getPeridoActual().CancelarCurso(curso);
+        periodoJpa.edit(getPeridoActual());
     }
-    
-    public void CancelarCursoPeriodo(int index) throws Exception{
-         getPeridoActual().CancelarCurso(index, cursoJpa);
-         periodoJpa.edit(getPeridoActual());
+
+    public void CancelarCursoPeriodo(int index) throws Exception {
+        getPeridoActual().CancelarCurso(index, cursoJpa);
+        periodoJpa.edit(getPeridoActual());
     }
 
     public Curso BuscarCurso(String codeSubject, byte group) throws ObjectNotFoundException {

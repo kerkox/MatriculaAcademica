@@ -95,7 +95,7 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="Save" min="-2" pref="311" max="-2" attributes="0"/>
+                                  <Component id="ButtonSave" min="-2" pref="311" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="NewCourse" max="32767" attributes="0"/>
                               </Group>
@@ -139,7 +139,7 @@
                           <EmptySpace pref="10" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="NewCourse" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="Save" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="ButtonSave" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -533,7 +533,7 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="Save">
+            <Component class="javax.swing.JButton" name="ButtonSave">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>

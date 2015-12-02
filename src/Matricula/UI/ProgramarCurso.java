@@ -77,7 +77,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         CuposNumber.addChangeListener(lsv);
         //***************************************   
         Guardar guardar = new Guardar();
-        Save.addActionListener(guardar);
+        ButtonSave.addActionListener(guardar);
         //***************************************   
         ListenerNewCourse lnc = new ListenerNewCourse();
         NewCourse.addActionListener(lnc);
@@ -284,7 +284,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
         CuposNumber = new javax.swing.JSpinner();
         jLabel11 = new javax.swing.JLabel();
         CuposTotal = new javax.swing.JTextField();
-        Save = new javax.swing.JButton();
+        ButtonSave = new javax.swing.JButton();
         NewCourse = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -508,7 +508,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         CuposTotal.setEditable(false);
 
-        Save.setText("Guardar");
+        ButtonSave.setText("Guardar");
 
         NewCourse.setText("Programar Nuevo Curso");
         NewCourse.setEnabled(false);
@@ -537,7 +537,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                                         .addComponent(SubjectGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(106, 106, 106))))
                         .addGroup(PanelRegistrarLayout.createSequentialGroup()
-                            .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(NewCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelRegistrarLayout.createSequentialGroup()
@@ -572,7 +572,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                     .addGroup(PanelRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(NewCourse)
-                        .addComponent(Save))
+                        .addComponent(ButtonSave))
                     .addContainerGap()))
         );
 
@@ -662,6 +662,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton ButtonCancelCourse;
     private javax.swing.JButton ButtonFinished;
     private javax.swing.JButton ButtonRefresh;
+    private javax.swing.JButton ButtonSave;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JButton ButtonSetTime;
     private javax.swing.JComboBox CupoList;
@@ -669,7 +670,6 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JTextField CuposTotal;
     private javax.swing.JButton NewCourse;
     private javax.swing.JPanel PanelRegistrar;
-    private javax.swing.JButton Save;
     private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
     private javax.swing.JSpinner SubjectGroup;
@@ -835,7 +835,7 @@ public class BuscarDocente implements ActionListener {
                 u.registrar(curso);
                 save = true;
                 NewCourse.setEnabled(save);
-
+                ButtonSave.setEnabled(false);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -849,6 +849,7 @@ public class BuscarDocente implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             clear();
+            ButtonSave.setEnabled(true);
         }
 
     }

@@ -127,23 +127,28 @@ public class Periodo implements Serializable {
         this.id = id;
     }
     //==============================
+    
+    public void editCurso(Curso curso){
+        Curso course = this.cursos.get(this.cursos.indexOf(curso));
+        course.setEstado(EstadoCurso.ACTIVO);
+    }
 
     //==============================
     //Metodo Cancelar Curso
-    public void CancelarCurso(Curso curso){
+    public void CancelarCurso(Curso curso) {
         Curso course = this.cursos.get(this.cursos.indexOf(id));
         course.setEstado(EstadoCurso.CANCELADO);
     }
-    
-    public void CancelarCurso(int index,  CursoJpaController CursoJpa) throws Exception{
+
+    public void CancelarCurso(int index, CursoJpaController CursoJpa) throws Exception {
         Curso curso = this.cursos.get(index);
         curso.setEstado(EstadoCurso.CANCELADO);
+
         CursoJpa.edit(curso);
         this.cursos.set(index, curso);
-        
-        
+
     }
-    
+
     //==============================
     //==============================
     //Metodos Buscar
@@ -174,10 +179,12 @@ public class Periodo implements Serializable {
     public List<Curso> cursosPrograma(Programa programa) {
         ArrayList<Curso> cursosPrograma = new ArrayList<>();
         for (Curso curso : this.cursos) {
-            for (Cupo cupo : curso.getCupos()) {
-                if (cupo.getPrograma().equals(programa)) {
-                    cursosPrograma.add(curso);
+            if (curso.getEstado() == EstadoCurso.ACTIVO) {
+                for (Cupo cupo : curso.getCupos()) {
+                    if (cupo.getPrograma().equals(programa)) {
+                        cursosPrograma.add(curso);
 
+                    }
                 }
             }
 
