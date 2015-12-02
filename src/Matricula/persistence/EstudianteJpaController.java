@@ -6,6 +6,7 @@
 package Matricula.persistence;
 
 import Matricula.logic.Estudiante;
+import Matricula.logic.Programa;
 import Matricula.persistence.exceptions.NonexistentEntityException;
 import Matricula.persistence.exceptions.PreexistingEntityException;
 import java.io.Serializable;
@@ -138,6 +139,19 @@ public class EstudianteJpaController implements Serializable {
                 .setParameter("codigo", code)
                 .getSingleResult();
         }catch(Exception ex){}
+        return estu;
+        
+    }
+    
+    public List<Estudiante> findEstudiantePrograma(Programa programa) {
+        EntityManager em = getEntityManager();
+        List<Estudiante> estu=null;
+        try{
+         estu = (List<Estudiante>) (Estudiante) em.createNamedQuery("Estudiante.findByPrograma")
+                 .setParameter("programa", programa)
+                 .getResultList();
+        }catch(Exception ex){}
+        
         return estu;
         
     }

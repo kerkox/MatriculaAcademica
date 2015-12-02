@@ -117,7 +117,7 @@ public class Asignatura implements Serializable {
 
     @Override
     public String toString() {
-        return "Matricula.logic.Asignatura[ codigo=" + codigo + " ]";
+        return  nombre + " "+ codigo;
     }
 
       

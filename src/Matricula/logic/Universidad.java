@@ -348,5 +348,19 @@ public class Universidad {
         }
         return course;
     }
+    
+    public boolean estudiantesMatriculados(Curso curso) {
+        List<Estudiante> estudiantes = this.estudianteJpa.findEstudianteEntities();
+        for(Estudiante estu : estudiantes){
+            for(Matricula matri :estu.getTabuladoActual().getMatriculas()){
+                if(matri.getCurso().equals(curso)){
+                    return true;
+                }
+            }
+            
+        }
+        return false;
+        
+    }
 
 }

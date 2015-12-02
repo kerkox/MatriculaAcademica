@@ -5,7 +5,6 @@ import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.EstadoCurso;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -19,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -263,4 +261,13 @@ public class Curso implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return asignatura + " grupo: " + grupo + " docente:" + docente;
+    }
+
+    
+    
+    
 }
