@@ -9,6 +9,8 @@ import Matricula.logic.Curso;
 import Matricula.logic.Estudiante;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.Matricula;
+import Matricula.logic.Periodo;
+import Matricula.logic.Tabulado;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +47,14 @@ public class MatriculaUI extends javax.swing.JFrame {
             estu.getTabuladoActual().ActualizarCreditos();
             creditos = estu.getTabuladoActual().getCreditos();
         }
+        
+        //**************************
+        //#########
+        ListarPeriodos();
+        ButtonConsultar.addActionListener(new ListenerConsultarTabuladoPerido());
+        
+        //**************************
+        
         FieldTotalCreditos.setText(creditos + "");
 
         ButtonSearchCourse.addActionListener(new ListenerCursosProgramados());
@@ -102,10 +112,10 @@ public class MatriculaUI extends javax.swing.JFrame {
 
             @Override
             public int getRowCount() {
-                if (estu.getTabuladoActual() == null) {
+                if (estu.getTabulados().isEmpty()) {
                     return 0;
                 }
-                return estu.getTabuladoActual().getMatriculas().size();
+                return estu.getTabulado((Periodo)ComboTabulados.getSelectedItem()).getMatriculas().size();
             }
 
             @Override
@@ -120,7 +130,7 @@ public class MatriculaUI extends javax.swing.JFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                Matricula matricula = estu.getTabuladoActual().getMatriculas().get(rowIndex);
+                Matricula matricula = estu.getTabulado((Periodo)ComboTabulados.getSelectedItem()).getMatriculas().get(rowIndex);
 
                 switch (columnIndex) {
                     case 0:
@@ -139,6 +149,21 @@ public class MatriculaUI extends javax.swing.JFrame {
             }
         });
         
+    }
+    
+    public void ListarPeriodos(){
+        //***************************
+        //listando periodos del estudiante
+        ComboTabulados.removeAllItems();
+        if(estu.getTabulados().isEmpty()){
+            ComboTabulados.addItem("No hay tabulados disponibles");
+        }else{
+            for(Tabulado tabu :estu.getTabulados()){
+                ComboTabulados.addItem(tabu.getPeriodo());
+            }
+        }
+        
+        //***************************
     }
     
     
@@ -576,6 +601,16 @@ public class MatriculaUI extends javax.swing.JFrame {
             }
         }
 
+    }
+    
+    
+    public class ListenerConsultarTabuladoPerido implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            TableTabulados.updateUI();
+        }
+        
     }
 
 }

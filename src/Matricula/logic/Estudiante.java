@@ -88,7 +88,18 @@ public class Estudiante extends Persona {
         }
         return t;
     }
-
+    
+    public Tabulado getTabulado(Periodo periodo){
+        if (tabulados == null) {
+            return null;
+        }
+        for (Tabulado tabu : tabulados) {
+            if (tabu.getPeriodo().equals(periodo) ) {
+                return tabu;
+            }
+        }
+        return null;
+    }
     
     
     //==================================

@@ -75,10 +75,6 @@ public class Tabulado implements Serializable {
         return matriculas;
     }
 
-    public Periodo getPerido() {
-        return periodo;
-    }
-
     public Periodo getPeriodo() {
         return periodo;
     }
