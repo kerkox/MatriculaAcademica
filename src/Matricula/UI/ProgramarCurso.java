@@ -291,6 +291,12 @@ public class ProgramarCurso extends javax.swing.JFrame {
         TableCursosProgramados = new javax.swing.JTable();
         ButtonCancelCourse = new javax.swing.JButton();
         ButtonRefresh = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        ButtonNewPeriodo = new javax.swing.JButton();
+        ComboSelecionPeriodo = new javax.swing.JComboBox();
+        SpinnerYear = new javax.swing.JSpinner();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         ButtonFinished = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -621,6 +627,48 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         TabCancelCourse.addTab("Cancelar Curso", jPanel4);
 
+        ButtonNewPeriodo.setText("Crear nuevo Periodo");
+
+        ComboSelecionPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel12.setText("Periodo");
+
+        jLabel13.setText("Año:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ButtonNewPeriodo)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboSelecionPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SpinnerYear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(246, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(ComboSelecionPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(SpinnerYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(ButtonNewPeriodo)
+                .addContainerGap(611, Short.MAX_VALUE))
+        );
+
+        TabCancelCourse.addTab("Crear Nuevo Periodo", jPanel5);
+
         ButtonFinished.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         ButtonFinished.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/boton-regresar50x50.png"))); // NOI18N
         ButtonFinished.setText("Finalizar");
@@ -661,15 +709,18 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JButton ButtonAddCupo;
     private javax.swing.JButton ButtonCancelCourse;
     private javax.swing.JButton ButtonFinished;
+    private javax.swing.JButton ButtonNewPeriodo;
     private javax.swing.JButton ButtonRefresh;
     private javax.swing.JButton ButtonSave;
     private javax.swing.JButton ButtonSearchTeacher;
     private javax.swing.JButton ButtonSetTime;
+    private javax.swing.JComboBox ComboSelecionPeriodo;
     private javax.swing.JComboBox CupoList;
     private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
     private javax.swing.JButton NewCourse;
     private javax.swing.JPanel PanelRegistrar;
+    private javax.swing.JSpinner SpinnerYear;
     private javax.swing.JFormattedTextField SubjectCode;
     private javax.swing.JTextField SubjectCredits;
     private javax.swing.JSpinner SubjectGroup;
@@ -686,6 +737,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -698,6 +751,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
