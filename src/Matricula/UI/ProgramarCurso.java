@@ -881,7 +881,6 @@ public class BuscarDocente implements ActionListener {
                 if (op == 0) {
                     if (u.estudiantesMatriculados(cur)) {
                         throw new Exception("Error no Se puede cancelar porque hay estudiantes Matriculados ");
-
                     }
                     u.CancelarCursoPeriodo(TableCursosProgramados.getSelectedRow());
 //                u.getPeridoActual().getCursos().get(TableCursosProgramados.getSelectedRow());
