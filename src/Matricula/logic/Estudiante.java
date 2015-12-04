@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import Matricula.persistence.CursoJpaController;
 import Matricula.persistence.MatriculaJpaController;
+import Matricula.persistence.TabuladoJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class Estudiante extends Persona {
 
     public Tabulado getTabuladoActual() {
         Tabulado t = null;
-        if (tabulados == null) {
+        if (tabulados.isEmpty()) {
             return null;
         }
         for (Tabulado tabu : tabulados) {
@@ -89,8 +90,14 @@ public class Estudiante extends Persona {
         return t;
     }
     
+//    public void actualizarTabulado(TabuladoJpaController tabuladoJpa) throws Exception{
+//        Tabulado actual = getTabuladoActual();
+//        actual.setActual(false);
+//        tabuladoJpa.edit(actual);
+//    }
+    
     public Tabulado getTabulado(Periodo periodo){
-        if (tabulados == null) {
+        if (tabulados.isEmpty()) {
             return null;
         }
         for (Tabulado tabu : tabulados) {

@@ -3,6 +3,7 @@ package Matricula.logic;
 import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.Estado;
+import Matricula.logic.enumclass.Mes;
 import Matricula.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,12 +69,8 @@ public class Universidad {
     }
 
     public boolean setPeriodoActual(Periodo actual) throws Exception {
-
         return periodoJpa.create(actual);
-//       if(periodoJpa.create(actual))  throw new Exception("Ya esta creado el periodo ");
 
-//#################################
-        //Como evaluar error de repeticion en la BD
     }
 
     //==============================
@@ -165,18 +162,75 @@ public class Universidad {
      * @throws DateBeforeException Se lanza el error cuando se desea crear un
      * periodo y el año es anterior al ultimo periodo registrado
      */
-    public void CrearPeriodo(String incia, String finaliza, int year) throws DateBeforeException, Exception {
-        //################################
-        //Pendiente Optimizar con BD  
+    public void CrearPeriodo(Mes incia, Mes finaliza, int year) throws DateBeforeException, Exception {
 
-        if (year < getPeridoActual().getYear()) {
-            throw new DateBeforeException("No se puede crear un periodo de un año anterior: " + year);
+        Periodo actual = getPeridoActual();
+        Periodo periodo = new Periodo(incia, finaliza, year);
+        switch (PeriodoBefore(periodo, actual)) {
+            case 0:
+                throw new DateBeforeException("ERROR: periodo ya creado (Actual)");
+            case 1:
+                throw new DateBeforeException("No se puede crear un periodo anterior: ");
+            case 2:
+                throw new DateBeforeException("No se puede crear un periodo de un año anterior: " + periodo.getYear());
         }
 
-        Periodo periodo = new Periodo(incia, finaliza, year);
         getPeridoActual().setActual(false);
-        this.periodos.add(getPeridoActual());
+        this.periodoJpa.edit(getPeridoActual());
         this.periodoJpa.create(periodo);
+    }
+
+    /**
+     *
+     * @param inicial Periodo inicial
+     * @param Final Periodo Final
+     * @return 1 si el periodo inicial esta antes del final 0 si es el mismo -1
+     * en caso del inicial estar despues del final 2 en caso de ser el inicial
+     * de un año anterior al final
+     */
+    public int PeriodoBefore(Periodo inicial, Periodo Final) {
+        if (inicial.getYear() < Final.getYear()) {
+            return 2;
+        }
+        if (inicial.getYear() == Final.getYear()) {
+            if ((inicial.getInicia().equals(Mes.Febrero)) && (Final.getInicia().equals(Mes.Agosto))) {
+                return 1;
+            }
+            if (((inicial.getInicia().equals(Mes.Febrero)) && (Final.getInicia().equals(Mes.Febrero)))
+                    || (((inicial.getInicia().equals(Mes.Agosto)) && (Final.getInicia().equals(Mes.Agosto))))) {
+                return 0;
+            }
+        }
+        return -1;
+
+    }
+
+    public void CrearPeriodo(Periodo periodo) throws DateBeforeException, Exception {
+        Periodo actual = getPeridoActual();
+
+        switch (PeriodoBefore(periodo, actual)) {
+            case 0:
+                throw new DateBeforeException("ERROR: periodo ya creado (Actual)");
+            case 1:
+                throw new DateBeforeException("No se puede crear un periodo anterior: ");
+            case 2:
+                throw new DateBeforeException("No se puede crear un periodo de un año anterior: " + periodo.getYear());
+        }
+        
+        actual.setActual(false);
+        this.periodoJpa.edit(actual);
+        this.periodoJpa.create(periodo);
+        
+    }
+    
+    public void ActulizarPeriodoEstudiantes() throws Exception{
+        for(Estudiante est: this.estudianteJpa.findEstudianteEntities()){
+//            est.actualizarTabulado(tabuladoJpa);
+            Tabulado tabuActual = est.getTabuladoActual();
+            tabuActual.setActual(false);
+            this.tabuladoJpa.edit(tabuActual);
+            this.estudianteJpa.edit(est);
+        }
     }
 
     public void registrar(Estudiante estudiante) {
@@ -351,7 +405,9 @@ public class Universidad {
     public boolean estudiantesMatriculados(Curso curso) {
         List<Estudiante> estudiantes = this.estudianteJpa.findEstudianteEntities();
         for (Estudiante estu : estudiantes) {
-            if(estu.getTabuladoActual()==null) continue;
+            if (estu.getTabuladoActual() == null) {
+                continue;
+            }
             for (Matricula matri : estu.getTabuladoActual().getMatriculas()) {
                 if (matri.getCurso().equals(curso)) {
                     if (matri.getEstado() == Estado.ACTIVO) {

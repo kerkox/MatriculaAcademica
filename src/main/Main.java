@@ -4,6 +4,7 @@ import Matricula.UI.Principal;
 import Matricula.logic.Periodo;
 import Matricula.logic.*;
 import Matricula.logic.enumclass.Jornada;
+import Matricula.logic.enumclass.Mes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -78,12 +79,12 @@ public class Main {
 
             //=============================================
             //+++++++++++++++++++++++++++++++++++++++++++++
-            Periodo periodo = new Periodo("Agosto", "Diciembre", 2015);
+            Periodo periodo = new Periodo(Mes.Agosto, Mes.Diciembre, 2015);
             Universidad u = new Universidad("800", "Univalle", "Carbonera");
             System.out.println("Va a crear el periodo actual");
             if (u.setPeriodoActual(periodo)) {
                 System.out.println("Periodo ya creado se usara el que ya esta");
-            }
+            }else{
 
             //Programas
             Programa[] programs = {
@@ -196,7 +197,7 @@ public class Main {
                 System.out.println("Entro aqui porque no tiene perido actual");
 
             }
-
+            }
 //*********************************
             System.out.println("Debe de hacer la conexion a la bd");
             //################################################################

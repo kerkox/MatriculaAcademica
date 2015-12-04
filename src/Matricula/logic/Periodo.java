@@ -7,6 +7,7 @@ package Matricula.logic;
 
 import Matricula.logic.Exceptions.ObjectNotFoundException;
 import Matricula.logic.enumclass.Estado;
+import Matricula.logic.enumclass.Mes;
 import Matricula.persistence.CursoJpaController;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,20 +46,21 @@ public class Periodo implements Serializable {
     private Long id;
 
     @Column
-    private String inicia;
+    private Mes inicia;
     @Column
-    private String fin;
+    private Mes fin;
     @Column(nullable = false)
-    private int year1;
+    private int year1 = 0;
     @OneToMany
     private List<Curso> cursos = new ArrayList<>();
     @Column(nullable = false)
     private boolean actual;
 
     public Periodo() {
+        this.actual = true;
     }
 
-    public Periodo(String inicia, String fin, int year1) {
+    public Periodo(Mes inicia, Mes fin, int year1) {
         this.inicia = inicia;
         this.fin = fin;
         this.year1 = year1;
@@ -71,11 +73,11 @@ public class Periodo implements Serializable {
         return actual;
     }
 
-    public String getInicia() {
+    public Mes getInicia() {
         return inicia;
     }
 
-    public String getFin() {
+    public Mes getFin() {
         return fin;
     }
 
@@ -107,11 +109,11 @@ public class Periodo implements Serializable {
         this.actual = actual;
     }
 
-    public void setInicia(String inicia) {
+    public void setInicia(Mes inicia) {
         this.inicia = inicia;
     }
 
-    public void setFin(String fin) {
+    public void setFin(Mes fin) {
         this.fin = fin;
     }
 
@@ -127,8 +129,8 @@ public class Periodo implements Serializable {
         this.id = id;
     }
     //==============================
-    
-    public void editCurso(Curso curso){
+
+    public void editCurso(Curso curso) {
         Curso course = this.cursos.get(this.cursos.indexOf(curso));
         course.setEstado(Estado.ACTIVO);
     }
@@ -245,6 +247,9 @@ public class Periodo implements Serializable {
 
     @Override
     public String toString() {
+        if (year1 == 0) {
+            return inicia + " - " + fin;
+        }
         return inicia + " - " + fin + " " + year1;
     }
 

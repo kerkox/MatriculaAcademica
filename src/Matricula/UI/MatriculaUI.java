@@ -14,7 +14,11 @@ import Matricula.logic.Tabulado;
 import Matricula.logic.Universidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -47,6 +51,7 @@ public class MatriculaUI extends javax.swing.JFrame {
             estu.getTabuladoActual().ActualizarCreditos();
             creditos = estu.getTabuladoActual().getCreditos();
         }
+        
         
         //**************************
         //#########
@@ -148,7 +153,11 @@ public class MatriculaUI extends javax.swing.JFrame {
                 return "";
             }
         });
-        
+        ActualizarTablas();
+    }
+    
+    public void ActualizarTablas(){
+        tableEnrolls.updateUI();
     }
     
     public void ListarPeriodos(){
@@ -603,7 +612,26 @@ public class MatriculaUI extends javax.swing.JFrame {
 
     }
     
-    
+     public class ListenerRefresco implements AncestorListener {
+
+        @Override
+        public void ancestorAdded(AncestorEvent event) {
+
+        }
+
+        @Override
+        public void ancestorRemoved(AncestorEvent event) {
+
+        }
+
+        @Override
+        public void ancestorMoved(AncestorEvent event) {
+            ListarPeriodos();
+            TableTabulados.updateUI();
+            
+        }
+
+    }
     public class ListenerConsultarTabuladoPerido implements ActionListener{
 
         @Override

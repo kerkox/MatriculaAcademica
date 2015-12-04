@@ -6,6 +6,7 @@
 package Matricula.persistence;
 
 import Matricula.logic.Periodo;
+import Matricula.logic.enumclass.Mes;
 import Matricula.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -36,22 +37,20 @@ public class PeriodoJpaController implements Serializable {
         boolean created = false;
 
         try {
-
+            
             List<Periodo> periodos = findPeriodoEntities();
-
+            
             int a = 1;
             for (Periodo per : periodos) {
 
-                String incia1 = periodo.getInicia(), inicia2 = per.getInicia();
-                if (incia1.equals("Agosto")) {
+                Mes incia1 = periodo.getInicia(), inicia2 = per.getInicia();
+                if (((incia1==Mes.Agosto)&&(inicia2==Mes.Agosto))||((incia1==Mes.Junio)&&(inicia2==Mes.Junio)) ){
                     created = true;
                     break;
                 }
                 if (incia1.equals(inicia2)) {
                     created = true;
                     break;
-//                    JOptionPane.showMessageDialog(null, "Error periodo ya creado");
-//                    throw new Exception("Periodo ya Creado");
                 }
 
             }
@@ -62,8 +61,7 @@ public class PeriodoJpaController implements Serializable {
                 em.getTransaction().commit();
             }
 
-            //No funciono este arreglo para obtener el error del duplicado
-            //###################################
+            
         } finally {
             if (em != null) {
                 em.close();

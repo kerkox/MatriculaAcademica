@@ -9,10 +9,13 @@ import Matricula.logic.Asignatura;
 import Matricula.logic.Cupo;
 import Matricula.logic.Curso;
 import Matricula.logic.Docente;
+import Matricula.logic.Exceptions.DateBeforeException;
 import Matricula.logic.Exceptions.ObjectNotFoundException;
+import Matricula.logic.Periodo;
 import Matricula.logic.Programa;
 import Matricula.logic.Universidad;
 import Matricula.logic.enumclass.Estado;
+import Matricula.logic.enumclass.Mes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -88,6 +91,13 @@ public class ProgramarCurso extends javax.swing.JFrame {
         //***************************************   
         ButtonCancelCourse.addActionListener(new ListenerCancelarCurso());
         //***************************************   
+        ListenerSpinnerYear lsy = new ListenerSpinnerYear();
+        SpinnerYear.addChangeListener(lsy);
+        SpinnerYear.setValue(2015); //valor por defecto
+        //***************************************   
+        ButtonNewPeriodo.addActionListener(new ListenerNewPeriodo());
+        //***************************************   
+        
         TableCupos.setModel(new AbstractTableModel() {
 
             String[] names = {"Programa", "Cupos"};
@@ -173,10 +183,22 @@ public class ProgramarCurso extends javax.swing.JFrame {
                 return "";
             }
         });
+        
+        //***********************************
+        ComboSelecionPeriodo.removeAllItems();
+        
+        ComboSelecionPeriodo.addItem("Febrero - Junio");
+        ComboSelecionPeriodo.addItem("Agosto - Septiembre");
+        //************************************
+      
 
         //##########################################
     }
 
+    public void refreshPeriodo(){
+        FieldPeriodoActual.setText(u.getPeridoActual().toString());
+    }
+    
     public void ActivateProgramCourse(boolean yn) {
         ButtonSetTime.setEnabled(yn);
         CupoList.setEnabled(yn);
@@ -297,6 +319,8 @@ public class ProgramarCurso extends javax.swing.JFrame {
         SpinnerYear = new javax.swing.JSpinner();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        FieldPeriodoActual = new javax.swing.JTextField();
         ButtonFinished = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -635,6 +659,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
 
         jLabel13.setText("Año:");
 
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel14.setText("Periodo Actual:");
+
+        FieldPeriodoActual.setEditable(false);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -642,16 +671,23 @@ public class ProgramarCurso extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButtonNewPeriodo)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ComboSelecionPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SpinnerYear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(246, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ButtonNewPeriodo)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ComboSelecionPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SpinnerYear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 280, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(17, 17, 17)
+                        .addComponent(FieldPeriodoActual)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -664,7 +700,11 @@ public class ProgramarCurso extends javax.swing.JFrame {
                     .addComponent(SpinnerYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(ButtonNewPeriodo)
-                .addContainerGap(611, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(FieldPeriodoActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         TabCancelCourse.addTab("Crear Nuevo Periodo", jPanel5);
@@ -718,6 +758,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JComboBox CupoList;
     private javax.swing.JSpinner CuposNumber;
     private javax.swing.JTextField CuposTotal;
+    private javax.swing.JTextField FieldPeriodoActual;
     private javax.swing.JButton NewCourse;
     private javax.swing.JPanel PanelRegistrar;
     private javax.swing.JSpinner SpinnerYear;
@@ -739,6 +780,7 @@ public class ProgramarCurso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -921,6 +963,22 @@ public class BuscarDocente implements ActionListener {
         }
 
     }
+    
+    public class ListenerSpinnerYear implements ChangeListener{
+
+        @Override
+        public void stateChanged(ChangeEvent ce) {
+            if((int)SpinnerYear.getValue()<2000){
+                SpinnerYear.setValue(2000);
+            }
+            if((int)SpinnerYear.getValue()>3000){
+                SpinnerYear.setValue(3000);
+            }
+        }
+
+        
+        
+    }
 
     public class ListenerCancelarCurso implements ActionListener {
 
@@ -973,8 +1031,45 @@ public class BuscarDocente implements ActionListener {
         @Override
         public void ancestorMoved(AncestorEvent event) {
             TableCursosProgramados.updateUI();
+            refreshPeriodo();
         }
 
     }
+    public class ListenerNewPeriodo implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                Periodo periodo = new Periodo();
+                System.out.println("Seleccion Combo: "+ComboSelecionPeriodo.getSelectedIndex());
+                switch(ComboSelecionPeriodo.getSelectedIndex()){
+                    case 0:
+                        periodo.setInicia(Mes.Febrero);
+                        periodo.setFin(Mes.Junio);
+                        break;
+                    case 1:
+                        periodo.setInicia(Mes.Agosto);
+                        periodo.setFin(Mes.Diciembre);
+                        break;
+                }
+                
+                periodo.setYear((int)SpinnerYear.getValue());
+                u.CrearPeriodo(periodo);
+                u.ActulizarPeriodoEstudiantes();
+                TabCancelCourse.updateUI();
+                TableCupos.updateUI();
+                TableCursosProgramados.updateUI();
+                refreshPeriodo();
+            } catch(DateBeforeException ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        
+    }
+    
 
 }

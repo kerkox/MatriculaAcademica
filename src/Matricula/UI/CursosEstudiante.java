@@ -141,10 +141,12 @@ public class ListenerSelected implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(TableCursoStudent.getRowCount()!=0){
             Curso curso = periodo.cursosPrograma(programa).get(TableCursoStudent.getSelectedRow());
             matri.LoadMatricula(curso);
             TableCursoStudent.clearSelection();
             setVisible(false);
+            }
         }
     
 }
